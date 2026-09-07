@@ -118,6 +118,15 @@
 
   /* --- The loop ---------------------------------------------------------- */
 
+  function applyTransform() {
+    disc.style.transform =
+      'translate3d(' + cur.x.toFixed(2) + 'px,' + cur.y.toFixed(2) + 'px,0)' +
+      ' rotateX(' + cur.rx.toFixed(2) + 'deg)' +
+      ' rotateY(' + cur.ry.toFixed(2) + 'deg)' +
+      ' rotateZ(' + cur.rz.toFixed(2) + 'deg)' +
+      ' scale(' + cur.scale.toFixed(3) + ')';
+  }
+
   function frame(now) {
     const dt = Math.min(0.05, (now - lastT) / 1000);
     lastT = now;
@@ -148,12 +157,7 @@
     cur.rz += (target.rz - cur.rz) * EASE;
     cur.scale += (target.scale - cur.scale) * EASE;
 
-    disc.style.transform =
-      'translate3d(' + cur.x.toFixed(2) + 'px,' + cur.y.toFixed(2) + 'px,0)' +
-      ' rotateX(' + cur.rx.toFixed(2) + 'deg)' +
-      ' rotateY(' + cur.ry.toFixed(2) + 'deg)' +
-      ' rotateZ(' + cur.rz.toFixed(2) + 'deg)' +
-      ' scale(' + cur.scale.toFixed(3) + ')';
+    applyTransform();
 
     // Stop drawing once the hero is well out of view and the disc has settled.
     if (p >= 1 && Math.abs(target.rz - cur.rz) < 0.4 && !pointer.near) {
@@ -179,6 +183,7 @@
     hero.addEventListener('pointermove', (e) => { onPointerMove(e); kick(); });
     hero.addEventListener('pointerleave', onPointerLeave);
     hero.addEventListener('click', onClick);
+    applyTransform();
     disc.classList.add('is-live');
     kick();
   }
