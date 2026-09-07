@@ -90,6 +90,8 @@
 
   /* --- Rendering ---------------------------------------------------------- */
 
+  /* The hero deliberately carries no stock counts, but these hooks stay
+     supported in case a count is ever wanted back in the markup. */
   function renderStats() {
     const discs = state.all.filter((p) => p.category === 'discs' && p.stock > 0);
     const el = $('[data-stat-discs]');

@@ -12,8 +12,8 @@ window.KK_CONFIG = {
     name: 'Kaalvoet Kaos',
     shopName: 'Kaalvoet Kaos Merch',
     tagline: 'Barefoot. Chaotic. Fully kitted.',
-    blurb: 'Fifty discs came off the boat. Every one is a one-of-one — ' +
-           'when it is gone, it is gone. Plus the kit that keeps the rest of you covered.',
+    blurb: 'Your favourite team has merch. Ultimate discs, socks, shirts — ' +
+           'every disc is a one-of-one, so get it while stocks last.',
     domain: 'shop.kaalvoetkaos.co.za',
     instagram: 'https://instagram.com/kaalvoet_kaos_ultimate',
     facebook: '',
@@ -115,6 +115,6 @@ window.KK_CONFIG = {
     uniqueBadge: 'One of one',
     lowStockAt: 3,
     // Announcement bar. Set to '' to hide it.
-    announcement: '50 discs landed · every one a one-of-one · no card needed, EFT + proof of payment',
+    announcement: 'Your favourite team has merch · get it while stocks last · EFT, no card needed',
   },
 };

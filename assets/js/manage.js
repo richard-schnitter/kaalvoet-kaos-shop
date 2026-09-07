@@ -363,7 +363,7 @@
         compareAt: null,
         stock: 1,
         unique: true,
-        colors: ['#ff4d2e', '#2b1a14'],
+        colors: ['#f57e25', '#2e1342'],
         colorName: '',
         weight: '175 g',
         condition: 'Brand new',
@@ -540,7 +540,7 @@
             '<img src="' + esc(state.previews[src] || src) + '" alt="">' +
             '<button class="photo-tile__x" data-img-del="' + i + '" type="button" aria-label="Remove">&times;</button>' +
             '<span class="photo-tile__label">' + (i === 0 ? 'Main photo' : 'Photo ' + (i + 1)) +
-              (i > 0 ? ' · <button data-img-main="' + i + '" type="button" style="color:var(--lime);text-decoration:underline">make main</button>' : '') +
+              (i > 0 ? ' · <button data-img-main="' + i + '" type="button" style="color:var(--gold);text-decoration:underline">make main</button>' : '') +
             '</span>' +
           '</div>').join('') + '</div>'
       : '<p style="color:var(--muted);font-size:13.5px;margin:0">No photos yet — add some below, or drag one ' +
@@ -563,7 +563,7 @@
           '<div class="field__label">Photos</div>' +
           photos +
           '<input type="file" accept="image/*" multiple hidden data-img-input>' +
-          '<button class="btn btn--lime btn--sm" data-img-add type="button">Add photos</button>' +
+          '<button class="btn btn--gold btn--sm" data-img-add type="button">Add photos</button>' +
         '</div>' +
 
         /* ---- the words ---- */
@@ -843,7 +843,7 @@
       state.products.unshift({
         id: sku.toLowerCase(), sku: sku, name: 'New product', category: 'discs',
         subcategory: 'Ultra-Star', brand: 'Discraft', price: 0, compareAt: null,
-        stock: 1, unique: true, colors: ['#ff4d2e', '#2b1a14'], colorName: '',
+        stock: 1, unique: true, colors: ['#f57e25', '#2e1342'], colorName: '',
         weight: '175 g', condition: 'Brand new', stamp: '', tags: ['ultimate'],
         description: '', images: [],
       });
