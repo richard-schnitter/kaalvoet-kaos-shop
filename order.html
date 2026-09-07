@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Place your order — Kaalvoet Kaos Merch</title>
+<meta name="description" content="Reserve your gear, EFT the amount and upload your proof of payment.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0c0e11">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<div class="announce" data-announce></div>
+
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="logo" href="index.html" aria-label="Kaalvoet Kaos Merch — home">
+      <span class="logo__mark" aria-hidden="true"></span>
+      <span class="logo__text">
+        <span class="logo__name" data-brand-name>Kaalvoet Kaos</span>
+        <span class="logo__sub">Merch Shop</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav__link" href="index.html#shop">Shop</a>
+      <a class="nav__link" href="index.html#how">How it works</a>
+      <a class="nav__link is-active" href="order.html">Order</a>
+    </nav>
+    <a class="cart-btn" href="index.html#shop">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span>Keep shopping</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap section" style="padding-top:32px">
+
+  <!-- ============ EMPTY BAG ============ -->
+  <div data-empty-state hidden>
+    <div class="empty" style="max-width:560px;margin:60px auto">
+      <h3>There is nothing in your bag</h3>
+      <p>Pick a disc or two and come back — I will keep this page warm.</p>
+      <a class="btn btn--primary" href="index.html#shop" style="margin-top:18px">Browse the crate</a>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRMATION ============ -->
+  <div data-confirm-state hidden>
+    <div class="confirm">
+      <div class="confirm__mark">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h1 class="confirm__title">Order placed</h1>
+      <p style="color:var(--muted);max-width:50ch;margin:14px auto 0" data-confirm-note></p>
+      <div class="order-ref" data-confirm-ref>—</div>
+      <p style="color:var(--muted-2);font-size:13px;max-width:52ch;margin:0 auto">
+        Use that as your payment reference if you have not paid yet. Screenshot this page or write it down.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+        <a class="btn btn--lime btn--lg" data-confirm-wa href="#" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15L2 22l5.1-1.3A10 10 0 1012 2z"/></svg>
+          Send order on WhatsApp
+        </a>
+        <button class="btn btn--ghost btn--lg" data-confirm-copy type="button">Copy order summary</button>
+        <a class="btn btn--ghost btn--lg" href="index.html#shop">Back to the shop</a>
+      </div>
+      <p style="color:var(--muted-2);font-size:12.5px;margin-top:26px">
+        Questions? WhatsApp <a data-contact-wa href="#" style="color:var(--lime)"></a>
+        or email <a data-contact-email href="#" style="color:var(--lime)"></a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ ORDER FORM ============ -->
+  <div data-form-state hidden>
+    <div style="margin-bottom:28px">
+      <h1 style="font-size:clamp(32px,6vw,58px)">Place your order</h1>
+      <p style="color:var(--muted);max-width:60ch;margin-top:12px">
+        No card details, no payment gateway. Tell me who you are, EFT the total, and attach the proof of
+        payment. I will confirm on WhatsApp and sort out the hand-over.
+      </p>
+    </div>
+
+    <form class="order-layout" data-order-form novalidate>
+
+      <!-- ---------- LEFT: the form ---------- -->
+      <div class="stack" style="--gap:18px">
+
+        <!-- Step 1: your details -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="step-num">1</span>Your details</h2>
+          <p class="panel__note">So I know who you are and where to find you.</p>
+
+          <div class="stack" style="--gap:16px">
+            <div class="field-grid">
+              <div class="field" data-field>
+                <label class="field__label" for="firstName">First name<span class="req">*</span></label>
+                <input class="input" id="firstName" name="firstName" autocomplete="given-name" required>
+                <span class="field__error">Please enter your first name</span>
+              </div>
+              <div class="field" data-field>
+                <label class="field__label" for="lastName">Surname<span class="req">*</span></label>
+                <input class="input" id="lastName" name="lastName" autocomplete="family-name" required>
+                <span class="field__error">Please enter your surname</span>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field" data-field>
+                <label class="field__label" for="cell">Cell number<span class="req">*</span></label>
+                <input class="input" id="cell" name="cell" type="tel" inputmode="tel"
+                       placeholder="082 123 4567" autocomplete="tel" required>
+                <span class="field__hint">This is how I will confirm your order.</span>
+                <span class="field__error">Please enter a valid South African cell number</span>
+              </div>
+              <div class="field" data-field>
+                <label class="field__label" for="email">Email</label>
+                <input class="input" id="email" name="email" type="email"
+                       placeholder="you@example.co.za" autocomplete="email">
+                <span class="field__error">That email address does not look right</span>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field" data-field>
+                <label class="field__label" for="team">Team you play for<span class="req">*</span></label>
+                <input class="input" id="team" name="team" list="teams"
+                       placeholder="e.g. Kaalvoet Kaos" required>
+                <datalist id="teams">
+                  <option value="Kaalvoet Kaos"></option>
+                  <option value="Not on a team yet"></option>
+                  <option value="Social / pick-up"></option>
+                  <option value="University team"></option>
+                  <option value="School team"></option>
+                </datalist>
+                <span class="field__hint">Put "none" if you are not on a team.</span>
+                <span class="field__error">Please tell me which team you play for</span>
+              </div>
+              <div class="field" data-field>
+                <label class="field__label" for="province">Province<span class="req">*</span></label>
+                <select class="select-full" id="province" name="province" required>
+                  <option value="">Choose…</option>
+                  <option>Eastern Cape</option>
+                  <option>Free State</option>
+                  <option>Gauteng</option>
+                  <option>KwaZulu-Natal</option>
+                  <option>Limpopo</option>
+                  <option>Mpumalanga</option>
+                  <option>Northern Cape</option>
+                  <option>North West</option>
+                  <option>Western Cape</option>
+                  <option>Outside South Africa</option>
+                </select>
+                <span class="field__error">Please choose a province</span>
+              </div>
+            </div>
+
+            <div class="field" data-field>
+              <label class="field__label" for="city">Town or city you are based in<span class="req">*</span></label>
+              <input class="input" id="city" name="city" placeholder="e.g. Bloemfontein" autocomplete="address-level2" required>
+              <span class="field__error">Please tell me where you are based</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 2: delivery -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="step-num">2</span>Getting it to you</h2>
+          <p class="panel__note">Pick whatever is easiest. Collection and hand-overs are free.</p>
+
+          <div class="radio-cards" data-delivery-options></div>
+
+          <div class="stack" style="--gap:16px;margin-top:18px" data-address-block hidden>
+            <div class="field" data-field>
+              <label class="field__label" for="address">Delivery address / PEP store<span class="req">*</span></label>
+              <textarea class="input" id="address" name="address" rows="3"
+                        placeholder="Street address, suburb, city, postal code — or the PEP store name and code"></textarea>
+              <span class="field__error">Please give me an address to deliver to</span>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:16px">
+            <label class="field__label" for="notes">Anything else I should know</label>
+            <textarea class="input" id="notes" name="notes" rows="3"
+                      placeholder="Which tournament you will be at, a gift message, sizing questions, when you can collect…"></textarea>
+          </div>
+        </section>
+
+        <!-- Step 3: payment -->
+        <section class="panel panel--flame">
+          <h2 class="panel__title"><span class="step-num">3</span>Pay by EFT</h2>
+          <p class="panel__note">
+            Transfer the total below into this account. Use your order number as the reference so I can match it up.
+          </p>
+
+          <div class="bank-grid" data-bank-grid></div>
+
+          <p style="font-size:13px;color:var(--muted);margin:16px 0 0" data-ref-hint></p>
+          <p style="font-size:12.5px;color:var(--muted-2);margin:8px 0 0">
+            Your order number is generated when you submit — pay first using your surname as the reference if you
+            prefer, and I will match it, or submit the order now and pay afterwards using the number you get.
+          </p>
+        </section>
+
+        <!-- Step 4: POP -->
+        <section class="panel panel--lime">
+          <h2 class="panel__title"><span class="step-num" style="background:var(--lime);color:#14200a">4</span>Proof of payment</h2>
+          <p class="panel__note">
+            Attach a screenshot or PDF of the transfer. If you have not paid yet, skip this and send it to me on
+            WhatsApp afterwards — your order is still logged.
+          </p>
+
+          <input type="file" id="pop" name="pop" accept="image/*,.pdf" hidden data-pop-input>
+          <div class="dropzone" data-dropzone tabindex="0" role="button" aria-label="Upload proof of payment">
+            <div class="dropzone__icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>
+              </svg>
+            </div>
+            <div class="dropzone__title">Drop your proof of payment here</div>
+            <div class="dropzone__hint" data-pop-hint>or tap to choose a file — JPG, PNG or PDF</div>
+          </div>
+          <div data-pop-preview hidden style="margin-top:12px"></div>
+        </section>
+
+        <!-- Step 5: confirm -->
+        <section class="panel">
+          <div class="stack" style="--gap:14px">
+            <label class="check">
+              <input type="checkbox" name="confirmDetails" required data-confirm-check>
+              <span class="check__box"></span>
+              <span>I have checked my details above and I understand that discs are one-of-one — my order is
+                confirmed once <span data-contact-name>Richard</span> replies to me.</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="marketing">
+              <span class="check__box"></span>
+              <span>Let me know when new stock lands (optional).</span>
+            </label>
+          </div>
+
+          <button class="btn btn--primary btn--block btn--lg" type="submit" data-submit style="margin-top:22px">
+            Submit my order
+          </button>
+          <p style="font-size:12px;color:var(--muted-2);text-align:center;margin:12px 0 0">
+            Your details go straight to <span data-contact-name>Richard</span> — nothing is shared with anyone else,
+            and no payment is taken on this site.
+          </p>
+        </section>
+      </div>
+
+      <!-- ---------- RIGHT: summary rail ---------- -->
+      <aside class="order-rail">
+        <div class="panel">
+          <h2 class="panel__title" style="font-size:19px">Your order</h2>
+          <p class="panel__note" style="margin-bottom:14px">
+            <a href="index.html#shop" style="color:var(--lime);text-decoration:underline">Add more</a>
+          </p>
+
+          <div data-summary-items></div>
+
+          <div class="totals" style="margin-top:16px">
+            <div class="totals__row"><span>Subtotal</span><span data-summary-subtotal>R0</span></div>
+            <div class="totals__row"><span data-summary-delivery-label>Delivery</span><span data-summary-delivery>R0</span></div>
+            <div class="totals__row totals__row--grand"><span>Total to pay</span><span data-summary-total>R0</span></div>
+          </div>
+
+          <p style="font-size:11.5px;color:var(--muted-2);margin-top:14px;line-height:1.5">
+            Prices in South African Rand. No card is charged — you EFT this amount and upload the proof.
+          </p>
+        </div>
+      </aside>
+    </form>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__bottom" style="margin-top:0;border-top:none;padding-top:0">
+      <span>&copy; <span data-year></span> <span data-brand-name></span></span>
+      <span data-domain></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/order.js"></script>
+</body>
+</html>
