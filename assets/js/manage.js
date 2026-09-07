@@ -870,6 +870,41 @@
       window.KK.toast('Stock set on ' + state.selected.size + ' products');
     });
 
+    $('[data-bulk-field-apply]').addEventListener('click', () => {
+      const field = $('[data-bulk-field]').value;
+      const raw = $('[data-bulk-value]').value.trim();
+      if (!state.selected.size) { window.KK.toast('Tick some products first', 'bad'); return; }
+      if (!raw) { window.KK.toast('Type a value first', 'bad'); return; }
+
+      let n = 0;
+      state.products.forEach((p) => {
+        if (!state.selected.has(p.id)) return;
+        p[field] = raw;
+        n++;
+      });
+      state.dirty = true;
+      render();
+      window.KK.toast(field + ' set to "' + raw + '" on ' + n + ' product(s)');
+    });
+
+    $('[data-clear-samples]').addEventListener('click', () => {
+      const n = state.products.length;
+      if (!n) { window.KK.toast('Nothing to clear', 'info'); return; }
+      if (!confirm(
+        'Remove all ' + n + ' products from the catalogue?\n\n' +
+        'Use this once, to clear the sample stock before loading your real discs.\n' +
+        'Photo files already on disk are left alone, and nothing is written until ' +
+        'you press Save changes.'
+      )) return;
+
+      state.products = [];
+      state.selected.clear();
+      state.dirty = true;
+      normalise();
+      render();
+      window.KK.toast('Catalogue cleared — now drop your photos in', 'info');
+    });
+
     $('[data-bulk-delete]').addEventListener('click', () => {
       if (!confirm('Delete ' + state.selected.size + ' products?')) return;
       state.products = state.products.filter((p) => !state.selected.has(p.id));

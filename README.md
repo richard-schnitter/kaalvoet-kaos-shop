@@ -46,20 +46,33 @@ Every disc is different, so every disc needs its own photo. `manage.html` exists
 
 ### The fast way (Chrome or Edge on desktop)
 
-1. Run the site locally (see below) and open `http://localhost:8000/manage.html`.
-2. Click **Connect project folder** and pick this project folder — the one containing `index.html`.
-   Grant write permission.
-3. Photograph your discs. Any size, any orientation — they get resized to 1500px and compressed for you.
-4. Drag all 50 photos onto the **Photos** dropzone at once.
-5. Attach them, whichever suits you:
-   - **Match by filename** — name a photo `KK-D07.jpg` and it finds disc `KK-D07` itself.
-   - **Fill discs without photos, in order** — assigns them top to bottom.
-   - **Make a new disc per photo** — wipes the sample discs first, then creates one product per photo.
-   - Or drag a single photo onto any row's thumbnail.
-6. Set names, prices and stock in the table. Prices in the table are Rand, no decimals needed.
+The shop ships with 50 **sample** discs so it looks real before your stock is in. Replacing them with
+your actual discs takes about twenty minutes.
+
+1. Run the site locally (see below) and open <http://localhost:8000/manage.html>.
+2. Click **Connect project folder**, pick this project folder — the one containing `index.html` — and
+   grant write permission.
+3. Press **Clear sample stock**. That empties the catalogue so you start from nothing. (Nothing is
+   written to disk until step 7, so this is safe to undo by pressing **Reload catalogue**.)
+4. Photograph your discs, one photo each. Any size or orientation — they are resized to 1500px and
+   compressed in your browser.
+5. Drag all the photos onto the **Photos** dropzone at once, then press **Make a new disc per photo**.
+   You get one product per photo, named from the filename, with a fresh SKU.
+6. Fill in the details:
+   - **Price** — type it straight into the table. Same price for a batch? Tick them and use
+     *Set price* in the bulk bar.
+   - **Brand, model, condition, weight, colourway** — tick a batch and use *Set … to …* in the bulk
+     bar. Most crates are all the same mould, so this is usually two clicks for all of them.
+   - **Name and description** — click the pencil on a row for the full editor.
 7. Click **Save changes**. Photos are written to `assets/img/products/` and `data/products.json` is
    rewritten in place.
 8. Commit and push.
+
+### Adding a few more later
+
+Skip step 3. Drop the new photos in and either press **Make a new disc per photo**, or use
+**Match by filename** (name a photo `KK-D07.jpg` and it finds disc `KK-D07`), **Fill discs without
+photos, in order**, or just drag one photo onto any row's thumbnail.
 
 ### Any other browser
 

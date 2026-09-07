@@ -51,6 +51,7 @@
 
     <button class="btn btn--gold btn--sm" data-connect type="button">Connect project folder</button>
     <button class="btn btn--ghost btn--sm" data-reload type="button">Reload catalogue</button>
+    <button class="btn btn--ghost btn--sm" data-clear-samples type="button" style="color:var(--bad)">Clear sample stock</button>
 
     <span style="flex:1"></span>
 
@@ -73,9 +74,12 @@
   <section class="panel" style="margin-bottom:18px">
     <h2 class="panel__title">Photos</h2>
     <p class="panel__note">
-      Drop all 50 disc photos at once. They are resized and compressed in your browser, then attached to
-      products. Name a file with a SKU (e.g. <code style="color:var(--gold)">KK-D07.jpg</code>) and it matches
-      itself automatically.
+      Drop all your disc photos at once. They are resized and compressed in your browser, then attached
+      to products. Name a file with a SKU (e.g. <code style="color:var(--gold)">KK-D07.jpg</code>) and it
+      matches itself automatically.
+      <br><strong style="color:var(--gold)">Loading real stock for the first time?</strong>
+      Press <em>Clear sample stock</em> above, drop your photos here, then choose
+      <em>Make a new disc per photo</em>.
     </p>
 
     <input type="file" accept="image/*" multiple hidden data-photo-input>
@@ -124,6 +128,22 @@
       <input class="cell-input" type="number" min="0" step="1" style="width:80px" data-bulk-stock placeholder="1">
     </label>
     <button class="btn btn--ghost btn--sm" data-bulk-stock-apply type="button">Apply stock</button>
+    <label class="row" style="gap:7px;font-size:12.5px;color:var(--muted)">
+      Set
+      <select class="cell-input" style="width:132px" data-bulk-field>
+        <option value="brand">Brand</option>
+        <option value="subcategory">Model / type</option>
+        <option value="condition">Condition</option>
+        <option value="weight">Weight</option>
+        <option value="colorName">Colourway</option>
+        <option value="stamp">Stamp</option>
+        <option value="description">Description</option>
+        <option value="category">Category</option>
+      </select>
+      to
+      <input class="cell-input" style="width:150px" data-bulk-value placeholder="value">
+    </label>
+    <button class="btn btn--ghost btn--sm" data-bulk-field-apply type="button">Apply</button>
     <span style="flex:1"></span>
     <button class="btn btn--ghost btn--sm" data-bulk-delete type="button" style="color:var(--bad)">Delete selected</button>
   </div>
