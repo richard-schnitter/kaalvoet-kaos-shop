@@ -78,6 +78,21 @@
       <em>Make a new disc per photo</em>.
     </p>
 
+    <div class="row" style="gap:16px;flex-wrap:wrap;margin:14px 0 16px;padding:12px 14px;background:var(--ink-3);border:1px solid var(--line);border-radius:var(--radius)">
+      <label class="check" style="align-items:center">
+        <input type="checkbox" data-clean-bg checked>
+        <span class="check__box"></span>
+        <span style="color:var(--sand);font-size:13px">
+          <strong>Sweep out the grey backdrop</strong>
+          <span style="display:block;color:var(--muted-2);font-size:11.5px;margin-top:2px">
+            Replaces it with a dark tint of the disc's own strongest colour.
+          </span>
+        </span>
+      </label>
+      <span style="flex:1"></span>
+      <button class="btn btn--ghost btn--sm" data-clean-existing type="button">Redo backdrops on photos already loaded</button>
+    </div>
+
     <input type="file" accept="image/*" multiple hidden data-photo-input>
     <div class="dropzone" data-photo-drop tabindex="0" role="button">
       <div class="dropzone__icon">

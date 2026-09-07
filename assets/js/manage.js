@@ -142,15 +142,249 @@
     canvas.height = h;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingQuality = 'high';
-    // Flat backdrop so transparent PNGs do not turn black in JPEG.
+    // Flat fill first so transparent PNGs do not turn black in JPEG.
     ctx.fillStyle = '#13161b';
     ctx.fillRect(0, 0, w, h);
     ctx.drawImage(bitmap, 0, 0, w, h);
     bitmap.close && bitmap.close();
 
+    if (cleanBackdropOn()) replaceBackdrop(ctx, w, h);
+
     const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
     const dataUrl = canvas.toDataURL('image/jpeg', 0.6);   // small preview only
     return { blob: blob, dataUrl: dataUrl, width: w, height: h };
+  }
+
+  /* ======================================================================
+     Backdrop replacement
+
+     The discs are shot on a flat grey sweep. This lifts the disc off it and
+     drops in a dark tint taken from the disc's own strongest colour, which
+     is what makes the grid look like a set rather than 64 grey squares.
+
+     Approach: flood fill inward from the frame edge, so only backdrop that
+     is actually connected to the border is replaced. A colour matching the
+     backdrop *inside* the disc is untouched, because the fill cannot reach
+     it. If the disc runs off the edge of the frame the fill would eat it,
+     so anything that swallows too much of the picture is abandoned and the
+     photo is left exactly as it was.
+     ====================================================================== */
+
+  const BACKDROP = {
+    // The sweep is lit unevenly, so a single global threshold either leaves a
+    // grey halo near the disc or eats into it. The fill instead walks the
+    // gradient: a pixel joins the backdrop if it is close to the neighbour it
+    // came from (localTol) and still broadly backdrop-ish (globalTol). The
+    // disc edge is a jump of 130+, far beyond localTol, so the fill stops dead.
+    localBase: 22,
+    localSpread: 0.55,
+    globalBase: 74,
+    globalSpread: 2.6,
+    globalMax: 165,
+    feather: 1.5,       // soft band, to kill the anti-aliased rim
+    maxCover: 0.93,     // give up if the fill takes more than this
+    minCover: 0.04,     // ...or if it found essentially nothing
+  };
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+    if (max === min) return [0, 0, l];
+    const d = max - min;
+    const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    let h;
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+    return [h, s, l];
+  }
+
+  function hslToRgb(h, s, l) {
+    if (!s) { const v = Math.round(l * 255); return [v, v, v]; }
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    const f = (t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    return [Math.round(f(h + 1 / 3) * 255), Math.round(f(h) * 255), Math.round(f(h - 1 / 3) * 255)];
+  }
+
+  /** Average colour and unevenness of the frame's outer edge. */
+  function edgeColour(data, w, h) {
+    const px = [];
+    const stepX = Math.max(1, Math.floor(w / 60));
+    const stepY = Math.max(1, Math.floor(h / 60));
+    const push = (x, y) => { const i = (y * w + x) * 4; px.push([data[i], data[i + 1], data[i + 2]]); };
+
+    for (let x = 0; x < w; x += stepX) { push(x, 1); push(x, h - 2); }
+    for (let y = 0; y < h; y += stepY) { push(1, y); push(w - 2, y); }
+
+    const avg = px.reduce((a, v) => [a[0] + v[0], a[1] + v[1], a[2] + v[2]], [0, 0, 0])
+      .map((n) => n / px.length);
+    const spread = Math.sqrt(px.reduce((sum, v) =>
+      sum + Math.pow(v[0] - avg[0], 2) + Math.pow(v[1] - avg[1], 2) + Math.pow(v[2] - avg[2], 2), 0) / px.length);
+
+    return { r: avg[0], g: avg[1], b: avg[2], spread: spread };
+  }
+
+  /** The disc's most characteristic colour: the commonest saturated tone. */
+  function keyColour(data, mask, w, h) {
+    const bins = new Map();
+    for (let p = 0, i = 0; p < w * h; p++, i += 4) {
+      if (mask[p]) continue;
+      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      if (!max) continue;
+      const sat = (max - min) / max;
+      const lum = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 255;
+      if (sat < 0.28 || lum < 0.10 || lum > 0.94) continue;   // skip white, grey, black
+      const key = ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4);
+      const bin = bins.get(key) || [0, 0, 0, 0];
+      bin[0] += r; bin[1] += g; bin[2] += b; bin[3]++;
+      bins.set(key, bin);
+    }
+
+    let best = null;
+    bins.forEach((bin) => { if (!best || bin[3] > best[3]) best = bin; });
+
+    // A plain white disc has no strong colour: fall back to the team plum.
+    if (!best || best[3] < (w * h) * 0.0015) return [46, 19, 66];
+    return [Math.round(best[0] / best[3]), Math.round(best[1] / best[3]), Math.round(best[2] / best[3])];
+  }
+
+  /**
+   * Replace the connected backdrop with a dark tint of the disc's key colour.
+   * Returns false and changes nothing if it does not look safe.
+   */
+  function replaceBackdrop(ctx, w, h) {
+    const img = ctx.getImageData(0, 0, w, h);
+    const data = img.data;
+    const bg = edgeColour(data, w, h);
+
+    const localTol = BACKDROP.localBase + bg.spread * BACKDROP.localSpread;
+    const localTol2 = localTol * localTol;
+    const globalTol = Math.min(BACKDROP.globalMax, BACKDROP.globalBase + bg.spread * BACKDROP.globalSpread);
+    const globalTol2 = globalTol * globalTol;
+    const soft = globalTol * BACKDROP.feather;
+    const soft2 = soft * soft;
+
+    const mask = new Uint8Array(w * h);
+    const queue = new Int32Array(w * h);
+    let head = 0, tail = 0;
+
+    const distGlobal2 = (i) => {
+      const dr = data[i] - bg.r, dg = data[i + 1] - bg.g, db = data[i + 2] - bg.b;
+      return dr * dr + dg * dg + db * db;
+    };
+
+    const distLocal2 = (i, j) => {
+      const dr = data[i] - data[j], dg = data[i + 1] - data[j + 1], db = data[i + 2] - data[j + 2];
+      return dr * dr + dg * dg + db * db;
+    };
+
+    // Seed only from the frame edge, and only where it really is backdrop.
+    const seed = (p) => {
+      if (mask[p] || distGlobal2(p * 4) > globalTol2) return;
+      mask[p] = 1;
+      queue[tail++] = p;
+    };
+    for (let x = 0; x < w; x++) { seed(x); seed((h - 1) * w + x); }
+    for (let y = 0; y < h; y++) { seed(y * w); seed(y * w + w - 1); }
+
+    // Grow along the gradient.
+    const grow = (from, to) => {
+      if (mask[to]) return;
+      const i = to * 4;
+      if (distGlobal2(i) > globalTol2) return;
+      if (distLocal2(i, from * 4) > localTol2) return;
+      mask[to] = 1;
+      queue[tail++] = to;
+    };
+
+    while (head < tail) {
+      const p = queue[head++];
+      const x = p % w, y = (p / w) | 0;
+      if (x > 0) grow(p, p - 1);
+      if (x < w - 1) grow(p, p + 1);
+      if (y > 0) grow(p, p - w);
+      if (y < h - 1) grow(p, p + w);
+    }
+
+    const cover = tail / (w * h);
+    if (cover > BACKDROP.maxCover || cover < BACKDROP.minCover) return false;
+
+    // Whatever survived the fill but is not part of the disc itself is a
+    // lighting artefact on the sweep -- a lamp flare, a bright crease. Keep
+    // only the largest connected island and sweep the rest into the backdrop.
+    (function keepOnlyTheDisc() {
+      const seen = new Uint8Array(w * h);
+      const stack = new Int32Array(w * h);
+      let bestStart = -1, bestSize = 0;
+      const islands = [];
+
+      for (let start = 0; start < w * h; start++) {
+        if (mask[start] || seen[start]) continue;
+        let sp = 0, size = 0;
+        stack[sp++] = start;
+        seen[start] = 1;
+        const members = [];
+        while (sp) {
+          const q = stack[--sp];
+          members.push(q);
+          size++;
+          const x = q % w, y = (q / w) | 0;
+          if (x > 0 && !mask[q - 1] && !seen[q - 1]) { seen[q - 1] = 1; stack[sp++] = q - 1; }
+          if (x < w - 1 && !mask[q + 1] && !seen[q + 1]) { seen[q + 1] = 1; stack[sp++] = q + 1; }
+          if (y > 0 && !mask[q - w] && !seen[q - w]) { seen[q - w] = 1; stack[sp++] = q - w; }
+          if (y < h - 1 && !mask[q + w] && !seen[q + w]) { seen[q + w] = 1; stack[sp++] = q + w; }
+        }
+        islands.push(members);
+        if (size > bestSize) { bestSize = size; bestStart = islands.length - 1; }
+      }
+
+      // Only trust this if the biggest island really looks like the disc.
+      if (bestSize < w * h * 0.06) return;
+      for (let k = 0; k < islands.length; k++) {
+        if (k === bestStart) continue;
+        const members = islands[k];
+        for (let m = 0; m < members.length; m++) mask[members[m]] = 1;
+      }
+    })();
+
+    const key = keyColour(data, mask, w, h);
+    const hsl = rgbToHsl(key[0], key[1], key[2]);
+    // Keep the hue, force it dark and richly tinted so the disc pops.
+    const back = hslToRgb(hsl[0], Math.min(0.62, Math.max(0.38, hsl[1])), 0.12);
+
+    for (let p = 0, i = 0; p < w * h; p++, i += 4) {
+      if (mask[p]) {
+        data[i] = back[0]; data[i + 1] = back[1]; data[i + 2] = back[2];
+        continue;
+      }
+      // Soften the halo: pixels just outside the threshold that touch the
+      // backdrop are part of the anti-aliased rim, not the disc.
+      const d2 = distGlobal2(i);
+      if (d2 >= soft2) continue;
+      const x = p % w, y = (p / w) | 0;
+      const touching =
+        (x > 0 && mask[p - 1]) || (x < w - 1 && mask[p + 1]) ||
+        (y > 0 && mask[p - w]) || (y < h - 1 && mask[p + w]);
+      if (!touching) continue;
+      const t = 1 - (Math.sqrt(d2) - globalTol) / (soft - globalTol);
+      const k = Math.max(0, Math.min(1, t)) * 0.75;
+      data[i] += (back[0] - data[i]) * k;
+      data[i + 1] += (back[1] - data[i + 1]) * k;
+      data[i + 2] += (back[2] - data[i + 2]) * k;
+    }
+
+    ctx.putImageData(img, 0, 0);
+    return true;
   }
 
   /* ======================================================================
@@ -412,6 +646,63 @@
       currency: window.KK.CFG.shop.currency,
       products: state.products,
     }, null, 2) + '\n';
+  }
+
+  function cleanBackdropOn() {
+    const box = $('[data-clean-bg]');
+    return !box || box.checked;
+  }
+
+  /** Re-do the backdrop on photos that are already in the catalogue. */
+  async function cleanExistingBackdrops() {
+    const jobs = [];
+    state.products.forEach((p) => (p.images || []).forEach((path) => jobs.push({ p: p, path: path })));
+    if (!jobs.length) { window.KK.toast('No photos to work on yet', 'info'); return; }
+    if (!confirm(
+      'Redo the backdrop on all ' + jobs.length + ' photo(s)?\n\n' +
+      'Each one gets the grey swept out and replaced with a dark tint of its own ' +
+      'strongest colour. Nothing is written until you press Save changes.'
+    )) return;
+
+    const bar = $('[data-photo-bar]');
+    const label = $('[data-photo-progress-label]');
+    $('[data-photo-progress]').hidden = false;
+
+    let done = 0, changed = 0, skipped = 0;
+    for (const job of jobs) {
+      label.textContent = 'Backdrop ' + (done + 1) + ' of ' + jobs.length + ' — ' + job.path.split('/').pop();
+      try {
+        const bmp = await sourceBitmap(job.path);
+        const canvas = document.createElement('canvas');
+        canvas.width = bmp.width;
+        canvas.height = bmp.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bmp, 0, 0);
+        bmp.close && bmp.close();
+
+        if (replaceBackdrop(ctx, canvas.width, canvas.height)) {
+          const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
+          state.pending[job.path] = blob;
+          state.previews[job.path] = canvas.toDataURL('image/jpeg', 0.6);
+          changed++;
+        } else {
+          skipped++;
+        }
+      } catch (e) {
+        skipped++;
+        console.warn('[KK] backdrop failed for', job.path, e);
+      }
+      done++;
+      bar.style.width = ((done / jobs.length) * 100).toFixed(1) + '%';
+    }
+
+    if (changed) state.dirty = true;
+    label.textContent = changed + ' redone' + (skipped ? ', ' + skipped + ' left alone' : '') +
+      ' — press Save changes to write them';
+    setTimeout(() => { $('[data-photo-progress]').hidden = true; bar.style.width = '0%'; }, 3200);
+    render();
+    window.KK.toast(changed + ' backdrop(s) redone' + (skipped ? ', ' + skipped + ' skipped' : ''),
+      changed ? '' : 'bad');
   }
 
   /* ======================================================================
@@ -974,6 +1265,8 @@
     $('[data-auto-match]').addEventListener('click', autoMatch);
     $('[data-fill-order]').addEventListener('click', fillInOrder);
     $('[data-create-from-photos]').addEventListener('click', createFromPhotos);
+    $('[data-clean-existing]').addEventListener('click', cleanExistingBackdrops);
+
     $('[data-clear-tray]').addEventListener('click', () => {
       state.tray = state.tray.filter((p) => p.assigned);
       renderTray();
