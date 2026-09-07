@@ -449,9 +449,14 @@
           (p.price === 0 ? ' style="border-color:var(--warn)"' : '') + '></td>' +
         '<td><input class="cell-input" type="number" min="0" step="1" value="' + p.stock + '" data-edit="stock" data-id="' + esc(p.id) + '"></td>' +
         '<td><input class="cell-input" value="' + esc(p.condition || '') + '" data-edit="condition" data-id="' + esc(p.id) + '"></td>' +
-        '<td><button class="icon-btn" data-delete="' + esc(p.id) + '" type="button" aria-label="Delete ' + esc(p.name) + '">' +
-          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>' +
-        '</button></td>' +
+        '<td style="white-space:nowrap">' +
+          '<button class="icon-btn" data-editrow="' + esc(p.id) + '" type="button" title="Edit details" aria-label="Edit ' + esc(p.name) + '">' +
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>' +
+          '</button>' +
+          '<button class="icon-btn" data-delete="' + esc(p.id) + '" type="button" title="Delete" aria-label="Delete ' + esc(p.name) + '">' +
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>' +
+          '</button>' +
+        '</td>' +
       '</tr>'
     ).join('');
 
@@ -472,56 +477,171 @@
   }
 
   /* ======================================================================
-     Image manager modal
+     Product editor modal — photos plus every text field
      ====================================================================== */
 
-  let modalProduct = null;
+  let editing = null;
 
-  function openImages(id) {
-    modalProduct = state.products.find((p) => p.id === id);
-    if (!modalProduct) return;
-    renderImageModal();
+  function openEditor(id) {
+    editing = state.products.find((p) => p.id === id);
+    if (!editing) return;
+    renderEditor();
     $('[data-img-modal]').classList.add('is-open');
     $('[data-img-modal]').setAttribute('aria-hidden', 'false');
     $('[data-scrim]').classList.add('is-open');
     document.body.classList.add('is-locked');
   }
 
-  function closeImages() {
+  function closeEditor() {
     $('[data-img-modal]').classList.remove('is-open');
     $('[data-img-modal]').setAttribute('aria-hidden', 'true');
     $('[data-scrim]').classList.remove('is-open');
     document.body.classList.remove('is-locked');
-    modalProduct = null;
+    editing = null;
+    render();
   }
 
-  function renderImageModal() {
-    const p = modalProduct;
+  function field(label, key, value, opts) {
+    opts = opts || {};
+    const id = 'f-' + key;
+    let control;
+
+    if (opts.textarea) {
+      control = '<textarea class="input" id="' + id + '" data-edit-field="' + key + '" rows="' +
+        (opts.rows || 4) + '" placeholder="' + esc(opts.placeholder || '') + '">' + esc(value || '') + '</textarea>';
+    } else if (opts.options) {
+      control = '<select class="select-full" id="' + id + '" data-edit-field="' + key + '">' +
+        opts.options.map((o) =>
+          '<option value="' + esc(o) + '"' + (String(value) === String(o) ? ' selected' : '') + '>' + esc(o) + '</option>'
+        ).join('') + '</select>';
+    } else if (opts.color) {
+      control = '<input class="input" type="color" id="' + id + '" data-edit-field="' + key +
+        '" value="' + esc(value || '#ff4d2e') + '" style="height:42px;padding:5px">';
+    } else {
+      control = '<input class="input" id="' + id + '" data-edit-field="' + key + '"' +
+        (opts.number ? ' type="number" min="0" step="' + (opts.step || 1) + '"' : '') +
+        ' value="' + esc(value == null ? '' : value) + '"' +
+        ' placeholder="' + esc(opts.placeholder || '') + '">';
+    }
+
+    return '<div class="field">' +
+      '<label class="field__label" for="' + id + '">' + esc(label) + '</label>' + control +
+      (opts.hint ? '<span class="field__hint">' + esc(opts.hint) + '</span>' : '') +
+      '</div>';
+  }
+
+  function renderEditor() {
+    const p = editing;
     if (!p) return;
+
+    const photos = p.images.length
+      ? '<div class="photo-tray">' + p.images.map((src, i) =>
+          '<div class="photo-tile" style="cursor:default">' +
+            '<img src="' + esc(state.previews[src] || src) + '" alt="">' +
+            '<button class="photo-tile__x" data-img-del="' + i + '" type="button" aria-label="Remove">&times;</button>' +
+            '<span class="photo-tile__label">' + (i === 0 ? 'Main photo' : 'Photo ' + (i + 1)) +
+              (i > 0 ? ' · <button data-img-main="' + i + '" type="button" style="color:var(--lime);text-decoration:underline">make main</button>' : '') +
+            '</span>' +
+          '</div>').join('') + '</div>'
+      : '<p style="color:var(--muted);font-size:13.5px;margin:0">No photos yet — add some below, or drag one ' +
+        'onto this product\'s thumbnail in the table.</p>';
 
     $('[data-img-panel]').innerHTML =
       '<button class="modal__close" data-img-close type="button" aria-label="Close">' +
         '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
       '</button>' +
-      '<div class="modal__content">' +
-        '<h2 class="modal__title" style="font-size:23px">' + esc(p.name) + '</h2>' +
-        '<p style="font-size:12.5px;color:var(--muted-2);margin:0">' + esc(p.sku) +
-          ' · first photo is the one shown in the shop</p>' +
-        (p.images.length
-          ? '<div class="photo-tray">' + p.images.map((src, i) =>
-              '<div class="photo-tile" style="cursor:default">' +
-                '<img src="' + esc(state.previews[src] || src) + '" alt="">' +
-                '<button class="photo-tile__x" data-img-del="' + i + '" type="button" aria-label="Remove">&times;</button>' +
-                '<span class="photo-tile__label">' + (i === 0 ? 'Main' : 'Photo ' + (i + 1)) +
-                  (i > 0 ? ' · <button data-img-main="' + i + '" type="button" style="color:var(--lime);text-decoration:underline">make main</button>' : '') +
-                '</span>' +
-              '</div>').join('') + '</div>'
-          : '<p style="color:var(--muted);font-size:13.5px">No photos yet. Drop some in below.</p>') +
-        '<input type="file" accept="image/*" multiple hidden data-img-input>' +
-        '<button class="btn btn--lime btn--block" data-img-add type="button">Add photos to this product</button>' +
-        '<p style="font-size:11.5px;color:var(--muted-2);margin:0">' +
-          'Photos are saved as <code>' + esc(IMG_DIR) + '/' + esc(p.sku) + '-1.jpg</code> and so on.</p>' +
+      '<div class="modal__content" style="gap:20px">' +
+
+        '<div>' +
+          '<h2 class="modal__title" style="font-size:25px">' + esc(p.name || 'Untitled') + '</h2>' +
+          '<p style="font-size:12.5px;color:var(--muted-2);margin:5px 0 0">' + esc(p.sku) +
+            ' · changes save when you press Save changes in the toolbar</p>' +
+        '</div>' +
+
+        /* ---- photos ---- */
+        '<div class="stack" style="--gap:12px">' +
+          '<div class="field__label">Photos</div>' +
+          photos +
+          '<input type="file" accept="image/*" multiple hidden data-img-input>' +
+          '<button class="btn btn--lime btn--sm" data-img-add type="button">Add photos</button>' +
+        '</div>' +
+
+        /* ---- the words ---- */
+        '<div class="stack" style="--gap:16px">' +
+          field('Product name', 'name', p.name, { placeholder: 'Sunset Riot #07' }) +
+          field('Description', 'description', p.description, {
+            textarea: true, rows: 5,
+            placeholder: 'What makes this disc worth having. Flight, feel, the stamp, any marks.',
+            hint: 'Shown in the quick-view popup. Two or three sentences is plenty.',
+          }) +
+          '<div class="field-grid">' +
+            field('Price (R)', 'price', p.price, { number: true, step: 10 }) +
+            field('Was / compare-at (R)', 'compareAt', p.compareAt, {
+              number: true, step: 10, hint: 'Blank for no strike-through price.' }) +
+          '</div>' +
+          '<div class="field-grid">' +
+            field('Stock', 'stock', p.stock, { number: true, hint: '0 marks it sold out.' }) +
+            field('Category', 'category', p.category, { options: ['discs', 'apparel', 'accessories'] }) +
+          '</div>' +
+          '<div class="field-grid">' +
+            field('Brand', 'brand', p.brand, { placeholder: 'Discraft' }) +
+            field('Model / type', 'subcategory', p.subcategory, { placeholder: 'Ultra-Star' }) +
+          '</div>' +
+          '<div class="field-grid">' +
+            field('Weight', 'weight', p.weight, { placeholder: '175 g' }) +
+            field('Condition', 'condition', p.condition, { placeholder: 'Brand new' }) +
+          '</div>' +
+          '<div class="field-grid">' +
+            field('Stamp', 'stamp', p.stamp, { placeholder: 'Kaalvoet Kaos crest' }) +
+            field('Colourway name', 'colorName', p.colorName, { placeholder: 'Sunset Riot' }) +
+          '</div>' +
+          '<div class="field-grid">' +
+            field('Main colour', 'color0', (p.colors || [])[0] || '#ff4d2e', {
+              color: true, hint: 'Used for the placeholder art until a photo is added.' }) +
+            field('Backdrop colour', 'color1', (p.colors || [])[1] || '#2b1a14', { color: true }) +
+          '</div>' +
+          field('Tags', 'tags', (p.tags || []).join(', '), {
+            placeholder: 'ultimate, discraft, new', hint: 'Comma separated. Used by the shop search.' }) +
+          '<div class="field-grid">' +
+            field('Options label', 'variantLabel', p.variantLabel, {
+              placeholder: 'Size', hint: 'Leave blank for one-off items like discs.' }) +
+            field('Options', 'variants', (p.variants || []).join(', '), {
+              placeholder: 'S, M, L, XL', hint: 'Comma separated. Buyer must pick one.' }) +
+          '</div>' +
+        '</div>' +
+
+        '<div class="row" style="gap:10px;flex-wrap:wrap;padding-top:4px">' +
+          '<button class="btn btn--primary" data-editor-done type="button">Done</button>' +
+          '<button class="btn btn--ghost btn--sm" data-editor-delete type="button" style="color:var(--bad)">Delete this product</button>' +
+        '</div>' +
       '</div>';
+  }
+
+  /** Apply one edited field back onto the product being edited. */
+  function applyEditorField(key, value) {
+    const p = editing;
+    if (!p) return;
+
+    if (key === 'price' || key === 'stock') {
+      p[key] = Number(value) || 0;
+      if (key === 'stock') p.unique = p.stock === 1 && p.category === 'discs';
+    } else if (key === 'compareAt') {
+      p.compareAt = value === '' ? null : Number(value) || null;
+    } else if (key === 'tags' || key === 'variants') {
+      const list = value.split(',').map((x) => x.trim()).filter(Boolean);
+      if (key === 'variants' && !list.length) delete p.variants;
+      else p[key] = list;
+    } else if (key === 'color0' || key === 'color1') {
+      p.colors = p.colors || ['#ff4d2e', '#2b1a14'];
+      p.colors[key === 'color0' ? 0 : 1] = value;
+    } else if (key === 'variantLabel' && !value.trim()) {
+      delete p.variantLabel;
+    } else {
+      p[key] = value;
+    }
+
+    state.dirty = true;
+    $('[data-save]').textContent = 'Save changes •';
   }
 
   /* ======================================================================
@@ -665,7 +785,10 @@
 
     rows.addEventListener('click', (e) => {
       const img = e.target.closest('[data-images]');
-      if (img) { openImages(img.dataset.images); return; }
+      if (img) { openEditor(img.dataset.images); return; }
+
+      const ed = e.target.closest('[data-editrow]');
+      if (ed) { openEditor(ed.dataset.editrow); return; }
 
       const del = e.target.closest('[data-delete]');
       if (del) {
@@ -757,22 +880,41 @@
     });
 
     // --- image modal ---
-    $('[data-scrim]').addEventListener('click', closeImages);
+    $('[data-scrim]').addEventListener('click', closeEditor);
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalProduct) closeImages();
+      if (e.key === 'Escape' && editing) closeEditor();
+    });
+
+    // Text edits update the product live; the modal is deliberately not
+    // re-rendered on keystrokes, or the caret would jump to the end.
+    $('[data-img-panel]').addEventListener('input', (e) => {
+      const el = e.target.closest('[data-edit-field]');
+      if (el) applyEditorField(el.dataset.editField, el.value);
     });
 
     $('[data-img-panel]').addEventListener('click', async (e) => {
-      if (e.target.closest('[data-img-close]')) { closeImages(); return; }
+      if (e.target.closest('[data-img-close]') || e.target.closest('[data-editor-done]')) { closeEditor(); return; }
+
+      if (e.target.closest('[data-editor-delete]')) {
+        const p = editing;
+        if (!p || !confirm('Delete "' + p.name + '"? Its photo files stay on disk.')) return;
+        state.products = state.products.filter((x) => x.id !== p.id);
+        state.selected.delete(p.id);
+        state.dirty = true;
+        closeEditor();
+        normalise();
+        render();
+        return;
+      }
 
       const del = e.target.closest('[data-img-del]');
       if (del) {
         const i = Number(del.dataset.imgDel);
-        const path = modalProduct.images[i];
+        const path = editing.images[i];
         delete state.pending[path];
-        modalProduct.images.splice(i, 1);
+        editing.images.splice(i, 1);
         state.dirty = true;
-        renderImageModal();
+        renderEditor();
         render();
         return;
       }
@@ -780,10 +922,10 @@
       const main = e.target.closest('[data-img-main]');
       if (main) {
         const i = Number(main.dataset.imgMain);
-        const [moved] = modalProduct.images.splice(i, 1);
-        modalProduct.images.unshift(moved);
+        const [moved] = editing.images.splice(i, 1);
+        editing.images.unshift(moved);
         state.dirty = true;
-        renderImageModal();
+        renderEditor();
         render();
         return;
       }
@@ -794,14 +936,14 @@
     $('[data-img-panel]').addEventListener('change', async (e) => {
       const input = e.target.closest('[data-img-input]');
       if (!input || !input.files.length) return;
-      const product = modalProduct;
+      const product = editing;
       for (const file of Array.prototype.slice.call(input.files)) {
         try {
           const out = await processImage(file);
           attach({ blob: out.blob, dataUrl: out.dataUrl }, product);
         } catch (err) { window.KK.toast(err.message, 'bad'); }
       }
-      renderImageModal();
+      renderEditor();
       render();
     });
 

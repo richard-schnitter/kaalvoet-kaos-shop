@@ -15,7 +15,7 @@ window.KK_CONFIG = {
     blurb: 'Fifty discs came off the boat. Every one is a one-of-one — ' +
            'when it is gone, it is gone. Plus the kit that keeps the rest of you covered.',
     domain: 'shop.kaalvoetkaos.co.za',
-    instagram: 'https://instagram.com/kaalvoetkaos',
+    instagram: 'https://instagram.com/kaalvoet_kaos_ultimate',
     facebook: '',
     mainSite: 'https://kaalvoetkaos.co.za',
   },

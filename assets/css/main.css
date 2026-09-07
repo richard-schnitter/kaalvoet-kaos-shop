@@ -16,6 +16,10 @@
   --muted:      #9ba2ad;
   --muted-2:    #6f7681;
 
+  /* Sampled from the Kaalvoet Kaos crest */
+  --plum:       #2e1342;
+  --plum-2:     #4a1f63;
+  --ember:      #f57e25;
   --flame:      #ff4d2e;
   --flame-dim:  #d63c20;
   --lime:       #c6f24e;
@@ -140,16 +144,12 @@ h1, h2, h3, h4 {
 }
 .logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
 .logo__mark {
-  width: 34px; height: 34px; flex-shrink: 0;
-  border-radius: 50%;
-  background: conic-gradient(from 210deg, var(--flame), var(--gold), var(--lime), var(--sky), var(--flame));
-  display: grid; place-items: center;
-  box-shadow: inset 0 0 0 3px var(--ink), 0 0 0 1px var(--line-2);
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: url('../img/logo-128.png') center / contain no-repeat;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+  transition: transform 0.3s var(--ease);
 }
-.logo__mark::after {
-  content: ''; width: 11px; height: 11px; border-radius: 50%;
-  background: var(--ink); box-shadow: 0 0 0 3px rgba(244, 239, 230, 0.9);
-}
+.logo:hover .logo__mark { transform: rotate(-8deg) scale(1.04); }
 .logo__text { line-height: 1; }
 .logo__name {
   font-family: var(--font-display);
@@ -216,12 +216,22 @@ h1, h2, h3, h4 {
   content: '';
   position: absolute; inset: -40% -10% auto -10%; height: 120%;
   background:
-    radial-gradient(46% 52% at 18% 12%, rgba(255, 77, 46, 0.22), transparent 62%),
-    radial-gradient(38% 46% at 84% 8%, rgba(198, 242, 78, 0.14), transparent 66%),
-    radial-gradient(40% 40% at 60% 90%, rgba(37, 194, 224, 0.10), transparent 70%);
+    radial-gradient(46% 52% at 18% 12%, rgba(245, 126, 37, 0.20), transparent 62%),
+    radial-gradient(42% 48% at 82% 6%, rgba(74, 31, 99, 0.55), transparent 68%),
+    radial-gradient(40% 40% at 62% 92%, rgba(255, 77, 46, 0.14), transparent 70%);
   pointer-events: none;
 }
 .hero__inner { position: relative; display: grid; gap: 30px; }
+.hero__crest {
+  position: absolute;
+  right: -6%; top: 50%; transform: translateY(-50%);
+  width: min(46vw, 520px); aspect-ratio: 1;
+  background: url('../img/logo-512.png') center / contain no-repeat;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: -1;
+}
+@media (max-width: 900px) { .hero__crest { right: -22%; opacity: 0.05; } }
 .hero__eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;

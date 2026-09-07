@@ -67,6 +67,24 @@ Same page, same workflow, but it can't write to your folder. Use **Download prod
 **Download photos .zip**, then unzip into the project yourself. The zip already has the right folder
 structure — extract it over the project root and the paths line up.
 
+### Editing names, prices and descriptions
+
+Click the **pencil** in a product's row (or its thumbnail) to open the full editor:
+
+- Photos — add, remove, or **make main** (the first photo is the one the grid shows)
+- Name, description, price, was-price, stock, category
+- Brand, model, weight, condition, stamp, colourway
+- Two placeholder colours, used to draw the fallback disc art until a photo exists
+- Tags (comma separated, feeds the shop search)
+- Options label + options, e.g. `Size` and `XS, S, M, L, XL` — sized items make the buyer
+  pick before adding to the bag
+
+Simple fields (name, price, stock, category, model, condition) are also editable straight
+in the table, and the toolbar can set price or stock across everything you tick.
+
+Nothing is written until you press **Save changes**, so experiment freely. The button grows
+a dot when you have unsaved work, and the browser warns you if you try to leave.
+
 ### Photo tips
 
 - Shoot straight down on a plain background, disc filling the frame. The shop crops to a square.
