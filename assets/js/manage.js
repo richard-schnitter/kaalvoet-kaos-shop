@@ -28,6 +28,9 @@
   };
 
   const supportsFS = typeof window.showDirectoryPicker === 'function';
+  // file:// pages have an opaque origin: the picker exists but always throws.
+  const openedAsFile = location.protocol === 'file:';
+  const secure = window.isSecureContext && !openedAsFile;
 
   /* ======================================================================
      Tiny ZIP writer (store, no compression — JPEGs are already compressed)
@@ -154,12 +157,64 @@
      File system access
      ====================================================================== */
 
+  /** Put a plain-language reason on screen instead of a vague toast. */
+  function connectProblem(title, detail) {
+    const box = $('[data-unsupported]');
+    box.hidden = false;
+    box.querySelector('.panel__title').textContent = title;
+    box.querySelector('.panel__note').innerHTML = detail;
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    window.KK.toast(title, 'bad');
+  }
+
   async function connectFolder() {
-    if (!supportsFS) { window.KK.toast('This browser cannot write files directly', 'bad'); return; }
+    if (openedAsFile) {
+      connectProblem(
+        'Open this page through a local server, not straight off disk',
+        'The address bar says <code style="color:var(--gold)">file:///…</code>. Browsers give ' +
+        'file:// pages no origin, so they are not allowed to touch your folders — and the shop data ' +
+        'will not load either.<br><br>Open a terminal in the project folder and run:<br>' +
+        '<code style="color:var(--gold);display:inline-block;margin:8px 0">python -m http.server 8000</code>' +
+        '<br>then use <a href="http://localhost:8000/manage.html" style="color:var(--gold)">' +
+        'http://localhost:8000/manage.html</a>.'
+      );
+      return;
+    }
+
+    if (!secure) {
+      connectProblem(
+        'This page needs a secure connection',
+        'Folder access only works on <code style="color:var(--gold)">https://</code> or ' +
+        '<code style="color:var(--gold)">localhost</code>. You are on ' +
+        '<code style="color:var(--gold)">' + esc(location.origin) + '</code>. Use ' +
+        '<code style="color:var(--gold)">http://localhost:8000/manage.html</code> instead of a ' +
+        'machine name or IP address.'
+      );
+      return;
+    }
+
+    if (!supportsFS) {
+      connectProblem(
+        'This browser cannot write files directly',
+        'Direct folder saving needs Chrome or Edge on desktop. Firefox and Safari do not support it. ' +
+        'Everything else here still works — use <strong>Download products.json</strong> and ' +
+        '<strong>Download photos .zip</strong>, then unzip those over the project folder by hand.'
+      );
+      return;
+    }
+
     try {
       const handle = await window.showDirectoryPicker({ mode: 'readwrite' });
       const perm = await handle.requestPermission({ mode: 'readwrite' });
-      if (perm !== 'granted') { window.KK.toast('Write permission declined', 'bad'); return; }
+      if (perm !== 'granted') {
+        connectProblem(
+          'Write permission was declined',
+          'The browser asked to edit files in that folder and the answer was no. Click ' +
+          '<strong>Connect project folder</strong> again and choose <em>Edit files</em> ' +
+          '(or <em>Save changes</em>) when Chrome or Edge asks.'
+        );
+        return;
+      }
 
       // Sanity check: does this look like the shop project?
       let looksRight = true;
@@ -179,8 +234,35 @@
       window.KK.toast('Connected to ' + handle.name);
 
       await loadFromFolder();
+      $('[data-unsupported]').hidden = true;
     } catch (e) {
-      if (e.name !== 'AbortError') window.KK.toast('Could not open that folder', 'bad');
+      if (e.name === 'AbortError') return;          // they just closed the picker
+
+      console.error('[KK] folder connect failed:', e);
+
+      if (e.name === 'SecurityError') {
+        connectProblem(
+          'The browser blocked access to that folder',
+          'This usually means the page was not opened from ' +
+          '<code style="color:var(--gold)">http://localhost</code>, or the folder is one the browser ' +
+          'protects (Desktop, Downloads, Documents root, OneDrive, or a system folder). Try again and ' +
+          'pick the <code style="color:var(--gold)">Kaalvoet_shop</code> folder itself.'
+        );
+      } else if (e.name === 'NotAllowedError') {
+        connectProblem(
+          'Permission was not granted',
+          'Chrome and Edge only allow this straight after a click. Press ' +
+          '<strong>Connect project folder</strong> and choose the folder without switching away ' +
+          'from the window in between.'
+        );
+      } else {
+        connectProblem(
+          'Could not open that folder',
+          'The browser reported: <code style="color:var(--gold)">' + esc(e.name + ' — ' + e.message) +
+          '</code><br><br>You can still work here and use <strong>Download products.json</strong> ' +
+          'and <strong>Download photos .zip</strong> instead.'
+        );
+      }
     }
   }
 
@@ -244,7 +326,12 @@
       normalise();
       render();
     } catch (e) {
-      window.KK.toast('Could not load products.json — connect your folder instead', 'bad');
+      window.KK.toast(
+        openedAsFile
+          ? 'Opened from disk — run a local server first (see the note above)'
+          : 'Could not load products.json — connect your folder instead',
+        'bad'
+      );
       state.products = [];
       render();
     }
@@ -994,8 +1081,30 @@
   /* --- Boot ---------------------------------------------------------------- */
 
   async function init() {
-    $('[data-unsupported]').hidden = supportsFS;
     bind();
+
+    // Warn up front about the two setups that cannot possibly work.
+    if (openedAsFile) {
+      connectProblem(
+        'Open this page through a local server, not straight off disk',
+        'The address bar says <code style="color:var(--gold)">file:///…</code>, so the browser will ' +
+        'not let this page read your product data or write to your folders.<br><br>' +
+        'Open a terminal in the project folder and run:<br>' +
+        '<code style="color:var(--gold);display:inline-block;margin:8px 0">python -m http.server 8000</code>' +
+        '<br>then use <a href="http://localhost:8000/manage.html" style="color:var(--gold)">' +
+        'http://localhost:8000/manage.html</a>.'
+      );
+    } else if (!supportsFS) {
+      connectProblem(
+        'This browser cannot write files directly',
+        'Direct folder saving needs Chrome or Edge on desktop. Everything else here still works — use ' +
+        '<strong>Download products.json</strong> and <strong>Download photos .zip</strong>, then unzip ' +
+        'those over the project folder by hand.'
+      );
+    } else {
+      $('[data-unsupported]').hidden = true;
+    }
+
     await loadCatalogue();
   }
 
