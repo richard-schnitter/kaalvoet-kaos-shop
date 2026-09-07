@@ -278,6 +278,9 @@
       qty: d.qty,
       unitPrice: d.product.price,
       total: d.subtotal,
+      // How many exist in total. The endpoint uses this to refuse an order
+      // that would take more than there are.
+      stock: d.product.baseStock == null ? d.product.stock : d.product.baseStock,
     }));
 
     const subtotal = cart.subtotal();
@@ -382,7 +385,31 @@
       body: JSON.stringify(payload),
     });
     if (!res.ok) throw new Error('Endpoint returned ' + res.status);
+
+    let body = null;
+    try { body = await res.json(); } catch (e) { /* opaque reply, treat as success */ }
+
+    // Somebody claimed one of these while the form was being filled in.
+    if (body && body.ok === false && body.reason === 'unavailable') {
+      if (body.claimed) window.KK.applyClaims(body.claimed);
+      return { ok: false, unavailable: body.unavailable || [] };
+    }
+    if (body && body.claimed) window.KK.applyClaims(body.claimed);
     return { ok: true };
+  }
+
+  /** Drop anything that has sold out, and tell the buyer plainly. */
+  function dropUnavailable(list) {
+    const names = [];
+    list.forEach((u) => {
+      const p = window.KK.catalogue.find((x) => x.sku === u.sku);
+      if (!p) return;
+      names.push(p.name);
+      cart.items
+        .filter((l) => l.id === p.id)
+        .forEach((l) => cart.remove(l.id, l.variant));
+    });
+    return names;
   }
 
   /* --- Submit -------------------------------------------------------------- */
@@ -395,8 +422,30 @@
     const btn = $('[data-submit]');
     state.submitting = true;
     btn.disabled = true;
-    btn.textContent = 'Sending your order…';
+    btn.textContent = 'Checking stock…';
 
+    // Someone may have claimed an item while this form was being filled in.
+    if (window.KK.stockEndpoint()) {
+      try {
+        await window.KK.refreshStock();
+        const gone = cart.detailed().filter((d) => d.product.stock <= 0).map((d) => d.product);
+        if (gone.length) {
+          gone.forEach((p) => cart.items
+            .filter((l) => l.id === p.id)
+            .forEach((l) => cart.remove(l.id, l.variant)));
+          soldOutNotice(gone.map((p) => p.name));
+          state.submitting = false;
+          btn.disabled = false;
+          btn.textContent = 'Submit my order';
+          return;
+        }
+      } catch (e) {
+        // Availability check is best effort — never block a real order on it.
+        console.warn('[KK] stock re-check failed:', e);
+      }
+    }
+
+    btn.textContent = 'Sending your order…';
     const order = collect();
     state.lastOrder = order;
 
@@ -408,7 +457,17 @@
 
     if (mode === 'endpoint' || mode === 'both') {
       try {
-        await postToEndpoint(order);
+        const result = await postToEndpoint(order);
+        if (result && result.ok === false) {
+          const names = dropUnavailable(result.unavailable);
+          soldOutNotice(names.length ? names : ['One of your items']);
+          state.submitting = false;
+          btn.disabled = false;
+          btn.textContent = 'Submit my order';
+          renderSummary();
+          if (!cart.count()) show('empty');
+          return;
+        }
       } catch (err) {
         endpointFailed = true;
         console.error('[KK] order endpoint failed:', err);
@@ -444,6 +503,27 @@
 
     // The bag has done its job.
     cart.clear();
+  }
+
+  /** Tell the buyer an item went while they were typing, without losing the rest. */
+  function soldOutNotice(names) {
+    const list = names.join(', ');
+    window.KK.toast(list + ' just sold out — removed from your bag', 'bad');
+
+    const host = $('[data-summary-items]');
+    if (host) {
+      const note = document.createElement('div');
+      note.className = 'panel panel--flame';
+      note.style.cssText = 'margin-bottom:14px;padding:14px 16px';
+      note.innerHTML =
+        '<strong style="font-size:13.5px;display:block;margin-bottom:4px">Just sold out</strong>' +
+        '<span style="font-size:12.5px;color:var(--muted)">' + esc(list) +
+        ' was claimed by someone else moments ago, so it has been taken out of your bag. ' +
+        'Everything else is still yours to order.</span>';
+      host.parentNode.insertBefore(note, host);
+      note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    renderSummary();
   }
 
   /* --- Events -------------------------------------------------------------- */

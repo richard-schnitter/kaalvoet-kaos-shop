@@ -101,6 +101,25 @@ window.KK_CONFIG = {
     endpointUrl: '',
     orderPrefix: 'KK',
     maxPopSizeMb: 8,
+
+    /* --- Automatic sold-out ---------------------------------------------
+       With an endpointUrl set, the shop asks it on every page load how many
+       of each SKU have already been claimed, subtracts that from the stock
+       in products.json, and anything at zero shows as SOLD OUT to everyone.
+       Claiming happens the moment an order is submitted, and the order page
+       re-checks immediately before submitting so two people cannot take the
+       same disc.
+
+       This needs the endpoint: a plain static site has no way to know what
+       another visitor claimed. Until endpointUrl is filled in, stock stays
+       exactly as products.json says and you mark items sold yourself in
+       manage.html.
+
+       liveStock:      false turns the whole thing off even with an endpoint
+       stockTimeoutMs: how long to wait before giving up and showing the
+                       products.json stock instead — the shop never hangs   */
+    liveStock: true,
+    stockTimeoutMs: 4000,
     // Shown to the buyer on the confirmation screen.
     confirmationNote: 'I check orders daily. You will get a WhatsApp from me to ' +
                       'confirm stock and arrange the hand-over.',

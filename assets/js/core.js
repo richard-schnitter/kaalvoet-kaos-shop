@@ -146,8 +146,75 @@
       p.stock = p.stock == null ? 1 : Number(p.stock);
       p.images = p.images || [];
       p.tags = p.tags || [];
+      // What products.json says we started with, before anyone claimed any.
+      p.baseStock = p.stock;
+      p.claimed = 0;
     });
+
+    applyClaims(await fetchClaims());
     return _catalogue;
+  }
+
+  /* --- Live stock --------------------------------------------------------
+     The shop is static, so products.json only knows the starting stock. The
+     order endpoint keeps the running claim count. We fold the two together
+     on load; if the endpoint is missing, slow or broken we simply show the
+     products.json stock rather than blocking the page.                    */
+
+  function stockEndpoint() {
+    if (CFG.orders.liveStock === false) return '';
+    return CFG.orders.stockUrl || CFG.orders.endpointUrl || '';
+  }
+
+  async function fetchClaims() {
+    const url = stockEndpoint();
+    if (!url) return null;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CFG.orders.stockTimeoutMs || 4000);
+
+    try {
+      const sep = url.indexOf('?') > -1 ? '&' : '?';
+      const res = await fetch(url + sep + 'stock=1&t=' + Date.now(), {
+        signal: controller.signal,
+        cache: 'no-store',
+        redirect: 'follow',
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      return data && data.claimed ? data.claimed : null;
+    } catch (err) {
+      // Not fatal: the shop still works, it just cannot see other people's claims.
+      console.warn('[KK] live stock unavailable, using products.json:', err.message);
+      return null;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  /** Subtract claimed quantities from the starting stock. Returns how many
+      products changed, so callers can re-render only when it matters. */
+  function applyClaims(claims) {
+    if (!claims || !_catalogue) return 0;
+    let changed = 0;
+
+    _catalogue.forEach((p) => {
+      const claimed = Number(claims[p.sku]) || 0;
+      const base = p.baseStock == null ? p.stock : p.baseStock;
+      const left = Math.max(0, base - claimed);
+      if (p.claimed !== claimed || p.stock !== left) changed++;
+      p.claimed = claimed;
+      p.stock = left;
+    });
+
+    return changed;
+  }
+
+  /** Re-read live stock on demand — used right before an order is submitted. */
+  async function refreshStock() {
+    const claims = await fetchClaims();
+    if (!claims) return { checked: false, changed: 0 };
+    return { checked: true, changed: applyClaims(claims), claims: claims };
   }
 
   function findProduct(id) {
@@ -371,6 +438,7 @@
     CFG, $, $$, esc, money, debounce, seeded,
     store, cart, buyer,
     loadProducts, findProduct, imageFor, hasPhoto, discArt,
+    fetchClaims, applyClaims, refreshStock, stockEndpoint,
     orderRef, toast, copy, renderChrome, updateCartButton,
     get catalogue() { return _catalogue || []; },
     set catalogue(v) { _catalogue = v; },

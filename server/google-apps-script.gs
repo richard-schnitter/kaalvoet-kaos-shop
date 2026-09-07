@@ -1,8 +1,12 @@
 /**
- * KAALVOET KAOS MERCH — free order receiver
+ * KAALVOET KAOS MERCH — order receiver and stock authority
  * ---------------------------------------------------------------------------
- * Logs every order into a Google Sheet and saves the proof of payment into a
- * Google Drive folder. Free, no server, no monthly fee.
+ * Does three jobs, all free, no server:
+ *
+ *   1. Logs every order into a Google Sheet.
+ *   2. Saves each proof of payment into a Google Drive folder.
+ *   3. Keeps the live claim count per SKU, so an item that has been claimed
+ *      shows as SOLD OUT to everyone else -- automatically.
  *
  * SETUP (about five minutes)
  *
@@ -19,17 +23,26 @@
  *  6. Copy the /exec web app URL it gives you.
  *  7. In assets/js/config.js set:
  *       orders: { mode: 'both', endpointUrl: 'PASTE_THE_URL_HERE', ... }
- *  8. Commit and push. Done — orders now land in the sheet automatically and
- *     the buyer can still send you the WhatsApp as a backup.
+ *  8. Commit and push. Orders now land in the sheet, and stock goes to
+ *     sold out on its own as people claim things.
  *
  * NOTE: after changing this script you must deploy a NEW VERSION
  * (Deploy > Manage deployments > pencil > Version: New version) or the old
  * code keeps running.
+ *
+ * ---------------------------------------------------------------------------
+ * FREEING UP AN ITEM AGAIN
+ *
+ * If somebody claims a disc and never pays, open the "Stock" sheet and lower
+ * that SKU's Claimed number (or set it to 0). The shop picks it up within a
+ * minute. Nothing else to do.
+ * ---------------------------------------------------------------------------
  */
 
 var NOTIFY_EMAIL = '';                    // e.g. 'richard@example.com' — blank disables email
 var DRIVE_FOLDER = 'Kaalvoet Kaos POPs';  // Drive folder for proof-of-payment files
 var SHEET_NAME   = 'Orders';
+var STOCK_SHEET  = 'Stock';
 
 var HEADERS = [
   'Received', 'Order ref', 'First name', 'Surname', 'Cell', 'Email',
@@ -38,20 +51,80 @@ var HEADERS = [
   'POP file', 'Status',
 ];
 
+var STOCK_HEADERS = ['SKU', 'Name', 'Claimed', 'Stock at order', 'Last claimed'];
+
+/* ======================================================================
+   Reading — the shop asks for live stock on every page load
+   ====================================================================== */
+
+function doGet(e) {
+  var p = (e && e.parameter) || {};
+  if (p.stock) {
+    return json({ ok: true, claimed: readClaims(), at: new Date().toISOString() });
+  }
+  return json({ ok: true, service: 'Kaalvoet Kaos order receiver' });
+}
+
+/** { SKU: claimedQty } for everything with a claim against it. */
+function readClaims() {
+  var sheet = getStockSheet();
+  var last = sheet.getLastRow();
+  var out = {};
+  if (last < 2) return out;
+
+  var rows = sheet.getRange(2, 1, last - 1, 3).getValues();
+  for (var i = 0; i < rows.length; i++) {
+    var sku = String(rows[i][0] || '').trim();
+    var claimed = Number(rows[i][2]) || 0;
+    if (sku && claimed > 0) out[sku] = claimed;
+  }
+  return out;
+}
+
+/* ======================================================================
+   Writing — an order claims its items
+   ====================================================================== */
+
 function doPost(e) {
+  // One writer at a time, so two people cannot claim the last disc at once.
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+  } catch (err) {
+    return json({ ok: false, error: 'busy, please try again' });
+  }
+
   try {
     var order = JSON.parse(e.postData.contents);
+    var items = order.items || [];
 
+    // 1. Check every item is still available before anything is written.
+    var claims = readClaims();
+    var unavailable = [];
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      var already = Number(claims[it.sku]) || 0;
+      var capacity = Number(it.stock);
+      // If the shop did not send a stock figure, do not block the order.
+      if (!isNaN(capacity) && already + Number(it.qty || 1) > capacity) {
+        unavailable.push({ sku: it.sku, name: it.name, left: Math.max(0, capacity - already) });
+      }
+    }
+
+    if (unavailable.length) {
+      return json({ ok: false, reason: 'unavailable', unavailable: unavailable, claimed: claims });
+    }
+
+    // 2. Save the proof of payment, if one came with the order.
     var popUrl = '';
     if (order.popDataUrl) {
       popUrl = savePop(order.popDataUrl, order.ref, order.pop && order.pop.name);
     }
 
+    // 3. Log the order.
     var sheet = getSheet();
-    var items = (order.items || []).map(function (it) {
-      return it.qty + ' x ' + it.name +
-        (it.variant ? ' (' + it.variant + ')' : '') +
-        ' @ R' + it.unitPrice;
+    var itemText = items.map(function (it) {
+      return it.qty + ' x ' + it.name + (it.variant ? ' (' + it.variant + ')' : '') + ' @ R' + it.unitPrice;
     }).join('\n');
 
     var c = order.customer || {};
@@ -64,14 +137,17 @@ function doPost(e) {
       c.firstName || '', c.lastName || '', "'" + (c.cell || ''), c.email || '',
       c.team || '', c.city || '', c.province || '',
       d.method || '', d.fee || 0, d.address || '',
-      items,
-      (order.items || []).reduce(function (n, it) { return n + it.qty; }, 0),
+      itemText,
+      items.reduce(function (n, it) { return n + Number(it.qty || 0); }, 0),
       t.subtotal || 0, t.total || 0,
       order.notes || '',
       order.marketingOptIn ? 'Yes' : 'No',
       popUrl || (order.pop ? order.pop.name + ' (not saved)' : 'None yet'),
       'NEW',
     ]);
+
+    // 4. Claim the stock.
+    claimItems(items);
 
     if (NOTIFY_EMAIL) {
       MailApp.sendEmail({
@@ -82,21 +158,51 @@ function doPost(e) {
       });
     }
 
-    return json({ ok: true, ref: order.ref });
+    return json({ ok: true, ref: order.ref, claimed: readClaims() });
   } catch (err) {
     // Never lose an order silently — log the raw body so it can be recovered.
     try {
       getSheet('Errors').appendRow([new Date(), String(err), e && e.postData ? e.postData.contents : '']);
     } catch (ignored) { /* nothing more we can do */ }
     return json({ ok: false, error: String(err) });
+  } finally {
+    lock.releaseLock();
   }
 }
 
-function doGet() {
-  return json({ ok: true, service: 'Kaalvoet Kaos order receiver' });
+/** Add each ordered item to the Stock sheet's claim tally. */
+function claimItems(items) {
+  var sheet = getStockSheet();
+  var last = sheet.getLastRow();
+  var rows = last > 1 ? sheet.getRange(2, 1, last - 1, STOCK_HEADERS.length).getValues() : [];
+
+  var index = {};
+  for (var i = 0; i < rows.length; i++) {
+    index[String(rows[i][0] || '').trim()] = i + 2;   // sheet row number
+  }
+
+  for (var j = 0; j < items.length; j++) {
+    var it = items[j];
+    if (!it.sku) continue;
+    var qty = Number(it.qty || 1);
+    var row = index[it.sku];
+
+    if (row) {
+      var current = Number(sheet.getRange(row, 3).getValue()) || 0;
+      sheet.getRange(row, 3).setValue(current + qty);
+      sheet.getRange(row, 5).setValue(new Date());
+    } else {
+      sheet.appendRow([it.sku, it.name || '', qty, it.stock == null ? '' : it.stock, new Date()]);
+      index[it.sku] = sheet.getLastRow();
+    }
+  }
 }
 
-/** Decode a data: URL and drop the file into Drive, returning a shareable link. */
+/* ======================================================================
+   Helpers
+   ====================================================================== */
+
+/** Decode a data: URL and drop the file into Drive, returning a link. */
 function savePop(dataUrl, ref, originalName) {
   var match = /^data:([^;]+);base64,(.*)$/.exec(dataUrl);
   if (!match) return '';
@@ -107,8 +213,7 @@ function savePop(dataUrl, ref, originalName) {
   var name = (ref || 'order') + '-POP.' + ext;
 
   var blob = Utilities.newBlob(bytes, mime, name);
-  var folder = getFolder(DRIVE_FOLDER);
-  var file = folder.createFile(blob);
+  var file = getFolder(DRIVE_FOLDER).createFile(blob);
   if (originalName) file.setDescription('Original filename: ' + originalName);
 
   return file.getUrl();
@@ -117,6 +222,18 @@ function savePop(dataUrl, ref, originalName) {
 function getFolder(name) {
   var it = DriveApp.getFoldersByName(name);
   return it.hasNext() ? it.next() : DriveApp.createFolder(name);
+}
+
+function getStockSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(STOCK_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(STOCK_SHEET);
+    sheet.appendRow(STOCK_HEADERS);
+    sheet.getRange(1, 1, 1, STOCK_HEADERS.length).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
 }
 
 function getSheet(name) {

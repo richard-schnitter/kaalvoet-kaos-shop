@@ -18,6 +18,35 @@
   const hero = disc.closest('.hero');
   if (!hero) return;
 
+  /* --- Extrude the side wall --------------------------------------------
+     A real disc is mostly rim. Stacking a handful of circles down the Z
+     axis gives genuine thickness that banks correctly in 3D, which a flat
+     image cannot do.                                                      */
+  (function buildRim() {
+    const body = disc.querySelector('[data-disc-body]');
+    const face = disc.querySelector('.disc__face');
+    if (!body || !face) return;
+
+    const LAYERS = 16;
+    const DEPTH = 2.4;          // px between layers
+    const frag = document.createDocumentFragment();
+
+    for (let i = 0; i < LAYERS; i++) {
+      const t = i / (LAYERS - 1);
+      const el = document.createElement('span');
+      el.className = 'disc__layer';
+      // Darker and very slightly tucked in as it goes back, so the rim
+      // curves under instead of reading as a flat cylinder.
+      const shade = Math.round(150 - t * 110);
+      const tuck = 1 - Math.pow(t, 2.2) * 0.07;
+      el.style.setProperty('--layer-tint',
+        'rgb(' + Math.round(shade * 0.62) + ',' + Math.round(shade * 0.34) + ',' + Math.round(shade * 0.20) + ')');
+      el.style.transform = 'translateZ(' + (-(i + 1) * DEPTH).toFixed(2) + 'px) scale(' + tuck.toFixed(4) + ')';
+      frag.appendChild(el);
+    }
+    body.insertBefore(frag, face);
+  })();
+
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* --- Tunables ---------------------------------------------------------- */
@@ -26,12 +55,13 @@
   const ARC   = -0.14;   // extra lift at the middle of the flight
   const SPIN  = 340;     // degrees of spin across the flight
   const IDLE  = 2.2;     // degrees per second while sitting still
-  const TILT  = 26;      // max bank toward the cursor, degrees
+  const TILT  = 24;      // max bank toward the cursor, degrees
+  const BASE  = 30;      // resting tilt, so the rim and thickness show
   const EASE  = 0.09;    // how quickly the disc catches up to its target
 
   /* --- Live state -------------------------------------------------------- */
-  const target = { x: 0, y: 0, rx: 14, ry: 0, rz: 0, scale: 1 };
-  const cur    = { x: 0, y: 0, rx: 14, ry: 0, rz: 0, scale: 1 };
+  const target = { x: 0, y: 0, rx: 30, ry: 0, rz: 0, scale: 1 };
+  const cur    = { x: 0, y: 0, rx: 30, ry: 0, rz: 0, scale: 1 };
 
   let pointer = { x: 0, y: 0, inside: false, near: 0 };
   let scrollP = 0;
@@ -107,7 +137,7 @@
 
     // Bank toward the cursor. Falls away as the disc flies off.
     const grip = pointer.near * (1 - p * 0.7);
-    target.rx = 14 - pointer.y * TILT * grip - p * 8;
+    target.rx = BASE - pointer.y * TILT * grip - p * 16;
     target.ry = pointer.x * TILT * grip;
 
     // Ease everything so nothing snaps.

@@ -126,20 +126,46 @@ Set by `orders.mode` in `assets/js/config.js`:
   endpoint is live.
 
 For a free endpoint, follow the setup comments at the top of `server/google-apps-script.gs`. It logs
-every order to a Google Sheet and drops each proof of payment into a Drive folder — about five minutes
-to set up, no monthly cost.
+every order to a Google Sheet, drops each proof of payment into a Drive folder, and keeps the live
+claim count that drives automatic sold-out — about five minutes to set up, no monthly cost.
+
+**Automatic sold-out only works once this is deployed.** Until then the shop shows whatever stock
+`products.json` says.
 
 If the endpoint ever fails, the confirmation screen tells the buyer to send the WhatsApp instead, so an
 order is never silently lost.
 
 ---
 
-## Stock rules
+## Stock and automatic sold-out
+
+`data/products.json` holds the **starting** stock. Who has claimed what is live state, and a static site
+has no way to know it on its own — so that part needs the endpoint.
+
+**With `orders.endpointUrl` set** (see below), it is automatic:
+
+1. Every page load asks the endpoint how many of each SKU are claimed.
+2. That is subtracted from the starting stock. Anything at zero shows **Sold** to everyone, greyed out,
+   with the add button disabled.
+3. Submitting an order claims its items immediately.
+4. The order page re-checks right before submitting, so if someone claims a disc while a buyer is
+   filling in the form, they are told it just sold out and it is dropped from their bag — the rest of
+   the order still goes through.
+5. The endpoint refuses an order that would oversell, even if two people hit submit at the same instant
+   (it takes a lock).
+
+If the endpoint is slow, down, or not configured, the shop falls back to the `products.json` stock and
+carries on — it never hangs or blocks an order. Set `orders.liveStock: false` to switch it off entirely.
+
+**To free an item up again** (someone claimed it and never paid), open the **Stock** sheet in your
+orders spreadsheet and lower that SKU's `Claimed` number. The shop picks it up on the next load.
+
+**Without an endpoint**, you mark things sold yourself: set stock to 0 in `manage.html`, then commit.
+
+Other rules:
 
 - `stock: 1` plus `unique: true` gives the **One of one** badge and stops quantity increases.
-- `stock: 0` marks it sold out — it stays visible but greys out. Untick *In stock only* to see them.
-- Discs aren't reserved when someone adds them to a bag. First proof of payment wins; the copy on the
-  site says so. Mark a disc `stock: 0` in `manage.html` once it's paid for.
+- `stock: 0` keeps the item visible but greyed out. Untick *In stock only* to see sold items.
 
 ---
 
