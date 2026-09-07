@@ -337,6 +337,66 @@
     }
   }
 
+  function tiers() {
+    return (window.KK.CFG.shop.tiers || []).slice();
+  }
+
+  /** Remembered per-tier prices, so the boxes keep their values. */
+  const tierPrices = {};
+
+  function renderTiers() {
+    const host = $('[data-tier-rows]');
+    if (!host) return;
+
+    const list = tiers();
+    const counts = {};
+    let untiered = 0;
+    state.products.forEach((p) => {
+      if (p.category !== 'discs') return;
+      if (p.tier) counts[p.tier] = (counts[p.tier] || 0) + 1;
+      else untiered++;
+    });
+
+    host.innerHTML = list.map((t) => {
+      const n = counts[t] || 0;
+      return '<div class="panel" style="padding:14px;background:var(--ink-3)">' +
+        '<div class="row-between" style="margin-bottom:9px">' +
+          '<strong style="font-size:13.5px">' + esc(t) + '</strong>' +
+          '<span style="font-size:11.5px;color:var(--muted-2)">' + n + ' disc' + (n === 1 ? '' : 's') + '</span>' +
+        '</div>' +
+        '<div class="row" style="gap:8px">' +
+          '<input class="cell-input" type="number" min="0" step="10" style="flex:1" ' +
+            'data-tier-price="' + esc(t) + '" value="' + (tierPrices[t] == null ? '' : tierPrices[t]) + '" placeholder="R">' +
+          '<button class="btn btn--ghost btn--sm" data-tier-set="' + esc(t) + '" type="button"' +
+            (n ? '' : ' disabled') + '>Apply</button>' +
+        '</div>' +
+      '</div>';
+    }).join('') +
+    (untiered
+      ? '<div class="panel" style="padding:14px;background:var(--ink-3);border-color:rgba(251,170,24,.35)">' +
+        '<strong style="font-size:13.5px;display:block;margin-bottom:6px">No group yet</strong>' +
+        '<span style="font-size:11.5px;color:var(--muted-2)">' + untiered + ' disc' + (untiered === 1 ? '' : 's') +
+        ' still ungrouped</span></div>'
+      : '');
+  }
+
+  function applyTierPrice(tier) {
+    const input = $('[data-tier-price="' + tier.replace(/"/g, '\\"') + '"]');
+    const value = Number(input && input.value);
+    if (!input || !input.value.trim() || isNaN(value)) {
+      window.KK.toast('Type a price for ' + tier + ' first', 'bad');
+      return 0;
+    }
+    tierPrices[tier] = value;
+
+    let n = 0;
+    state.products.forEach((p) => {
+      if (p.tier === tier) { p.price = value; n++; }
+    });
+    if (n) state.dirty = true;
+    return n;
+  }
+
   function nextSku(prefix) {
     let max = 0;
     state.products.forEach((p) => {
@@ -502,6 +562,7 @@
     let list = state.products.slice();
     if (state.filter === 'nophoto') list = list.filter((p) => !p.images.length);
     else if (state.filter === 'sold') list = list.filter((p) => p.stock <= 0);
+    else if (state.filter === 'untiered') list = list.filter((p) => p.category === 'discs' && !p.tier);
     else if (state.filter !== 'all') list = list.filter((p) => p.category === state.filter);
 
     if (state.query) {
@@ -536,6 +597,14 @@
           (p.price === 0 ? ' style="border-color:var(--warn)"' : '') + '></td>' +
         '<td><input class="cell-input" type="number" min="0" step="1" value="' + p.stock + '" data-edit="stock" data-id="' + esc(p.id) + '"></td>' +
         '<td><input class="cell-input" value="' + esc(p.condition || '') + '" data-edit="condition" data-id="' + esc(p.id) + '"></td>' +
+        '<td>' +
+          '<select class="cell-input" data-edit="tier" data-id="' + esc(p.id) + '">' +
+            '<option value="">—</option>' +
+            tiers().map((t) =>
+              '<option value="' + esc(t) + '"' + (p.tier === t ? ' selected' : '') + '>' + esc(t) + '</option>'
+            ).join('') +
+          '</select>' +
+        '</td>' +
         '<td style="white-space:nowrap">' +
           '<button class="icon-btn" data-editrow="' + esc(p.id) + '" type="button" title="Edit details" aria-label="Edit ' + esc(p.name) + '">' +
             '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>' +
@@ -554,6 +623,8 @@
       state.products.length + ' products' +
       (noPhoto ? ' · ' + noPhoto + ' without photos' : '') +
       (noPrice ? ' · ' + noPrice + ' without a price' : '');
+
+    renderTiers();
 
     $('[data-bulk-bar]').hidden = state.selected.size === 0;
     $('[data-sel-count]').textContent = state.selected.size;
@@ -621,11 +692,24 @@
     const p = editing;
     if (!p) return;
 
+    const tool = (i, op, label, icon) =>
+      '<button class="photo-tool" data-img-op="' + op + '" data-img-i="' + i + '" type="button" title="' +
+      label + '" aria-label="' + label + '">' + icon + '</button>';
+
+    const ROT_L = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h11a5 5 0 0 1 0 10h-3"/><path d="M6 5L3 8l3 3"/></svg>';
+    const ROT_R = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8H10a5 5 0 0 0 0 10h3"/><path d="M18 5l3 3-3 3"/></svg>';
+    const FLIP  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M8 7L3 12l5 5z"/><path d="M16 7l5 5-5 5z"/></svg>';
+
     const photos = p.images.length
       ? '<div class="photo-tray">' + p.images.map((src, i) =>
           '<div class="photo-tile" style="cursor:default">' +
             '<img src="' + esc(state.previews[src] || src) + '" alt="">' +
             '<button class="photo-tile__x" data-img-del="' + i + '" type="button" aria-label="Remove">&times;</button>' +
+            '<span class="photo-tools">' +
+              tool(i, 'rot-l', 'Rotate left', ROT_L) +
+              tool(i, 'rot-r', 'Rotate right', ROT_R) +
+              tool(i, 'flip', 'Flip', FLIP) +
+            '</span>' +
             '<span class="photo-tile__label">' + (i === 0 ? 'Main photo' : 'Photo ' + (i + 1)) +
               (i > 0 ? ' · <button data-img-main="' + i + '" type="button" style="color:var(--gold);text-decoration:underline">make main</button>' : '') +
             '</span>' +
@@ -682,6 +766,8 @@
             field('Stamp', 'stamp', p.stamp, { placeholder: 'Kaalvoet Kaos crest' }) +
             field('Colourway name', 'colorName', p.colorName, { placeholder: 'Sunset Riot' }) +
           '</div>' +
+          field('Group (yours only, never shown to buyers)', 'tier', p.tier || '',
+            { options: [''].concat(tiers()) }) +
           '<div class="field-grid">' +
             field('Main colour', 'color0', (p.colors || [])[0] || '#ff4d2e', {
               color: true, hint: 'Used for the placeholder art until a photo is added.' }) +
@@ -729,6 +815,54 @@
 
     state.dirty = true;
     $('[data-save]').textContent = 'Save changes •';
+  }
+
+  /* --- Rotating and flipping a photo -------------------------------------
+     Works on the full-quality pending blob when there is one, otherwise on
+     the file already on disk, so repeated turns never soften the image.  */
+
+  async function sourceBitmap(path) {
+    if (state.pending[path]) return createImageBitmap(state.pending[path]);
+    const res = await fetch(path + (path.indexOf('?') > -1 ? '&' : '?') + 't=' + Date.now());
+    if (!res.ok) throw new Error('could not read ' + path);
+    return createImageBitmap(await res.blob());
+  }
+
+  async function transformPhoto(index, op) {
+    const p = editing;
+    if (!p) return;
+    const path = p.images[index];
+    if (!path) return;
+
+    let bmp;
+    try {
+      bmp = await sourceBitmap(path);
+    } catch (e) {
+      window.KK.toast('Could not load that photo to edit it', 'bad');
+      return;
+    }
+
+    const quarter = op === 'rot-l' || op === 'rot-r';
+    const canvas = document.createElement('canvas');
+    canvas.width = quarter ? bmp.height : bmp.width;
+    canvas.height = quarter ? bmp.width : bmp.height;
+
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingQuality = 'high';
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    if (op === 'rot-l') ctx.rotate(-Math.PI / 2);
+    if (op === 'rot-r') ctx.rotate(Math.PI / 2);
+    if (op === 'flip') ctx.scale(-1, 1);
+    ctx.drawImage(bmp, -bmp.width / 2, -bmp.height / 2);
+    bmp.close && bmp.close();
+
+    const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
+    state.pending[path] = blob;
+    state.previews[path] = canvas.toDataURL('image/jpeg', 0.6);
+    state.dirty = true;
+
+    renderEditor();
+    render();
   }
 
   /* ======================================================================
@@ -856,6 +990,9 @@
       const field = el.dataset.edit;
       p[field] = (field === 'price' || field === 'stock') ? Number(el.value) || 0 : el.value;
       if (field === 'stock') p.unique = p.stock === 1 && p.category === 'discs';
+      // Re-render just the group panel, not the whole table, or the cell
+      // being edited would lose focus mid-keystroke.
+      if (field === 'tier') renderTiers();
       state.dirty = true;
       $('[data-save]').textContent = 'Save changes •';
     });
@@ -957,6 +1094,38 @@
       window.KK.toast('Stock set on ' + state.selected.size + ' products');
     });
 
+    $('[data-tier-rows]').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tier-set]');
+      if (!btn) return;
+      const tier = btn.dataset.tierSet;
+      const n = applyTierPrice(tier);
+      if (n) {
+        render();
+        window.KK.toast(tier + ': ' + n + ' disc' + (n === 1 ? '' : 's') + ' priced');
+      } else if ($('[data-tier-price="' + tier + '"]').value.trim()) {
+        window.KK.toast('No discs are in ' + tier + ' yet', 'info');
+      }
+    });
+
+    $('[data-tier-rows]').addEventListener('input', (e) => {
+      const box = e.target.closest('[data-tier-price]');
+      if (box) tierPrices[box.dataset.tierPrice] = box.value;
+    });
+
+    $('[data-tier-apply-all]').addEventListener('click', () => {
+      let total = 0;
+      let used = 0;
+      tiers().forEach((t) => {
+        const box = $('[data-tier-price="' + t + '"]');
+        if (!box || !box.value.trim()) return;
+        used++;
+        total += applyTierPrice(t);
+      });
+      if (!used) { window.KK.toast('Fill in at least one group price first', 'bad'); return; }
+      render();
+      window.KK.toast(total + ' disc' + (total === 1 ? '' : 's') + ' priced across ' + used + ' group(s)');
+    });
+
     $('[data-bulk-field-apply]').addEventListener('click', () => {
       const field = $('[data-bulk-field]').value;
       const raw = $('[data-bulk-value]').value.trim();
@@ -1049,6 +1218,14 @@
         state.dirty = true;
         renderEditor();
         render();
+        return;
+      }
+
+      const op = e.target.closest('[data-img-op]');
+      if (op) {
+        const btn = op;
+        btn.disabled = true;
+        await transformPhoto(Number(btn.dataset.imgI), btn.dataset.imgOp);
         return;
       }
 

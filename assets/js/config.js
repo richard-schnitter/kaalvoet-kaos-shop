@@ -130,6 +130,19 @@ window.KK_CONFIG = {
     currency: 'ZAR',
     currencySymbol: 'R',
     productsUrl: 'data/products.json',
+    /* --- Pricing tiers ----------------------------------------------------
+       Buckets you sort discs into so you can price a whole group at once in
+       manage.html. Rename, reorder or add to this list freely.
+
+       Tiers are INTERNAL. They never appear in the shop, so a disc graded
+       'Boring' is not labelled that to a buyer. If you do want a tier to
+       show a badge publicly, add it to tierBadges below with the wording
+       you want; anything not listed stays hidden.                        */
+    tiers: ['Coolest', 'Cool', 'Okay', 'Boring'],
+    tierBadges: {
+      // 'Coolest': 'Top pick',
+    },
+
     // Reserve stock messaging on one-of-one items
     uniqueBadge: 'One of one',
     lowStockAt: 3,

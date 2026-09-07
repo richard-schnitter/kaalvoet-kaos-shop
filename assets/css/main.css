@@ -1098,6 +1098,28 @@ textarea.input { resize: vertical; min-height: 92px; line-height: 1.55; }
 }
 .photo-tile__x:hover { background: var(--bad); }
 
+/* Rotate / flip controls, revealed on the tile. */
+.photo-tools {
+  position: absolute; top: 4px; left: 4px;
+  display: flex; gap: 3px;
+  opacity: 0;
+  transition: opacity 0.16s;
+}
+.photo-tile:hover .photo-tools,
+.photo-tile:focus-within .photo-tools { opacity: 1; }
+@media (hover: none) { .photo-tools { opacity: 1; } }
+.photo-tool {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(28, 15, 45, 0.86);
+  border: 1px solid var(--line-2);
+  color: var(--sand);
+  display: grid; place-items: center;
+  transition: background 0.16s, color 0.16s;
+}
+.photo-tool svg { width: 13px; height: 13px; }
+.photo-tool:hover { background: var(--gold); color: var(--on-gold); border-color: var(--gold); }
+.photo-tool:disabled { opacity: 0.5; cursor: wait; }
+
 .progress {
   height: 6px; border-radius: 999px; background: var(--ink-4); overflow: hidden;
 }

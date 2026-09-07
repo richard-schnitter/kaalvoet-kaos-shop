@@ -132,6 +132,8 @@
     if (p.stock <= 0) out.push('<span class="badge badge--out">Sold</span>');
     else {
       if (p.unique) out.push('<span class="badge badge--unique">' + esc(CFG.shop.uniqueBadge) + '</span>');
+      const tierBadge = p.tier && (CFG.shop.tierBadges || {})[p.tier];
+      if (tierBadge) out.push('<span class="badge badge--new">' + esc(tierBadge) + '</span>');
       if (p.compareAt && p.compareAt > p.price) out.push('<span class="badge badge--deal">Deal</span>');
       if (!p.unique && p.stock <= CFG.shop.lowStockAt) {
         out.push('<span class="badge badge--low">Only ' + p.stock + ' left</span>');

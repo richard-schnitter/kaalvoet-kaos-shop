@@ -111,6 +111,23 @@
     </div>
   </section>
 
+  <!-- ============ TIER PRICING ============ -->
+  <section class="panel" style="margin-bottom:18px" data-tier-panel>
+    <div class="row-between" style="flex-wrap:wrap;gap:12px">
+      <div>
+        <h2 class="panel__title">Price by group</h2>
+        <p class="panel__note" style="margin:6px 0 0;max-width:70ch">
+          Sort discs into groups, then price a whole group in one go. Set a product's group in the
+          <strong>Group</strong> column, or tick several and use the bulk bar. Groups are for your eyes
+          only &mdash; buyers never see them.
+        </p>
+      </div>
+      <button class="btn btn--ghost btn--sm" data-tier-apply-all type="button">Apply every price</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px"
+         data-tier-rows></div>
+  </section>
+
   <!-- ============ BULK ACTIONS ============ -->
   <div class="admin-bar" data-bulk-bar hidden>
     <strong style="font-size:13px"><span data-sel-count>0</span> selected</strong>
@@ -130,6 +147,7 @@
         <option value="brand">Brand</option>
         <option value="subcategory">Model / type</option>
         <option value="condition">Condition</option>
+        <option value="tier">Group</option>
         <option value="weight">Weight</option>
         <option value="colorName">Colourway</option>
         <option value="stamp">Stamp</option>
@@ -160,6 +178,7 @@
           <option value="apparel">Apparel</option>
           <option value="accessories">Accessories</option>
           <option value="sold">Sold out</option>
+          <option value="untiered">No group yet</option>
         </select>
         <button class="btn btn--ghost btn--sm" data-add-product type="button">+ Add product</button>
       </div>
@@ -178,6 +197,7 @@
             <th style="width:100px">Price</th>
             <th style="width:74px">Stock</th>
             <th style="min-width:130px">Condition</th>
+            <th style="width:118px">Group</th>
             <th style="width:84px">Edit</th>
           </tr>
         </thead>

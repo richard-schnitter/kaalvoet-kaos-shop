@@ -3,1530 +3,1732 @@
   "currency": "ZAR",
   "products": [
     {
-      "id": "disc-01",
+      "id": "kk-d01",
       "sku": "KK-D01",
-      "name": "Zone Sunset #01",
+      "name": "20260907 212441",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 500,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff4d2e",
-        "#2b1a14"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sunset Riot",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Hand-stamped one-off",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Sunset Riot. Finished with the Hand-stamped one-off. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D01-1.jpg"
+      ]
     },
     {
-      "id": "disc-02",
+      "id": "kk-d02",
       "sku": "KK-D02",
-      "name": "Handler Veld #02",
+      "name": "20260907 212448",
       "category": "discs",
-      "subcategory": "Ultra-Star SS",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 500,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#c6f24e",
-        "#16210a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Veld Lime",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Tournament stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Veld Lime. Finished with the Tournament stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D02-1.jpg"
+      ]
     },
     {
-      "id": "disc-03",
+      "id": "kk-d03",
       "sku": "KK-D03",
-      "name": "Boma Highveld #03",
+      "name": "20260907 212455",
       "category": "discs",
-      "subcategory": "Ultimate 175",
-      "brand": "Daredevil",
-      "price": 390,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#25c2e0",
-        "#06202b"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Highveld Blue",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Barefoot skull",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "daredevil",
-        "new"
+        "ultimate"
       ],
-      "description": "Canadian-made, grippy rim, brilliant in wind. Colourway: Highveld Blue. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D03-1.jpg"
+      ]
     },
     {
-      "id": "disc-04",
+      "id": "kk-d04",
       "sku": "KK-D04",
-      "name": "Static Bone #04",
+      "name": "20260907 212503",
       "category": "discs",
-      "subcategory": "Pulsar",
-      "brand": "Innova",
-      "price": 380,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#f4efe6",
-        "#111318"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Bone White",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Barefoot skull",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "innova",
-        "new"
+        "ultimate"
       ],
-      "description": "Deep grip rim, flies flat and forgiving. Colourway: Bone White. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D04-1.jpg"
+      ]
     },
     {
-      "id": "disc-05",
+      "id": "kk-d05",
       "sku": "KK-D05",
-      "name": "Cutter Night #05",
+      "name": "20260907 212511",
       "category": "discs",
-      "subcategory": "Ultimate Organic",
-      "brand": "Eurodisc",
-      "price": 400,
-      "compareAt": 420,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#2b2f38",
-        "#0d0f12"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Night Shift",
+      "colorName": "",
       "weight": "175 g",
-      "condition": "New, shelf worn",
-      "stamp": "Kaos bolt",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "eurodisc",
-        "deal"
+        "ultimate"
       ],
-      "description": "Bio-plastic build, WFDF approved. Colourway: Night Shift. Finished with the Kaos bolt. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D05-1.jpg"
+      ]
     },
     {
-      "id": "disc-06",
+      "id": "kk-d06",
       "sku": "KK-D06",
-      "name": "Dust Mielie #06",
+      "name": "20260907 212518",
       "category": "discs",
-      "subcategory": "Five Star",
-      "brand": "UltiPro",
-      "price": 430,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ffb703",
-        "#2a1c00"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Mielie Gold",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "ultipro",
-        "new"
+        "ultimate"
       ],
-      "description": "Euro tournament favourite, crisp release. Colourway: Mielie Gold. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D06-1.jpg"
+      ]
     },
     {
-      "id": "disc-07",
+      "id": "kk-d07",
       "sku": "KK-D07",
-      "name": "Zone Protea #07",
+      "name": "20260907 212524",
       "category": "discs",
-      "subcategory": "J-Star 145",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 320,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#e5397f",
-        "#2b0a19"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Protea Pink",
-      "weight": "145 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Lighter 145g junior disc, great for beginners. Colourway: Protea Pink. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D07-1.jpg"
+      ]
     },
     {
-      "id": "disc-08",
+      "id": "kk-d08",
       "sku": "KK-D08",
-      "name": "Kaos Ultraviolet #08",
+      "name": "20260907 212531",
       "category": "discs",
-      "subcategory": "Classic 165",
-      "brand": "Wham-O",
-      "price": 330,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#7a5cff",
-        "#160c33"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Ultraviolet",
-      "weight": "165 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "wham-o",
-        "new"
+        "ultimate"
       ],
-      "description": "Old-school flight, retro stamp. Colourway: Ultraviolet. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D08-1.jpg"
+      ]
     },
     {
-      "id": "disc-09",
+      "id": "kk-d09",
       "sku": "KK-D09",
-      "name": "Callahan Fynbos #09",
+      "name": "20260907 212543",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 480,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#1fbf75",
-        "#04241a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Fynbos Green",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Barefoot skull",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Fynbos Green. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D09-1.jpg"
+      ]
     },
     {
-      "id": "disc-10",
+      "id": "kk-d10",
       "sku": "KK-D10",
-      "name": "Callahan Dust #10",
+      "name": "20260907 211457",
       "category": "discs",
-      "subcategory": "Ultra-Star SS",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 530,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff7a00",
-        "#2b1400"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Dust Orange",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Hand-stamped one-off",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Dust Orange. Finished with the Hand-stamped one-off. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D10-1.jpg"
+      ]
     },
     {
-      "id": "disc-11",
+      "id": "kk-d11",
       "sku": "KK-D11",
-      "name": "Handler Sand #11",
+      "name": "20260907 211505",
       "category": "discs",
-      "subcategory": "Ultimate 175",
-      "brand": "Daredevil",
-      "price": 370,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#d8d3c8",
-        "#1a1815"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sand Storm",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Barefoot skull",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "daredevil",
-        "new"
+        "ultimate"
       ],
-      "description": "Canadian-made, grippy rim, brilliant in wind. Colourway: Sand Storm. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D11-1.jpg"
+      ]
     },
     {
-      "id": "disc-12",
+      "id": "kk-d12",
       "sku": "KK-D12",
-      "name": "Greatest Teal #12",
+      "name": "20260907 211518",
       "category": "discs",
-      "subcategory": "Pulsar",
-      "brand": "Innova",
-      "price": 350,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#00e5b0",
-        "#032620"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Teal Tide",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Tournament stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "innova",
-        "new"
+        "ultimate"
       ],
-      "description": "Deep grip rim, flies flat and forgiving. Colourway: Teal Tide. Finished with the Tournament stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D12-1.jpg"
+      ]
     },
     {
-      "id": "disc-13",
+      "id": "kk-d13",
       "sku": "KK-D13",
-      "name": "Rise Sunset #13",
+      "name": "20260907 211526",
       "category": "discs",
-      "subcategory": "Ultimate Organic",
-      "brand": "Eurodisc",
-      "price": 370,
-      "compareAt": 420,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff4d2e",
-        "#2b1a14"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sunset Riot",
+      "colorName": "",
       "weight": "175 g",
-      "condition": "Sample stamp",
-      "stamp": "Tournament stamp",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "eurodisc",
-        "deal"
+        "ultimate"
       ],
-      "description": "Bio-plastic build, WFDF approved. Colourway: Sunset Riot. Finished with the Tournament stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D13-1.jpg"
+      ]
     },
     {
-      "id": "disc-14",
+      "id": "kk-d14",
       "sku": "KK-D14",
-      "name": "Barefoot Veld #14",
+      "name": "20260907 211534",
       "category": "discs",
-      "subcategory": "Five Star",
-      "brand": "UltiPro",
-      "price": 490,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#c6f24e",
-        "#16210a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Veld Lime",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Team script",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "ultipro",
-        "new"
+        "ultimate"
       ],
-      "description": "Euro tournament favourite, crisp release. Colourway: Veld Lime. Finished with the Team script. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D14-1.jpg"
+      ]
     },
     {
-      "id": "disc-15",
+      "id": "kk-d15",
       "sku": "KK-D15",
-      "name": "Braai Highveld #15",
+      "name": "20260907 211554",
       "category": "discs",
-      "subcategory": "J-Star 145",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 320,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#25c2e0",
-        "#06202b"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Highveld Blue",
-      "weight": "145 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Tournament stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Lighter 145g junior disc, great for beginners. Colourway: Highveld Blue. Finished with the Tournament stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D15-1.jpg"
+      ]
     },
     {
-      "id": "disc-16",
+      "id": "kk-d16",
       "sku": "KK-D16",
-      "name": "Thunder Bone #16",
+      "name": "20260907 211602",
       "category": "discs",
-      "subcategory": "Classic 165",
-      "brand": "Wham-O",
-      "price": 320,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#f4efe6",
-        "#111318"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Bone White",
-      "weight": "165 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Barefoot skull",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "wham-o",
-        "new"
+        "ultimate"
       ],
-      "description": "Old-school flight, retro stamp. Colourway: Bone White. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D16-1.jpg"
+      ]
     },
     {
-      "id": "disc-17",
+      "id": "kk-d17",
       "sku": "KK-D17",
-      "name": "Scoober Night #17",
+      "name": "20260907 211611",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 480,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#2b2f38",
-        "#0d0f12"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Night Shift",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Night Shift. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D17-1.jpg"
+      ]
     },
     {
-      "id": "disc-18",
+      "id": "kk-d18",
       "sku": "KK-D18",
-      "name": "Cutter Mielie #18",
+      "name": "20260907 211617",
       "category": "discs",
-      "subcategory": "Ultra-Star SS",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 540,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ffb703",
-        "#2a1c00"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Mielie Gold",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Mielie Gold. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D18-1.jpg"
+      ]
     },
     {
-      "id": "disc-19",
+      "id": "kk-d19",
       "sku": "KK-D19",
-      "name": "Cutter Protea #19",
+      "name": "20260907 211624",
       "category": "discs",
-      "subcategory": "Ultimate 175",
-      "brand": "Daredevil",
-      "price": 430,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#e5397f",
-        "#2b0a19"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Protea Pink",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "daredevil",
-        "new"
+        "ultimate"
       ],
-      "description": "Canadian-made, grippy rim, brilliant in wind. Colourway: Protea Pink. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D19-1.jpg"
+      ]
     },
     {
-      "id": "disc-20",
+      "id": "kk-d20",
       "sku": "KK-D20",
-      "name": "Scoober Ultraviolet #20",
+      "name": "20260907 211630",
       "category": "discs",
-      "subcategory": "Pulsar",
-      "brand": "Innova",
-      "price": 380,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#7a5cff",
-        "#160c33"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Ultraviolet",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Hand-stamped one-off",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "innova",
-        "new"
+        "ultimate"
       ],
-      "description": "Deep grip rim, flies flat and forgiving. Colourway: Ultraviolet. Finished with the Hand-stamped one-off. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D20-1.jpg"
+      ]
     },
     {
-      "id": "disc-21",
+      "id": "kk-d21",
       "sku": "KK-D21",
-      "name": "Cutter Fynbos #21",
+      "name": "20260907 211638",
       "category": "discs",
-      "subcategory": "Ultimate Organic",
-      "brand": "Eurodisc",
-      "price": 400,
-      "compareAt": 420,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#1fbf75",
-        "#04241a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Fynbos Green",
+      "colorName": "",
       "weight": "175 g",
-      "condition": "New, shelf worn",
-      "stamp": "Blank / no stamp",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "eurodisc",
-        "deal"
+        "ultimate"
       ],
-      "description": "Bio-plastic build, WFDF approved. Colourway: Fynbos Green. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D21-1.jpg"
+      ]
     },
     {
-      "id": "disc-22",
+      "id": "kk-d22",
       "sku": "KK-D22",
-      "name": "Dust Dust #22",
+      "name": "20260907 211644",
       "category": "discs",
-      "subcategory": "Five Star",
-      "brand": "UltiPro",
-      "price": 480,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff7a00",
-        "#2b1400"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Dust Orange",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Team script",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "ultipro",
-        "new"
+        "ultimate"
       ],
-      "description": "Euro tournament favourite, crisp release. Colourway: Dust Orange. Finished with the Team script. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D22-1.jpg"
+      ]
     },
     {
-      "id": "disc-23",
+      "id": "kk-d23",
       "sku": "KK-D23",
-      "name": "Hammer Sand #23",
+      "name": "20260907 211703",
       "category": "discs",
-      "subcategory": "J-Star 145",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 350,
-      "compareAt": 320,
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#d8d3c8",
-        "#1a1815"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sand Storm",
-      "weight": "145 g",
-      "condition": "New, shelf worn",
-      "stamp": "Team script",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "deal"
+        "ultimate"
       ],
-      "description": "Lighter 145g junior disc, great for beginners. Colourway: Sand Storm. Finished with the Team script. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D23-1.jpg"
+      ]
     },
     {
-      "id": "disc-24",
+      "id": "kk-d24",
       "sku": "KK-D24",
-      "name": "Handler Teal #24",
+      "name": "20260907 211732",
       "category": "discs",
-      "subcategory": "Classic 165",
-      "brand": "Wham-O",
-      "price": 270,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#00e5b0",
-        "#032620"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Teal Tide",
-      "weight": "165 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Tournament stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "wham-o",
-        "new"
+        "ultimate"
       ],
-      "description": "Old-school flight, retro stamp. Colourway: Teal Tide. Finished with the Tournament stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D24-1.jpg"
+      ]
     },
     {
-      "id": "disc-25",
+      "id": "kk-d25",
       "sku": "KK-D25",
-      "name": "Cutter Sunset #25",
+      "name": "20260907 211740",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 420,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff4d2e",
-        "#2b1a14"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sunset Riot",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Sunset Riot. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D25-1.jpg"
+      ]
     },
     {
-      "id": "disc-26",
+      "id": "kk-d26",
       "sku": "KK-D26",
-      "name": "Greatest Veld #26",
+      "name": "20260907 211749",
       "category": "discs",
-      "subcategory": "Ultra-Star SS",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 460,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#c6f24e",
-        "#16210a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Veld Lime",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Veld Lime. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D26-1.jpg"
+      ]
     },
     {
-      "id": "disc-27",
+      "id": "kk-d27",
       "sku": "KK-D27",
-      "name": "Break Highveld #27",
+      "name": "20260907 211759",
       "category": "discs",
-      "subcategory": "Ultimate 175",
-      "brand": "Daredevil",
-      "price": 390,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#25c2e0",
-        "#06202b"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Highveld Blue",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "daredevil",
-        "new"
+        "ultimate"
       ],
-      "description": "Canadian-made, grippy rim, brilliant in wind. Colourway: Highveld Blue. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D27-1.jpg"
+      ]
     },
     {
-      "id": "disc-28",
+      "id": "kk-d28",
       "sku": "KK-D28",
-      "name": "Flick Bone #28",
+      "name": "20260907 211808",
       "category": "discs",
-      "subcategory": "Pulsar",
-      "brand": "Innova",
-      "price": 420,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#f4efe6",
-        "#111318"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Bone White",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Team script",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "innova",
-        "new"
+        "ultimate"
       ],
-      "description": "Deep grip rim, flies flat and forgiving. Colourway: Bone White. Finished with the Team script. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D28-1.jpg"
+      ]
     },
     {
-      "id": "disc-29",
+      "id": "kk-d29",
       "sku": "KK-D29",
-      "name": "Hammer Night #29",
+      "name": "20260907 211815",
       "category": "discs",
-      "subcategory": "Ultimate Organic",
-      "brand": "Eurodisc",
-      "price": 460,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#2b2f38",
-        "#0d0f12"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Night Shift",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "eurodisc",
-        "new"
+        "ultimate"
       ],
-      "description": "Bio-plastic build, WFDF approved. Colourway: Night Shift. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D29-1.jpg"
+      ]
     },
     {
-      "id": "disc-30",
+      "id": "kk-d30",
       "sku": "KK-D30",
-      "name": "Koppie Mielie #30",
+      "name": "20260907 211839",
       "category": "discs",
-      "subcategory": "Five Star",
-      "brand": "UltiPro",
-      "price": 390,
-      "compareAt": 440,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ffb703",
-        "#2a1c00"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Mielie Gold",
+      "colorName": "",
       "weight": "175 g",
-      "condition": "New, shelf worn",
-      "stamp": "Barefoot skull",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "ultipro",
-        "deal"
+        "ultimate"
       ],
-      "description": "Euro tournament favourite, crisp release. Colourway: Mielie Gold. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D30-1.jpg"
+      ]
     },
     {
-      "id": "disc-31",
+      "id": "kk-d31",
       "sku": "KK-D31",
-      "name": "Braai Protea #31",
+      "name": "20260907 211850",
       "category": "discs",
-      "subcategory": "J-Star 145",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 360,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#e5397f",
-        "#2b0a19"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Protea Pink",
-      "weight": "145 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Barefoot skull",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Lighter 145g junior disc, great for beginners. Colourway: Protea Pink. Finished with the Barefoot skull. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D31-1.jpg"
+      ]
     },
     {
-      "id": "disc-32",
+      "id": "kk-d32",
       "sku": "KK-D32",
-      "name": "Callahan Ultraviolet #32",
+      "name": "20260907 211905",
       "category": "discs",
-      "subcategory": "Classic 165",
-      "brand": "Wham-O",
-      "price": 270,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#7a5cff",
-        "#160c33"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Ultraviolet",
-      "weight": "165 g",
+      "colorName": "",
+      "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "wham-o",
-        "new"
+        "ultimate"
       ],
-      "description": "Old-school flight, retro stamp. Colourway: Ultraviolet. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D32-1.jpg"
+      ]
     },
     {
-      "id": "disc-33",
+      "id": "kk-d33",
       "sku": "KK-D33",
-      "name": "Hammer Fynbos #33",
+      "name": "20260907 211914",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 430,
-      "compareAt": 460,
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#1fbf75",
-        "#04241a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Fynbos Green",
+      "colorName": "",
       "weight": "175 g",
-      "condition": "New, shelf worn",
-      "stamp": "Team script",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "deal"
+        "ultimate"
       ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Fynbos Green. Finished with the Team script. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D33-1.jpg"
+      ]
     },
     {
-      "id": "disc-34",
+      "id": "kk-d34",
       "sku": "KK-D34",
-      "name": "Veld Dust #34",
+      "name": "20260907 211923",
       "category": "discs",
-      "subcategory": "Ultra-Star SS",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 520,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff7a00",
-        "#2b1400"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Dust Orange",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Dust Orange. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D34-1.jpg"
+      ]
     },
     {
-      "id": "disc-35",
+      "id": "kk-d35",
       "sku": "KK-D35",
-      "name": "Callahan Sand #35",
+      "name": "20260907 211945",
       "category": "discs",
-      "subcategory": "Ultimate 175",
-      "brand": "Daredevil",
-      "price": 380,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#d8d3c8",
-        "#1a1815"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sand Storm",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Kaos bolt",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "daredevil",
-        "new"
+        "ultimate"
       ],
-      "description": "Canadian-made, grippy rim, brilliant in wind. Colourway: Sand Storm. Finished with the Kaos bolt. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D35-1.jpg"
+      ]
     },
     {
-      "id": "disc-36",
+      "id": "kk-d36",
       "sku": "KK-D36",
-      "name": "Pull Teal #36",
+      "name": "20260907 211953",
       "category": "discs",
-      "subcategory": "Pulsar",
-      "brand": "Innova",
-      "price": 350,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#00e5b0",
-        "#032620"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Teal Tide",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "innova",
-        "new"
+        "ultimate"
       ],
-      "description": "Deep grip rim, flies flat and forgiving. Colourway: Teal Tide. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D36-1.jpg"
+      ]
     },
     {
-      "id": "disc-37",
+      "id": "kk-d37",
       "sku": "KK-D37",
-      "name": "Sundowner Sunset #37",
+      "name": "20260907 212001",
       "category": "discs",
-      "subcategory": "Ultimate Organic",
-      "brand": "Eurodisc",
-      "price": 400,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#ff4d2e",
-        "#2b1a14"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sunset Riot",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "eurodisc",
-        "new"
+        "ultimate"
       ],
-      "description": "Bio-plastic build, WFDF approved. Colourway: Sunset Riot. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D37-1.jpg"
+      ]
     },
     {
-      "id": "disc-38",
+      "id": "kk-d38",
       "sku": "KK-D38",
-      "name": "Scoober Veld #38",
+      "name": "20260907 212012",
       "category": "discs",
-      "subcategory": "Five Star",
-      "brand": "UltiPro",
-      "price": 440,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#c6f24e",
-        "#16210a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Veld Lime",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Blank / no stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "ultipro",
-        "new"
+        "ultimate"
       ],
-      "description": "Euro tournament favourite, crisp release. Colourway: Veld Lime. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D38-1.jpg"
+      ]
     },
     {
-      "id": "disc-39",
+      "id": "kk-d39",
       "sku": "KK-D39",
-      "name": "Cutter Highveld #39",
+      "name": "20260907 212031",
       "category": "discs",
-      "subcategory": "J-Star 145",
+      "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 350,
-      "compareAt": 320,
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#25c2e0",
-        "#06202b"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Highveld Blue",
-      "weight": "145 g",
-      "condition": "New, shelf worn",
-      "stamp": "Kaalvoet Kaos crest",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "deal"
+        "ultimate"
       ],
-      "description": "Lighter 145g junior disc, great for beginners. Colourway: Highveld Blue. Finished with the Kaalvoet Kaos crest. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D39-1.jpg"
+      ]
     },
     {
-      "id": "disc-40",
+      "id": "kk-d40",
       "sku": "KK-D40",
-      "name": "Zone Bone #40",
+      "name": "20260907 212039",
       "category": "discs",
-      "subcategory": "Classic 165",
-      "brand": "Wham-O",
-      "price": 300,
-      "compareAt": 300,
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#f4efe6",
-        "#111318"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Bone White",
-      "weight": "165 g",
-      "condition": "New, shelf worn",
-      "stamp": "Factory stamp",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "wham-o",
-        "deal"
+        "ultimate"
       ],
-      "description": "Old-school flight, retro stamp. Colourway: Bone White. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D40-1.jpg"
+      ]
     },
     {
-      "id": "disc-41",
+      "id": "kk-d41",
       "sku": "KK-D41",
-      "name": "Braai Night #41",
+      "name": "20260907 212048",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 490,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#2b2f38",
-        "#0d0f12"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Night Shift",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Tournament stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Night Shift. Finished with the Tournament stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D41-1.jpg"
+      ]
     },
     {
-      "id": "disc-42",
+      "id": "kk-d42",
       "sku": "KK-D42",
-      "name": "Handler Mielie #42",
-      "category": "discs",
-      "subcategory": "Ultra-Star SS",
-      "brand": "Discraft",
-      "price": 500,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#ffb703",
-        "#2a1c00"
-      ],
-      "colorName": "Mielie Gold",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "Hand-stamped one-off",
-      "tags": [
-        "ultimate",
-        "discraft",
-        "new"
-      ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Mielie Gold. Finished with the Hand-stamped one-off. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-43",
-      "sku": "KK-D43",
-      "name": "Rise Protea #43",
-      "category": "discs",
-      "subcategory": "Ultimate 175",
-      "brand": "Daredevil",
-      "price": 350,
-      "compareAt": 390,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#e5397f",
-        "#2b0a19"
-      ],
-      "colorName": "Protea Pink",
-      "weight": "175 g",
-      "condition": "Sample stamp",
-      "stamp": "Blank / no stamp",
-      "tags": [
-        "ultimate",
-        "daredevil",
-        "deal"
-      ],
-      "description": "Canadian-made, grippy rim, brilliant in wind. Colourway: Protea Pink. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-44",
-      "sku": "KK-D44",
-      "name": "Dust Ultraviolet #44",
-      "category": "discs",
-      "subcategory": "Pulsar",
-      "brand": "Innova",
-      "price": 390,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#7a5cff",
-        "#160c33"
-      ],
-      "colorName": "Ultraviolet",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "Factory stamp",
-      "tags": [
-        "ultimate",
-        "innova",
-        "new"
-      ],
-      "description": "Deep grip rim, flies flat and forgiving. Colourway: Ultraviolet. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-45",
-      "sku": "KK-D45",
-      "name": "Braai Fynbos #45",
-      "category": "discs",
-      "subcategory": "Ultimate Organic",
-      "brand": "Eurodisc",
-      "price": 380,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#1fbf75",
-        "#04241a"
-      ],
-      "colorName": "Fynbos Green",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "Blank / no stamp",
-      "tags": [
-        "ultimate",
-        "eurodisc",
-        "new"
-      ],
-      "description": "Bio-plastic build, WFDF approved. Colourway: Fynbos Green. Clean blank face, bring your own sharpie art. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-46",
-      "sku": "KK-D46",
-      "name": "Layout Dust #46",
-      "category": "discs",
-      "subcategory": "Five Star",
-      "brand": "UltiPro",
-      "price": 350,
-      "compareAt": 440,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#ff7a00",
-        "#2b1400"
-      ],
-      "colorName": "Dust Orange",
-      "weight": "175 g",
-      "condition": "Sample stamp",
-      "stamp": "Kaalvoet Kaos crest",
-      "tags": [
-        "ultimate",
-        "ultipro",
-        "deal"
-      ],
-      "description": "Euro tournament favourite, crisp release. Colourway: Dust Orange. Finished with the Kaalvoet Kaos crest. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-47",
-      "sku": "KK-D47",
-      "name": "Scoober Sand #47",
-      "category": "discs",
-      "subcategory": "J-Star 145",
-      "brand": "Discraft",
-      "price": 380,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#d8d3c8",
-        "#1a1815"
-      ],
-      "colorName": "Sand Storm",
-      "weight": "145 g",
-      "condition": "Brand new",
-      "stamp": "Team script",
-      "tags": [
-        "ultimate",
-        "discraft",
-        "new"
-      ],
-      "description": "Lighter 145g junior disc, great for beginners. Colourway: Sand Storm. Finished with the Team script. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-48",
-      "sku": "KK-D48",
-      "name": "Hammer Teal #48",
-      "category": "discs",
-      "subcategory": "Classic 165",
-      "brand": "Wham-O",
-      "price": 340,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#00e5b0",
-        "#032620"
-      ],
-      "colorName": "Teal Tide",
-      "weight": "165 g",
-      "condition": "Brand new",
-      "stamp": "Kaos bolt",
-      "tags": [
-        "ultimate",
-        "wham-o",
-        "new"
-      ],
-      "description": "Old-school flight, retro stamp. Colourway: Teal Tide. Finished with the Kaos bolt. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-49",
-      "sku": "KK-D49",
-      "name": "Thunder Sunset #49",
+      "name": "20260907 212058",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 350,
-      "compareAt": 460,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#ff4d2e",
-        "#2b1a14"
-      ],
-      "colorName": "Sunset Riot",
-      "weight": "175 g",
-      "condition": "Sample stamp",
-      "stamp": "Kaalvoet Kaos crest",
-      "tags": [
-        "ultimate",
-        "discraft",
-        "deal"
-      ],
-      "description": "The championship standard. 175g, 27.5cm. Colourway: Sunset Riot. Finished with the Kaalvoet Kaos crest. Only one of this exact disc in the crate.",
-      "images": []
-    },
-    {
-      "id": "disc-50",
-      "sku": "KK-D50",
-      "name": "Boma Veld #50",
-      "category": "discs",
-      "subcategory": "Ultra-Star SS",
-      "brand": "Discraft",
-      "price": 480,
+      "price": 0,
       "compareAt": null,
       "stock": 1,
       "unique": true,
       "colors": [
-        "#c6f24e",
-        "#16210a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Veld Lime",
+      "colorName": "",
       "weight": "175 g",
       "condition": "Brand new",
-      "stamp": "Factory stamp",
+      "stamp": "",
       "tags": [
-        "ultimate",
-        "discraft",
-        "new"
+        "ultimate"
       ],
-      "description": "Super Soft skin, kinder on cold-morning hands. Colourway: Veld Lime. Finished with the Factory stamp. Only one of this exact disc in the crate.",
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D42-1.jpg"
+      ]
     },
     {
-      "id": "sock-01",
-      "sku": "KK-S01",
-      "name": "Kaos Crew Socks, Bolt",
-      "category": "apparel",
-      "subcategory": "Socks",
-      "brand": "Kaalvoet Kaos",
-      "price": 160,
+      "id": "kk-d43",
+      "sku": "KK-D43",
+      "name": "20260907 212106",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
-      "stock": 24,
-      "unique": false,
+      "stock": 1,
+      "unique": true,
       "colors": [
-        "#c6f24e",
-        "#16210a"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Veld Lime",
-      "variantLabel": "Size",
-      "variants": [
-        "S (3-5)",
-        "M (6-8)",
-        "L (9-11)",
-        "XL (12-14)"
-      ],
-      "description": "Cushioned crew sock with a reinforced heel, because cleats are cruel. Lime bolt down the calf.",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "socks",
-        "apparel"
+        "ultimate"
       ],
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D43-1.jpg"
+      ]
     },
     {
-      "id": "sock-02",
-      "sku": "KK-S02",
-      "name": "Kaos Crew Socks, Night Shift",
-      "category": "apparel",
-      "subcategory": "Socks",
-      "brand": "Kaalvoet Kaos",
-      "price": 160,
+      "id": "kk-d44",
+      "sku": "KK-D44",
+      "name": "20260907 212114",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
-      "stock": 18,
-      "unique": false,
+      "stock": 1,
+      "unique": true,
       "colors": [
-        "#2b2f38",
-        "#0d0f12"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Night Shift",
-      "variantLabel": "Size",
-      "variants": [
-        "S (3-5)",
-        "M (6-8)",
-        "L (9-11)",
-        "XL (12-14)"
-      ],
-      "description": "The all-black pair for when the kit clashes with everything. Same cushioning, less shouting.",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "socks",
-        "apparel"
+        "ultimate"
       ],
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D44-1.jpg"
+      ]
     },
     {
-      "id": "tee-01",
-      "sku": "KK-T01",
-      "name": "Kaalvoet Kaos Tee",
-      "category": "apparel",
-      "subcategory": "Shirts",
-      "brand": "Kaalvoet Kaos",
-      "price": 380,
+      "id": "kk-d45",
+      "sku": "KK-D45",
+      "name": "20260907 212121",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
-      "stock": 30,
-      "unique": false,
+      "stock": 1,
+      "unique": true,
       "colors": [
-        "#f4efe6",
-        "#1a1815"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Bone White",
-      "variantLabel": "Size",
-      "variants": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ],
-      "description": "Heavyweight 190gsm cotton tee, screen-printed crest on the chest and a big back print.",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "shirt",
-        "apparel"
+        "ultimate"
       ],
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D45-1.jpg"
+      ]
     },
     {
-      "id": "tee-02",
-      "sku": "KK-T02",
-      "name": "Kaos Training Jersey",
-      "category": "apparel",
-      "subcategory": "Shirts",
-      "brand": "Kaalvoet Kaos",
-      "price": 520,
+      "id": "kk-d46",
+      "sku": "KK-D46",
+      "name": "20260907 212128",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
-      "stock": 16,
-      "unique": false,
+      "stock": 1,
+      "unique": true,
       "colors": [
-        "#ff4d2e",
-        "#2b1a14"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Sunset Riot",
-      "variantLabel": "Size",
-      "variants": [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL"
-      ],
-      "description": "Sublimated moisture-wicking jersey. Light enough for a Bloem summer, tough enough for a layout.",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "shirt",
-        "jersey",
-        "apparel"
+        "ultimate"
       ],
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D46-1.jpg"
+      ]
     },
     {
-      "id": "cap-01",
-      "sku": "KK-A01",
-      "name": "Sundowner Bucket Hat",
-      "category": "accessories",
-      "subcategory": "Headwear",
-      "brand": "Kaalvoet Kaos",
-      "price": 290,
+      "id": "kk-d47",
+      "sku": "KK-D47",
+      "name": "20260907 212137",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
-      "stock": 12,
-      "unique": false,
+      "stock": 1,
+      "unique": true,
       "colors": [
-        "#ffb703",
-        "#2a1c00"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Mielie Gold",
-      "variantLabel": "Size",
-      "variants": [
-        "S/M",
-        "L/XL"
-      ],
-      "description": "Sideline shade with an embroidered crest. Survives tournaments and the after-party.",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "hat",
-        "accessories"
+        "ultimate"
       ],
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D47-1.jpg"
+      ]
     },
     {
-      "id": "bag-01",
-      "sku": "KK-A02",
-      "name": "Disc Sleeve, holds 5",
-      "category": "accessories",
-      "subcategory": "Bags",
-      "brand": "Kaalvoet Kaos",
-      "price": 240,
+      "id": "kk-d48",
+      "sku": "KK-D48",
+      "name": "20260907 212223",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
       "compareAt": null,
-      "stock": 20,
-      "unique": false,
+      "stock": 1,
+      "unique": true,
       "colors": [
-        "#25c2e0",
-        "#06202b"
+        "#f57e25",
+        "#2e1342"
       ],
-      "colorName": "Highveld Blue",
-      "description": "Padded sleeve that keeps five discs flat and un-warped in the boot of your car.",
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
       "tags": [
-        "bag",
-        "accessories"
+        "ultimate"
       ],
-      "images": []
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D48-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d49",
+      "sku": "KK-D49",
+      "name": "20260907 212230",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D49-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d50",
+      "sku": "KK-D50",
+      "name": "20260907 212238",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D50-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d51",
+      "sku": "KK-D51",
+      "name": "20260907 212246",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D51-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d52",
+      "sku": "KK-D52",
+      "name": "20260907 212255",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D52-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d53",
+      "sku": "KK-D53",
+      "name": "20260907 212301",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D53-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d54",
+      "sku": "KK-D54",
+      "name": "20260907 212311",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D54-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d55",
+      "sku": "KK-D55",
+      "name": "20260907 212318",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D55-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d56",
+      "sku": "KK-D56",
+      "name": "20260907 212326",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D56-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d57",
+      "sku": "KK-D57",
+      "name": "20260907 212332",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D57-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d58",
+      "sku": "KK-D58",
+      "name": "20260907 212339",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D58-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d59",
+      "sku": "KK-D59",
+      "name": "20260907 212346",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D59-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d60",
+      "sku": "KK-D60",
+      "name": "20260907 212354",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D60-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d61",
+      "sku": "KK-D61",
+      "name": "20260907 212404",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D61-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d62",
+      "sku": "KK-D62",
+      "name": "20260907 212420",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D62-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d63",
+      "sku": "KK-D63",
+      "name": "20260907 212427",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D63-1.jpg"
+      ]
+    },
+    {
+      "id": "kk-d64",
+      "sku": "KK-D64",
+      "name": "20260907 212434",
+      "category": "discs",
+      "subcategory": "Ultra-Star",
+      "brand": "Discraft",
+      "price": 0,
+      "compareAt": null,
+      "stock": 1,
+      "unique": true,
+      "colors": [
+        "#f57e25",
+        "#2e1342"
+      ],
+      "colorName": "",
+      "weight": "175 g",
+      "condition": "Brand new",
+      "stamp": "",
+      "tags": [
+        "ultimate"
+      ],
+      "description": "",
+      "images": [
+        "assets/img/products/KK-D64-1.jpg"
+      ]
     }
   ]
 }
