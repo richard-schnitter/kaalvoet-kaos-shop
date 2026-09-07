@@ -14,6 +14,23 @@
   const IMG_DIR = 'assets/img/products';
   const MAX_DIM = 1500;      // longest edge, px
   const QUALITY = 0.84;      // JPEG quality
+  const THUMB_DIM = 240;     // preview thumbnails kept small on purpose
+
+  /**
+   * A small preview for the table and the editor tiles.
+   * Previews used to be full-size 1500px JPEGs shown in a 52px box, so every
+   * re-render decoded 64 large images and the page crawled. These are ~6KB.
+   */
+  function thumbUrl(canvas) {
+    const scale = Math.min(1, THUMB_DIM / Math.max(canvas.width, canvas.height));
+    const t = document.createElement('canvas');
+    t.width = Math.max(1, Math.round(canvas.width * scale));
+    t.height = Math.max(1, Math.round(canvas.height * scale));
+    const tc = t.getContext('2d');
+    tc.imageSmoothingQuality = 'high';
+    tc.drawImage(canvas, 0, 0, t.width, t.height);
+    return t.toDataURL('image/jpeg', 0.72);
+  }
 
   const state = {
     products: [],
@@ -151,8 +168,7 @@
     if (cleanBackdropOn()) replaceBackdrop(ctx, w, h);
 
     const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.6);   // small preview only
-    return { blob: blob, dataUrl: dataUrl, width: w, height: h };
+    return { blob: blob, dataUrl: thumbUrl(canvas), width: w, height: h };
   }
 
   /* ======================================================================
@@ -172,18 +188,38 @@
 
   const BACKDROP = {
     // The sweep is lit unevenly, so a single global threshold either leaves a
-    // grey halo near the disc or eats into it. The fill instead walks the
-    // gradient: a pixel joins the backdrop if it is close to the neighbour it
-    // came from (localTol) and still broadly backdrop-ish (globalTol). The
-    // disc edge is a jump of 130+, far beyond localTol, so the fill stops dead.
-    localBase: 22,
-    localSpread: 0.55,
-    globalBase: 74,
-    globalSpread: 2.6,
-    globalMax: 165,
-    feather: 1.5,       // soft band, to kill the anti-aliased rim
+    // grey halo near the disc or eats into it. The fill walks the gradient
+    // instead: a pixel joins the backdrop if it is close to the neighbour it
+    // came from (localTol) and still broadly backdrop-ish (globalTol).
+    localBase: 18,
+    localSpread: 0.45,
+    globalBase: 70,
+    globalSpread: 2.2,
+    globalMax: 150,
+
+    // The guard that matters. Walking the gradient means that if the fill
+    // ever slips through a soft rim it is then free to run across the disc,
+    // because white-to-white steps are tiny. The disc is far brighter than
+    // the sweep, so nothing appreciably brighter than the backdrop is ever
+    // allowed in, no matter how smooth the path to it looked.
+    lumCeiling: 40,
+    lumCeilingSpread: 1.6,
+
+    // Leftover flares get swept up, but only if they are genuinely small.
+    // Removing every island but the largest destroyed discs that a glare had
+    // split in two.
+    speckMax: 0.012,
+
+    // The disc always sits in the middle of the frame, so backdrop in the
+    // centre means the fill has breached. Abandon the photo rather than
+    // return a half-erased disc.
+    centreRadius: 0.17,
+    centreTolerance: 0.02,
+
+    feather: 1.4,       // soft band, to kill the anti-aliased rim
     maxCover: 0.93,     // give up if the fill takes more than this
     minCover: 0.04,     // ...or if it found essentially nothing
+    flatSpread: 5,      // already-processed photos have a perfectly flat edge
   };
 
   function rgbToHsl(r, g, b) {
@@ -267,6 +303,14 @@
     const data = img.data;
     const bg = edgeColour(data, w, h);
 
+    // A backdrop this even has already been replaced once. Doing it again
+    // would sample the new backdrop as the "disc colour" and drift.
+    if (bg.spread < BACKDROP.flatSpread) return false;
+
+    const lum = (r, g, b) => r * 0.2126 + g * 0.7152 + b * 0.0722;
+    const ceiling = lum(bg.r, bg.g, bg.b) +
+      Math.max(BACKDROP.lumCeiling, bg.spread * BACKDROP.lumCeilingSpread);
+
     const localTol = BACKDROP.localBase + bg.spread * BACKDROP.localSpread;
     const localTol2 = localTol * localTol;
     const globalTol = Math.min(BACKDROP.globalMax, BACKDROP.globalBase + bg.spread * BACKDROP.globalSpread);
@@ -289,8 +333,11 @@
     };
 
     // Seed only from the frame edge, and only where it really is backdrop.
+    const tooBright = (i) => lum(data[i], data[i + 1], data[i + 2]) > ceiling;
+
     const seed = (p) => {
-      if (mask[p] || distGlobal2(p * 4) > globalTol2) return;
+      const i = p * 4;
+      if (mask[p] || tooBright(i) || distGlobal2(i) > globalTol2) return;
       mask[p] = 1;
       queue[tail++] = p;
     };
@@ -301,6 +348,7 @@
     const grow = (from, to) => {
       if (mask[to]) return;
       const i = to * 4;
+      if (tooBright(i)) return;                       // never step onto the disc
       if (distGlobal2(i) > globalTol2) return;
       if (distLocal2(i, from * 4) > localTol2) return;
       mask[to] = 1;
@@ -319,40 +367,57 @@
     const cover = tail / (w * h);
     if (cover > BACKDROP.maxCover || cover < BACKDROP.minCover) return false;
 
-    // Whatever survived the fill but is not part of the disc itself is a
-    // lighting artefact on the sweep -- a lamp flare, a bright crease. Keep
-    // only the largest connected island and sweep the rest into the backdrop.
-    (function keepOnlyTheDisc() {
+    // The disc owns the middle of the frame. If the fill reached it, it has
+    // breached the rim and the result cannot be trusted.
+    {
+      const cx = w / 2, cy = h / 2;
+      const rad = Math.min(w, h) * BACKDROP.centreRadius;
+      let inside = 0, hit = 0;
+      const x0 = Math.max(0, Math.floor(cx - rad)), x1 = Math.min(w - 1, Math.ceil(cx + rad));
+      const y0 = Math.max(0, Math.floor(cy - rad)), y1 = Math.min(h - 1, Math.ceil(cy + rad));
+      for (let y = y0; y <= y1; y++) {
+        for (let x = x0; x <= x1; x++) {
+          const dx = x - cx, dy = y - cy;
+          if (dx * dx + dy * dy > rad * rad) continue;
+          inside++;
+          if (mask[y * w + x]) hit++;
+        }
+      }
+      if (inside && hit / inside > BACKDROP.centreTolerance) return false;
+    }
+
+    // Small bright specks on the sweep -- a lamp flare, a crease -- are not
+    // part of the disc. Only genuinely small islands are swept up: removing
+    // every island but the largest destroyed discs a glare had split in two.
+    (function sweepSpecks() {
       const seen = new Uint8Array(w * h);
       const stack = new Int32Array(w * h);
-      let bestStart = -1, bestSize = 0;
-      const islands = [];
+      const limit = w * h * BACKDROP.speckMax;
 
       for (let start = 0; start < w * h; start++) {
         if (mask[start] || seen[start]) continue;
-        let sp = 0, size = 0;
+        let sp = 0;
         stack[sp++] = start;
         seen[start] = 1;
         const members = [];
+        let size = 0;
+
+        // Always walk the whole island. Stopping early leaves the rest of it
+        // unvisited, and the next scan picks those pixels up as fresh little
+        // islands and erases them -- which drew stripes across the discs.
         while (sp) {
           const q = stack[--sp];
-          members.push(q);
           size++;
+          if (size <= limit) members.push(q);
           const x = q % w, y = (q / w) | 0;
           if (x > 0 && !mask[q - 1] && !seen[q - 1]) { seen[q - 1] = 1; stack[sp++] = q - 1; }
           if (x < w - 1 && !mask[q + 1] && !seen[q + 1]) { seen[q + 1] = 1; stack[sp++] = q + 1; }
           if (y > 0 && !mask[q - w] && !seen[q - w]) { seen[q - w] = 1; stack[sp++] = q - w; }
           if (y < h - 1 && !mask[q + w] && !seen[q + w]) { seen[q + w] = 1; stack[sp++] = q + w; }
         }
-        islands.push(members);
-        if (size > bestSize) { bestSize = size; bestStart = islands.length - 1; }
-      }
 
-      // Only trust this if the biggest island really looks like the disc.
-      if (bestSize < w * h * 0.06) return;
-      for (let k = 0; k < islands.length; k++) {
-        if (k === bestStart) continue;
-        const members = islands[k];
+        // Anything sizeable is disc, and stays. Only specks get swept.
+        if (size > limit) continue;
         for (let m = 0; m < members.length; m++) mask[members[m]] = 1;
       }
     })();
@@ -683,7 +748,7 @@
         if (replaceBackdrop(ctx, canvas.width, canvas.height)) {
           const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
           state.pending[job.path] = blob;
-          state.previews[job.path] = canvas.toDataURL('image/jpeg', 0.6);
+          state.previews[job.path] = thumbUrl(canvas);
           changed++;
         } else {
           skipped++;
@@ -866,12 +931,18 @@
   function render() {
     const list = filtered();
 
+    // Rebuilding the table drops the scroll position, which made deleting a
+    // row throw you back to the top of a 64-row list every time.
+    const scroller = $('[data-table-scroll]');
+    const keepTop = scroller ? scroller.scrollTop : 0;
+    const keepPage = window.scrollY;
+
     $('[data-admin-rows]').innerHTML = list.map((p) =>
       '<tr data-row="' + esc(p.id) + '">' +
         '<td><input type="checkbox" data-sel="' + esc(p.id) + '"' + (state.selected.has(p.id) ? ' checked' : '') + '></td>' +
         '<td>' +
           '<div class="admin-thumb" data-images="' + esc(p.id) + '" data-drop-target="' + esc(p.id) + '">' +
-            '<img src="' + esc(thumbSrc(p)) + '" alt="">' +
+            '<img src="' + esc(thumbSrc(p)) + '" alt="" width="52" height="52" loading="lazy" decoding="async">' +
             (p.images.length > 1 ? '<span class="admin-count-pill">' + p.images.length + '</span>' : '') +
           '</div>' +
         '</td>' +
@@ -906,6 +977,11 @@
         '</td>' +
       '</tr>'
     ).join('');
+
+    // Instant, not smooth: the stylesheet sets scroll-behavior: smooth
+    // globally, which would animate this and fight the user.
+    if (scroller) scroller.scrollTop = keepTop;
+    if (window.scrollY !== keepPage) window.scrollTo({ top: keepPage, behavior: 'instant' });
 
     const noPhoto = state.products.filter((p) => !p.images.length).length;
     const noPrice = state.products.filter((p) => !p.price).length;
@@ -994,7 +1070,7 @@
     const photos = p.images.length
       ? '<div class="photo-tray">' + p.images.map((src, i) =>
           '<div class="photo-tile" style="cursor:default">' +
-            '<img src="' + esc(state.previews[src] || src) + '" alt="">' +
+            '<img src="' + esc(state.previews[src] || src) + '" alt="" loading="lazy" decoding="async">' +
             '<button class="photo-tile__x" data-img-del="' + i + '" type="button" aria-label="Remove">&times;</button>' +
             '<span class="photo-tools">' +
               tool(i, 'rot-l', 'Rotate left', ROT_L) +
@@ -1149,7 +1225,7 @@
 
     const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
     state.pending[path] = blob;
-    state.previews[path] = canvas.toDataURL('image/jpeg', 0.6);
+    state.previews[path] = thumbUrl(canvas);
     state.dirty = true;
 
     renderEditor();
