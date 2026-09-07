@@ -103,6 +103,11 @@ h1, h2, h3, h4 {
 }
 .hidden { display: none !important; }
 
+/* The hidden attribute must beat any class that sets a display value,
+   otherwise .bank-grid{display:grid} and .admin-bar{display:flex} keep
+   showing elements the JS has hidden. */
+[hidden] { display: none !important; }
+
 /* --- 4. Announcement bar ------------------------------------------------- */
 .announce {
   background: var(--flame);

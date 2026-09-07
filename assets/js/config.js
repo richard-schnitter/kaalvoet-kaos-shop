@@ -24,21 +24,29 @@ window.KK_CONFIG = {
      whatsapp: international format, digits only. 27 = South Africa,
      then drop the leading 0.  e.g.  082 123 4567  ->  27821234567        */
   contact: {
-    whatsapp: '27820000000',
-    whatsappDisplay: '082 000 0000',
+    whatsapp: '27736269842',
+    whatsappDisplay: '073 626 9842',
     email: 'orders@kaalvoetkaos.co.za',
     contactName: 'Richard',
   },
 
   /* --- Banking details shown on the order page --------------------------
-     These appear on-screen and in the order confirmation so buyers can EFT
-     you and upload the proof of payment.                                  */
+     TO DO: fill these in, then flip `ready` to true.
+
+     While `ready` is false the order page does NOT show an account number.
+     It tells the buyer you will send banking details on WhatsApp instead,
+     and the proof-of-payment step becomes optional. That way nobody can
+     EFT money into a half-filled-in account.
+
+     Once the real details are in here, set ready: true and the EFT panel
+     appears on its own.                                                   */
   banking: {
+    ready: false,
     accountName: 'Kaalvoet Kaos',
-    bank: 'FNB',
-    accountNumber: '0000000000',
-    branchCode: '250655',
-    accountType: 'Cheque',
+    bank: '',
+    accountNumber: '',
+    branchCode: '',
+    accountType: '',
     referenceHint: 'Use your ORDER NUMBER as the payment reference.',
   },
 

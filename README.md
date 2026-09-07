@@ -28,10 +28,12 @@ No build step, no npm, no framework. Plain HTML, CSS and JavaScript — edit a f
 
 Open `assets/js/config.js` and fix these before you go live:
 
-1. **`contact.whatsapp`** — your number in international format, digits only.
-   `082 123 4567` becomes `27821234567`.
-2. **`contact.whatsappDisplay`** and **`contact.email`**.
-3. **`banking`** — the real account details. These are shown to every buyer.
+1. ~~**`contact.whatsapp`**~~ — done, set to `27736269842` (073 626 9842).
+2. **`banking`** — currently `ready: false`, so **no account number is shown to anyone**. The order page
+   tells buyers you will WhatsApp them the details, and the proof-of-payment step reads as optional.
+   Fill in `bank`, `accountNumber`, `branchCode` and `accountType`, then set `ready: true` and the EFT
+   panel appears on its own. Nothing else to change.
+3. **`contact.email`** — currently `orders@kaalvoetkaos.co.za`. Change it if that mailbox does not exist.
 4. **`delivery`** — courier and PAXI prices, or delete the options you don't offer.
 
 Everything else (announcement bar, tagline, blurb, low-stock threshold) is in the same file.

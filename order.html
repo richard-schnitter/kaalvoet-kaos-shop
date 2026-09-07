@@ -194,16 +194,16 @@
         </section>
 
         <!-- Step 3: payment -->
-        <section class="panel panel--flame">
-          <h2 class="panel__title"><span class="step-num">3</span>Pay by EFT</h2>
-          <p class="panel__note">
+        <section class="panel panel--flame" data-pay-step>
+          <h2 class="panel__title"><span class="step-num">3</span><span data-pay-title>Pay by EFT</span></h2>
+          <p class="panel__note" data-pay-note>
             Transfer the total below into this account. Use your order number as the reference so I can match it up.
           </p>
 
           <div class="bank-grid" data-bank-grid></div>
 
           <p style="font-size:13px;color:var(--muted);margin:16px 0 0" data-ref-hint></p>
-          <p style="font-size:12.5px;color:var(--muted-2);margin:8px 0 0">
+          <p style="font-size:12.5px;color:var(--muted-2);margin:8px 0 0" data-pay-extra>
             Your order number is generated when you submit — pay first using your surname as the reference if you
             prefer, and I will match it, or submit the order now and pay afterwards using the number you get.
           </p>
@@ -212,7 +212,7 @@
         <!-- Step 4: POP -->
         <section class="panel panel--lime">
           <h2 class="panel__title"><span class="step-num" style="background:var(--lime);color:#14200a">4</span>Proof of payment</h2>
-          <p class="panel__note">
+          <p class="panel__note" data-pop-note>
             Attach a screenshot or PDF of the transfer. If you have not paid yet, skip this and send it to me on
             WhatsApp afterwards — your order is still logged.
           </p>

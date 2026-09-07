@@ -69,8 +69,38 @@
     ).join('');
   }
 
+  /** True only once real banking details have been filled into config.js. */
+  function bankingReady() {
+    const b = CFG.banking || {};
+    if (b.ready === false) return false;
+    // Belt and braces: an empty or all-zero account number is never real.
+    const acc = String(b.accountNumber || '').replace(/[^0-9]/g, '');
+    return acc.length >= 6 && /[1-9]/.test(acc);
+  }
+
   function renderBank() {
     const b = CFG.banking;
+
+    if (!bankingReady()) {
+      // No account number on screen until it is real, so nobody can pay the
+      // wrong account and the POP step stops pretending to be mandatory.
+      $('[data-pay-title]').textContent = 'Payment';
+      $('[data-pay-note]').textContent =
+        'Banking details are sent with your order confirmation, not shown here. Submit this order and ' +
+        CFG.contact.contactName + ' will WhatsApp you the account to pay into, with your order number ' +
+        'as the reference.';
+      $('[data-bank-grid]').hidden = true;
+      $('[data-ref-hint]').hidden = true;
+      $('[data-pay-extra]').textContent =
+        'Nothing is charged now, and nothing is owed until you have the details and are happy with the order.';
+      $('[data-pop-note]').textContent =
+        'Only if you have already arranged payment with ' + CFG.contact.contactName + '. Otherwise skip it ' +
+        'and send the proof on WhatsApp once you have paid.';
+      return;
+    }
+
+    $('[data-bank-grid]').hidden = false;
+    $('[data-ref-hint]').hidden = false;
     const cells = [
       ['Account name', b.accountName],
       ['Bank', b.bank],
@@ -324,6 +354,10 @@
     L.push('');
     L.push(order.pop ? 'Proof of payment: attached on the website (' + order.pop.name + ')'
                      : 'Proof of payment: to follow');
+    if (!bankingReady()) {
+      L.push('');
+      L.push('_Please send me the banking details for this order._');
+    }
     return L.join('\n');
   }
 
@@ -399,7 +433,9 @@
     } else if (CFG.orders.mode === 'whatsapp') {
       note = 'One more step: tap the button below to send the order to ' + CFG.contact.contactName +
              ' on WhatsApp' + (order.pop ? ' and attach your proof of payment there' : '') + '. ' +
-             CFG.orders.confirmationNote;
+             (bankingReady()
+               ? CFG.orders.confirmationNote
+               : CFG.contact.contactName + ' will reply with the banking details and confirm the hand-over.');
     }
     $('[data-confirm-note]').textContent = note;
 
