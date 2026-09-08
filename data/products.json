@@ -1,15 +1,15 @@
 {
-  "updated": "2026-09-07",
+  "updated": "2026-09-08",
   "currency": "ZAR",
   "products": [
     {
       "id": "kk-d01",
       "sku": "KK-D01",
-      "name": "20260907 212441",
+      "name": "Battleship Ultimate Mobile AL",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -27,16 +27,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D01-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d02",
       "sku": "KK-D02",
-      "name": "20260907 212448",
+      "name": "Beaver",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -54,16 +56,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D02-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d03",
       "sku": "KK-D03",
-      "name": "20260907 212455",
+      "name": "Biohazard",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -81,16 +85,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D03-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Cool"
     },
     {
       "id": "kk-d04",
       "sku": "KK-D04",
-      "name": "20260907 212503",
+      "name": "BUDA Summer League 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 180,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -108,16 +114,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D04-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Okay"
     },
     {
       "id": "kk-d05",
       "sku": "KK-D05",
-      "name": "20260907 212511",
+      "name": "Building NI Ultimate Belfast",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -135,16 +143,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D05-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d06",
       "sku": "KK-D06",
-      "name": "20260907 212518",
+      "name": "Burkes Palace Mountain Ranch CA",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -162,19 +172,21 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D06-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d07",
       "sku": "KK-D07",
-      "name": "20260907 212524",
+      "name": "Canada Ultimate June 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
-      "stock": 1,
-      "unique": true,
+      "stock": 2,
+      "unique": false,
       "colors": [
         "#f57e25",
         "#2e1342"
@@ -189,16 +201,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D07-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d08",
       "sku": "KK-D08",
-      "name": "20260907 212531",
+      "name": "CBUC 2026 Canadian Beach Ultimate Championships",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -216,16 +230,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D08-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d09",
       "sku": "KK-D09",
-      "name": "20260907 212543",
+      "name": "Celtic Knotwork Horses",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -243,16 +259,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D09-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d10",
       "sku": "KK-D10",
-      "name": "20260907 211457",
+      "name": "Central Coast Ultimate 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -270,16 +288,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D10-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d11",
       "sku": "KK-D11",
-      "name": "20260907 211505",
+      "name": "Colorado State Championships 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -297,16 +317,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D11-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d12",
       "sku": "KK-D12",
-      "name": "20260907 211518",
+      "name": "DC Shadow 2025 PUL Champions",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -324,16 +346,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D12-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Cool"
     },
     {
       "id": "kk-d13",
       "sku": "KK-D13",
-      "name": "20260907 211526",
+      "name": "Disc NY Youth Awards 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 180,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -351,19 +375,21 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D13-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Okay"
     },
     {
       "id": "kk-d14",
       "sku": "KK-D14",
-      "name": "20260907 211534",
+      "name": "Discraft Chameleon",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
-      "stock": 1,
-      "unique": true,
+      "stock": 3,
+      "unique": false,
       "colors": [
         "#f57e25",
         "#2e1342"
@@ -378,16 +404,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D14-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Cool"
     },
     {
       "id": "kk-d15",
       "sku": "KK-D15",
-      "name": "20260907 211554",
+      "name": "Discraft Ultimate Open 2026 MVP Open",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -405,16 +433,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D15-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d16",
       "sku": "KK-D16",
-      "name": "20260907 211602",
+      "name": "FantamPandas SLP Middle School",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -432,16 +462,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D16-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d17",
       "sku": "KK-D17",
-      "name": "20260907 211611",
+      "name": "GU Home Is Where The Huck Is Spring 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -459,19 +491,21 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D17-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d18",
       "sku": "KK-D18",
-      "name": "20260907 211617",
+      "name": "High School National Invite 2026 Salem",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 180,
       "compareAt": null,
-      "stock": 1,
-      "unique": true,
+      "stock": 2,
+      "unique": false,
       "colors": [
         "#f57e25",
         "#2e1342"
@@ -486,16 +520,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D18-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Okay"
     },
     {
       "id": "kk-d19",
       "sku": "KK-D19",
-      "name": "20260907 211624",
+      "name": "HSNI Official Game Disc",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -513,16 +549,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D19-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d20",
       "sku": "KK-D20",
-      "name": "20260907 211630",
+      "name": "Illinois Ultimate",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -540,16 +578,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D20-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Cool"
     },
     {
       "id": "kk-d21",
       "sku": "KK-D21",
-      "name": "20260907 211638",
+      "name": "ISO ATMO Purple Zigzag",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 180,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -567,16 +607,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D21-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Okay"
     },
     {
       "id": "kk-d22",
       "sku": "KK-D22",
-      "name": "20260907 211644",
+      "name": "Juggler With Lollipop Photo",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -594,19 +636,21 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D22-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d23",
       "sku": "KK-D23",
-      "name": "20260907 211703",
+      "name": "Kelly And Patrick 08 08 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
-      "stock": 1,
-      "unique": true,
+      "stock": 2,
+      "unique": false,
       "colors": [
         "#f57e25",
         "#2e1342"
@@ -621,16 +665,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D23-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d24",
       "sku": "KK-D24",
-      "name": "20260907 211732",
+      "name": "Madison Spin",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -648,16 +694,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D24-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d25",
       "sku": "KK-D25",
-      "name": "20260907 211740",
+      "name": "Milwaukee Monarchs",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -675,16 +723,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D25-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d26",
       "sku": "KK-D26",
-      "name": "20260907 211749",
+      "name": "Monkey Bowl 37 Nashville",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -702,16 +752,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D26-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d27",
       "sku": "KK-D27",
-      "name": "20260907 211759",
+      "name": "Montessori Compass 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -729,16 +781,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D27-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d28",
       "sku": "KK-D28",
-      "name": "20260907 211808",
+      "name": "Montreat North Carolina",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -756,16 +810,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D28-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d29",
       "sku": "KK-D29",
-      "name": "20260907 211815",
+      "name": "MUFA Summer 2026 Constellations",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -783,16 +839,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D29-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d30",
       "sku": "KK-D30",
-      "name": "20260907 211839",
+      "name": "MUFA Summer 2026 Planets",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -810,16 +868,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D30-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d31",
       "sku": "KK-D31",
-      "name": "20260907 211850",
+      "name": "Murdoch Ultimate Club Mules",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -837,16 +897,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D31-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d32",
       "sku": "KK-D32",
-      "name": "20260907 211905",
+      "name": "NZ Mixed Championships Kirikiriroa 25 26",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -864,16 +926,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D32-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d33",
       "sku": "KK-D33",
-      "name": "20260907 211914",
+      "name": "NZUC 2026 Division 2 Canterbury",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -891,16 +955,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D33-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d34",
       "sku": "KK-D34",
-      "name": "20260907 211923",
+      "name": "Pittsburgh High School Ultimate SZN 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -918,16 +984,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D34-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d35",
       "sku": "KK-D35",
-      "name": "20260907 211945",
+      "name": "Portland Ultimate 2026 Sheep",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -945,16 +1013,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D35-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d36",
       "sku": "KK-D36",
-      "name": "20260907 211953",
+      "name": "PROMYS",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -972,16 +1042,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D36-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d37",
       "sku": "KK-D37",
-      "name": "20260907 212001",
+      "name": "Purple Crown Fleur De Lis",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -999,16 +1071,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D37-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d38",
       "sku": "KK-D38",
-      "name": "20260907 212012",
+      "name": "San Diego Super Bloom",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1026,16 +1100,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D38-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d39",
       "sku": "KK-D39",
-      "name": "20260907 212031",
+      "name": "SCAB",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1053,16 +1129,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D39-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d40",
       "sku": "KK-D40",
-      "name": "20260907 212039",
+      "name": "Science Ultimate 25 26 50th Anniversary",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1080,16 +1158,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D40-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d41",
       "sku": "KK-D41",
-      "name": "20260907 212048",
+      "name": "Spring Fling 2026 Spin",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1107,16 +1187,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D41-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d42",
       "sku": "KK-D42",
-      "name": "20260907 212058",
+      "name": "SPUFA Summer League 2026 20 Years",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1134,16 +1216,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D42-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d43",
       "sku": "KK-D43",
-      "name": "20260907 212106",
+      "name": "Swingers Club South Saint Paul",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1161,16 +1245,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D43-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d44",
       "sku": "KK-D44",
-      "name": "20260907 212114",
+      "name": "Tiger",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1188,16 +1274,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D44-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d45",
       "sku": "KK-D45",
-      "name": "20260907 212121",
+      "name": "TUFS MAX 30th Anniversary Tokyo",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1215,16 +1303,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D45-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d46",
       "sku": "KK-D46",
-      "name": "20260907 212128",
+      "name": "Turf N Surf Goaltimate 2026 Pismo Beach",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1242,16 +1332,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D46-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Cool"
     },
     {
       "id": "kk-d47",
       "sku": "KK-D47",
-      "name": "20260907 212137",
+      "name": "UCLA BLU Spin",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1269,16 +1361,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D47-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d48",
       "sku": "KK-D48",
-      "name": "20260907 212223",
+      "name": "USA Ultimate College Championship Series 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1296,16 +1390,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D48-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Cool"
     },
     {
       "id": "kk-d49",
       "sku": "KK-D49",
-      "name": "20260907 212230",
+      "name": "USA Ultimate High School State Championships 2026",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1323,16 +1419,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D49-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d50",
       "sku": "KK-D50",
-      "name": "20260907 212238",
+      "name": "Victoria Ultimate Players Society Youth",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 230,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1350,16 +1448,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D50-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Coolest"
     },
     {
       "id": "kk-d51",
       "sku": "KK-D51",
-      "name": "20260907 212246",
+      "name": "WFDF Impact Program Nepal NFDF",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1377,16 +1477,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D51-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d52",
       "sku": "KK-D52",
-      "name": "20260907 212255",
+      "name": "WFDF Movement In Refuge",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1404,16 +1506,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D52-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d53",
       "sku": "KK-D53",
-      "name": "20260907 212301",
+      "name": "WFDF Sport For One Humanity",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 150,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1431,16 +1535,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D53-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Boring"
     },
     {
       "id": "kk-d54",
       "sku": "KK-D54",
-      "name": "20260907 212311",
+      "name": "What A Catch 6 20 26",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 180,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1458,16 +1564,18 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D54-1.jpg"
-      ]
+      ],
+      "flagged": false,
+      "tier": "Okay"
     },
     {
       "id": "kk-d55",
       "sku": "KK-D55",
-      "name": "20260907 212318",
+      "name": "Windmill",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 0,
+      "price": 210,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -1485,250 +1593,9 @@
       "description": "",
       "images": [
         "assets/img/products/KK-D55-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d56",
-      "sku": "KK-D56",
-      "name": "20260907 212326",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
       ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D56-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d57",
-      "sku": "KK-D57",
-      "name": "20260907 212332",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D57-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d58",
-      "sku": "KK-D58",
-      "name": "20260907 212339",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D58-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d59",
-      "sku": "KK-D59",
-      "name": "20260907 212346",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D59-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d60",
-      "sku": "KK-D60",
-      "name": "20260907 212354",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D60-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d61",
-      "sku": "KK-D61",
-      "name": "20260907 212404",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D61-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d62",
-      "sku": "KK-D62",
-      "name": "20260907 212420",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D62-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d63",
-      "sku": "KK-D63",
-      "name": "20260907 212427",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D63-1.jpg"
-      ]
-    },
-    {
-      "id": "kk-d64",
-      "sku": "KK-D64",
-      "name": "20260907 212434",
-      "category": "discs",
-      "subcategory": "Ultra-Star",
-      "brand": "Discraft",
-      "price": 0,
-      "compareAt": null,
-      "stock": 1,
-      "unique": true,
-      "colors": [
-        "#f57e25",
-        "#2e1342"
-      ],
-      "colorName": "",
-      "weight": "175 g",
-      "condition": "Brand new",
-      "stamp": "",
-      "tags": [
-        "ultimate"
-      ],
-      "description": "",
-      "images": [
-        "assets/img/products/KK-D64-1.jpg"
-      ]
+      "flagged": false,
+      "tier": "Cool"
     }
   ]
 }
