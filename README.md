@@ -114,28 +114,26 @@ do not want to touch, and an unknown SKU is skipped rather than creating
 anything. Photos, groups and flags are never affected. Nothing is written to
 disk until **Save changes**.
 
-### When the automatic cut-out gets it wrong
+### Flagging photos that need work
 
-Some photos cannot be separated automatically. If a crease or reflection in the
-sweep lies against the rim, it looks exactly like disc plastic, and guessing
-harder risks eating the disc itself.
+Not every photo separates cleanly. If a crease or reflection in the sweep lies
+against the rim, it looks exactly like disc plastic, and the backdrop pass
+refuses rather than risk eating the disc.
 
-Those get **flagged** for you: the backdrop pass raises a flag on anything it
+Those get **flagged** for you: the batch pass raises a flag on anything it
 refused, and you can raise or clear one yourself with the flag button in the
-**Fix** column. Filter the table to *Flagged for fixing* to work through them.
+**Fix** column. Filter to *Flagged for fixing* to see what is outstanding. Fix
+those photos however you like, then drop them back in — the flag is just a
+to-do list.
 
-To fix one, open the product, hover its photo and press the **dashed-circle**
-button. That opens the cookie cutter:
+> There used to be a manual circle cut-out tool here. It is archived in
+> `archive/cookie-cutter/` with instructions for putting it back, since photos
+> are now being cleaned up in other software.
 
-- A circle is placed on the disc for you
-- Drag inside it to move, drag the side or bottom handle to resize, scroll to
-  grow or shrink, arrow keys to nudge (hold shift for bigger steps)
-- **Make it a circle** evens up an oval; **Snap back to auto** starts over
-- **Apply the cut** replaces everything outside the ring, using the same colour
-  rule as the automatic pass, and clears the flag
-
-Nothing is written until **Save changes**, and the originals are always in git:
-`git checkout HEAD -- assets/img/products/` puts every photo back.
+**Importing photos you have already cleaned up:** turn off *Sweep out the grey
+backdrop* in the Photos panel first, so the shop does not try to re-process
+them. (It already skips anything with a perfectly flat backdrop, but the toggle
+is the certain way.)
 
 ### Photo tips
 

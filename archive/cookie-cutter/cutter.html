@@ -1,0 +1,35 @@
+<!-- ============ COOKIE CUTTER ============ -->
+<div class="cutter" data-cutter role="dialog" aria-modal="true" aria-label="Cut out the disc by hand">
+  <div class="cutter__head">
+    <div>
+      <h2 class="cutter__title">Cut out by hand</h2>
+      <div class="cutter__file" data-cutter-file></div>
+    </div>
+    <span style="flex:1"></span>
+    <span class="cutter__hint">Drag to move &middot; drag any handle to resize that axis &middot; scroll to grow or shrink &middot;
+      <code style="color:var(--gold)">[ ]</code> width, <code style="color:var(--gold)">; '</code> height,
+      <code style="color:var(--gold)">- =</code> both</span>
+  </div>
+
+  <div class="cutter__stage" data-cutter-stage>
+    <div class="cutter__wrap" data-cutter-wrap>
+      <img data-cutter-img alt="">
+      <div class="cutter__ring" data-cutter-ring>
+        <span class="cutter__handle cutter__handle--e" data-cutter-h="x" title="Width"></span>
+        <span class="cutter__handle cutter__handle--w" data-cutter-h="w" title="Width"></span>
+        <span class="cutter__handle cutter__handle--s" data-cutter-h="y" title="Height"></span>
+        <span class="cutter__handle cutter__handle--n" data-cutter-h="n" title="Height"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cutter__foot">
+    <button class="btn btn--gold btn--sm" data-cutter-apply type="button">Apply the cut</button>
+    <button class="btn btn--ghost btn--sm" data-cutter-auto type="button">Snap back to auto</button>
+    <button class="btn btn--ghost btn--sm" data-cutter-round type="button">Make it a circle</button>
+    <span style="flex:1"></span>
+    <span class="cutter__hint" data-cutter-size></span>
+    <button class="btn btn--ghost btn--sm" data-cutter-cancel type="button">Cancel</button>
+  </div>
+</div>
+
