@@ -18,10 +18,19 @@
 
   /**
    * A small preview for the table and the editor tiles.
-   * Previews used to be full-size 1500px JPEGs shown in a 52px box, so every
-   * re-render decoded 64 large images and the page crawled. These are ~6KB.
+   *
+   * Returns a blob: URL, not a data: URL. A base64 preview is ~6KB of text,
+   * and with 64 of them the table markup carried 650KB of image data that the
+   * browser re-parsed on every render -- a flag toggle blocked for 325ms.
+   * A blob URL is about fifty characters.
+   *
+   * Encoding goes through toBlob rather than toDataURL because toDataURL is
+   * synchronous: encoding 64 JPEGs that way froze the page for seconds at a
+   * time while previews were being built.
    */
-  function thumbUrl(canvas) {
+  const thumbUrls = [];
+
+  function thumbCanvas(canvas) {
     const scale = Math.min(1, THUMB_DIM / Math.max(canvas.width, canvas.height));
     const t = document.createElement('canvas');
     t.width = Math.max(1, Math.round(canvas.width * scale));
@@ -29,7 +38,29 @@
     const tc = t.getContext('2d');
     tc.imageSmoothingQuality = 'high';
     tc.drawImage(canvas, 0, 0, t.width, t.height);
-    return t.toDataURL('image/jpeg', 0.72);
+    return t;
+  }
+
+  function thumbUrl(canvas) {
+    return new Promise((resolve) => {
+      thumbCanvas(canvas).toBlob((blob) => {
+        if (!blob) { resolve(''); return; }
+        const url = URL.createObjectURL(blob);
+        thumbUrls.push(url);
+        resolve(url);
+      }, 'image/jpeg', 0.72);
+    });
+  }
+
+  /** Replace a preview, releasing the one it supersedes. */
+  function setPreview(path, url) {
+    const old = state.previews[path];
+    if (old && old.indexOf('blob:') === 0) {
+      URL.revokeObjectURL(old);
+      const i = thumbUrls.indexOf(old);
+      if (i > -1) thumbUrls.splice(i, 1);
+    }
+    state.previews[path] = url;
   }
 
   const state = {
@@ -168,7 +199,7 @@
     if (cleanBackdropOn()) replaceBackdrop(ctx, w, h);
 
     const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
-    return { blob: blob, dataUrl: thumbUrl(canvas), width: w, height: h };
+    return { blob: blob, dataUrl: await thumbUrl(canvas), width: w, height: h };
   }
 
   /* ======================================================================
@@ -869,7 +900,7 @@
         if (replaceBackdrop(ctx, canvas.width, canvas.height)) {
           const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
           state.pending[job.path] = blob;
-          state.previews[job.path] = thumbUrl(canvas);
+          setPreview(job.path, await thumbUrl(canvas));
           changed++;
         } else {
           // Could not separate it safely -- flag it so it can be cut by hand.
@@ -912,31 +943,49 @@
     }));
     if (!jobs.length) return;
 
+    // Deliberately one at a time, with a yield between each. Running three
+    // in parallel and encoding with toDataURL blocked the main thread for
+    // 6s in total, in freezes of up to 2.8s, which is what made the editor
+    // unusable while it loaded.
     let done = 0;
-    const worker = async () => {
-      while (jobs.length) {
-        const path = jobs.shift();
-        try {
-          const res = await fetch(path);
-          if (!res.ok) throw new Error(res.status);
-          const bmp = await createImageBitmap(await res.blob(), {
-            resizeWidth: THUMB_DIM, resizeQuality: 'medium',
-          });
-          const cv = document.createElement('canvas');
-          cv.width = bmp.width; cv.height = bmp.height;
-          cv.getContext('2d').drawImage(bmp, 0, 0);
-          bmp.close && bmp.close();
-          state.previews[path] = cv.toDataURL('image/jpeg', 0.72);
-        } catch (e) {
-          /* leave it pointing at the file; it still displays */
-        }
-        done++;
-        if (done % 12 === 0) render();
-      }
-    };
+    const idle = window.requestIdleCallback
+      ? (fn) => window.requestIdleCallback(fn, { timeout: 250 })
+      : (fn) => setTimeout(fn, 0);
 
-    await Promise.all([worker(), worker(), worker()]);
-    render();
+    for (const path of jobs) {
+      try {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error(res.status);
+        // resizeWidth decodes straight to thumbnail size, off the main thread
+        const bmp = await createImageBitmap(await res.blob(), {
+          resizeWidth: THUMB_DIM, resizeQuality: 'medium',
+        });
+        const cv = document.createElement('canvas');
+        cv.width = bmp.width; cv.height = bmp.height;
+        cv.getContext('2d').drawImage(bmp, 0, 0);
+        bmp.close && bmp.close();
+        setPreview(path, await thumbUrl(cv));
+        refreshThumb(path);
+      } catch (e) {
+        /* leave it pointing at the file; it still displays */
+      }
+      done++;
+      await new Promise((r) => idle(r));      // hand the thread back
+    }
+  }
+
+  /** Point existing <img> tags at a new preview, without a re-render. */
+  function refreshThumb(path) {
+    const product = state.products.find((p) => (p.images || []).indexOf(path) === 0);
+    if (!product) return;
+    const row = document.querySelector('[data-row="' + cssEscape(product.id) + '"]');
+    if (!row) return;
+    const img = row.querySelector('.admin-thumb img');
+    if (img) img.src = state.previews[path] || path;
+  }
+
+  function cssEscape(v) {
+    return window.CSS && CSS.escape ? CSS.escape(v) : String(v).replace(/["\\]/g, '\\$&');
   }
 
   /* ======================================================================
@@ -1098,6 +1147,36 @@
     return list;
   }
 
+  /** One row's markup. Shared by a full render and a single-row refresh. */
+  function rowHtml(p) {
+    return ROW_TEMPLATE(p);
+  }
+
+  /** Repaint a single row in place. Used for flags and other one-off edits. */
+  function updateRow(id) {
+    const p = state.products.find((x) => x.id === id);
+    const row = document.querySelector('[data-row="' + cssEscape(id) + '"]');
+    if (!p || !row) { render(); return; }
+    row.outerHTML = rowHtml(p);
+    updateCounts();
+  }
+
+  function updateCounts() {
+    const noPhoto = state.products.filter((p) => !p.images.length).length;
+    const noPrice = state.products.filter((p) => !p.price).length;
+    const flagged = state.products.filter((p) => p.flagged).length;
+    $('[data-counts]').innerHTML =
+      '<span class="admin-status__dot" style="background:' +
+        (noPhoto || noPrice ? 'var(--warn)' : 'var(--ok)') + '"></span>' +
+      state.products.length + ' products' +
+      (noPhoto ? ' · ' + noPhoto + ' without photos' : '') +
+      (noPrice ? ' · ' + noPrice + ' without a price' : '') +
+      (flagged ? ' · ' + flagged + ' flagged to fix' : '');
+    $('[data-export-zip]').hidden = Object.keys(state.pending).length === 0;
+    $('[data-save]').textContent =
+      state.dirty || Object.keys(state.pending).length ? 'Save changes •' : 'Save changes';
+  }
+
   function render() {
     const list = filtered();
 
@@ -1107,7 +1186,18 @@
     const keepTop = scroller ? scroller.scrollTop : 0;
     const keepPage = window.scrollY;
 
-    $('[data-admin-rows]').innerHTML = list.map((p) =>
+    $('[data-admin-rows]').innerHTML = list.map(rowHtml).join('');
+    renderTiers();
+
+    if (scroller) scroller.scrollTop = keepTop;
+    if (window.scrollY !== keepPage) window.scrollTo({ top: keepPage, behavior: 'instant' });
+
+    $('[data-bulk-bar]').hidden = state.selected.size === 0;
+    $('[data-sel-count]').textContent = state.selected.size;
+    updateCounts();
+  }
+
+  const ROW_TEMPLATE = (p) => (
       '<tr data-row="' + esc(p.id) + '"' + (p.flagged ? ' class="is-flagged"' : '') + '>' +
         '<td><input type="checkbox" data-sel="' + esc(p.id) + '"' + (state.selected.has(p.id) ? ' checked' : '') + '></td>' +
         '<td>' +
@@ -1156,32 +1246,7 @@
           '</button>' +
         '</td>' +
       '</tr>'
-    ).join('');
-
-    // Instant, not smooth: the stylesheet sets scroll-behavior: smooth
-    // globally, which would animate this and fight the user.
-    if (scroller) scroller.scrollTop = keepTop;
-    if (window.scrollY !== keepPage) window.scrollTo({ top: keepPage, behavior: 'instant' });
-
-    const noPhoto = state.products.filter((p) => !p.images.length).length;
-    const noPrice = state.products.filter((p) => !p.price).length;
-    const flagged = state.products.filter((p) => p.flagged).length;
-    $('[data-counts]').innerHTML =
-      '<span class="admin-status__dot" style="background:' + (noPhoto || noPrice ? 'var(--warn)' : 'var(--ok)') + '"></span>' +
-      state.products.length + ' products' +
-      (noPhoto ? ' · ' + noPhoto + ' without photos' : '') +
-      (noPrice ? ' · ' + noPrice + ' without a price' : '') +
-      (flagged ? ' · ' + flagged + ' flagged to fix' : '');
-
-    renderTiers();
-
-    $('[data-bulk-bar]').hidden = state.selected.size === 0;
-    $('[data-sel-count]').textContent = state.selected.size;
-    $('[data-export-zip]').hidden = Object.keys(state.pending).length === 0;
-
-    const save = $('[data-save]');
-    save.textContent = state.dirty || Object.keys(state.pending).length ? 'Save changes •' : 'Save changes';
-  }
+  );
 
   /* ======================================================================
      Product editor modal — photos plus every text field
@@ -1410,7 +1475,7 @@
 
     const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', QUALITY));
     state.pending[path] = blob;
-    state.previews[path] = thumbUrl(canvas);
+    setPreview(path, await thumbUrl(canvas));
     state.dirty = true;
 
     renderEditor();
@@ -1518,8 +1583,8 @@
     const img = $('[data-cutter-img]');
     const w = img.naturalWidth, h = img.naturalHeight;
     const sh = cutter.shape;
-    sh.rx = Math.max(20, Math.min(w, sh.rx));
-    sh.ry = Math.max(20, Math.min(h, sh.ry));
+    sh.rx = Math.max(8, Math.min(w * 1.5, sh.rx));
+    sh.ry = Math.max(8, Math.min(h * 1.5, sh.ry));
     sh.cx = Math.max(-sh.rx, Math.min(w + sh.rx, sh.cx));
     sh.cy = Math.max(-sh.ry, Math.min(h + sh.ry, sh.cy));
   }
@@ -1571,7 +1636,7 @@
 
     const blob = await new Promise((res) => cv.toBlob(res, 'image/jpeg', QUALITY));
     state.pending[cutter.path] = blob;
-    state.previews[cutter.path] = thumbUrl(cv);
+    setPreview(cutter.path, await thumbUrl(cv));
     state.dirty = true;
 
     // It has been dealt with, so drop the flag.
@@ -1613,9 +1678,11 @@
       if (d.mode === 'move') {
         cutter.shape.cx = d.cx + (at.x - d.startX);
         cutter.shape.cy = d.cy + (at.y - d.startY);
-      } else if (d.mode === 'x') {
+      } else if (d.mode === 'x' || d.mode === 'w') {
+        // Either side drives the width, measured from the centre, so it
+        // stays put while the oval widens or narrows.
         cutter.shape.rx = Math.abs(at.x - cutter.shape.cx);
-      } else {
+      } else {   // 'y' or 'n'
         cutter.shape.ry = Math.abs(at.y - cutter.shape.cy);
       }
       clampShape();
@@ -1634,7 +1701,7 @@
     stage.addEventListener('wheel', (e) => {
       if (!cutter.shape) return;
       e.preventDefault();
-      const k = e.deltaY < 0 ? 1.03 : 0.97;
+      const k = e.deltaY < 0 ? 1.05 : 0.952;
       cutter.shape.rx *= k;
       cutter.shape.ry *= k;
       clampShape();
@@ -1672,7 +1739,115 @@
       if (e.key === 'ArrowRight') { cutter.shape.cx += step; clampShape(); drawRing(); e.preventDefault(); }
       if (e.key === 'ArrowUp')    { cutter.shape.cy -= step; clampShape(); drawRing(); e.preventDefault(); }
       if (e.key === 'ArrowDown')  { cutter.shape.cy += step; clampShape(); drawRing(); e.preventDefault(); }
+
+      // Resize from the keyboard too: [ ] for width, - = for both.
+      const grow = e.shiftKey ? 12 : 4;
+      if (e.key === '[') { cutter.shape.rx -= grow; clampShape(); drawRing(); e.preventDefault(); }
+      if (e.key === ']') { cutter.shape.rx += grow; clampShape(); drawRing(); e.preventDefault(); }
+      if (e.key === ';') { cutter.shape.ry -= grow; clampShape(); drawRing(); e.preventDefault(); }
+      if (e.key === "'") { cutter.shape.ry += grow; clampShape(); drawRing(); e.preventDefault(); }
+      if (e.key === '-' || e.key === '_') {
+        cutter.shape.rx -= grow; cutter.shape.ry -= grow; clampShape(); drawRing(); e.preventDefault();
+      }
+      if (e.key === '=' || e.key === '+') {
+        cutter.shape.rx += grow; cutter.shape.ry += grow; clampShape(); drawRing(); e.preventDefault();
+      }
     }, true);
+  }
+
+
+  /* ======================================================================
+     Spreadsheet round trip
+
+     Typing 64 names and prices into a web table is slow no matter how fast
+     the table is. Export a CSV, fill it in in Excel or Sheets where the
+     keyboard does the work, then import it back. Rows are matched on SKU,
+     so ordering does not matter and nothing else about the product is
+     touched -- photos, groups and flags all survive.
+     ====================================================================== */
+
+  const CSV_FIELDS = ['sku', 'name', 'price', 'stock', 'tier', 'brand', 'subcategory',
+    'condition', 'weight', 'colorName', 'stamp', 'description'];
+
+  function csvCell(v) {
+    const t = v == null ? '' : String(v);
+    return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+
+  function toCsv() {
+    const lines = [CSV_FIELDS.join(',')];
+    state.products.forEach((p) => {
+      lines.push(CSV_FIELDS.map((f) => csvCell(p[f])).join(','));
+    });
+    // BOM so Excel opens it as UTF-8 and does not mangle accents.
+    return '\ufeff' + lines.join('\r\n') + '\r\n';
+  }
+
+  /** Minimal RFC-4180 parser: handles quotes, embedded commas and newlines. */
+  function parseCsv(text) {
+    if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
+    const rows = [];
+    let row = [], cell = '', quoted = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (quoted) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') { cell += '"'; i++; }
+          else quoted = false;
+        } else cell += ch;
+        continue;
+      }
+      if (ch === '"') { quoted = true; continue; }
+      if (ch === ',') { row.push(cell); cell = ''; continue; }
+      if (ch === '\r') continue;
+      if (ch === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; continue; }
+      cell += ch;
+    }
+    if (cell.length || row.length) { row.push(cell); rows.push(row); }
+    return rows.filter((r) => r.some((c) => c.trim() !== ''));
+  }
+
+  function importCsv(text) {
+    const rows = parseCsv(text);
+    if (rows.length < 2) { window.KK.toast('That file has no rows in it', 'bad'); return; }
+
+    const head = rows[0].map((h) => h.trim());
+    const skuAt = head.indexOf('sku');
+    if (skuAt < 0) {
+      window.KK.toast('The CSV needs a "sku" column to match rows up', 'bad');
+      return;
+    }
+
+    const bySku = {};
+    state.products.forEach((p) => { bySku[String(p.sku).trim().toUpperCase()] = p; });
+
+    let changed = 0, unknown = 0, fields = 0;
+    for (let r = 1; r < rows.length; r++) {
+      const sku = String(rows[r][skuAt] || '').trim().toUpperCase();
+      const p = bySku[sku];
+      if (!p) { unknown++; continue; }
+
+      let touched = false;
+      head.forEach((col, i) => {
+        if (col === 'sku' || CSV_FIELDS.indexOf(col) < 0) return;
+        const raw = (rows[r][i] == null ? '' : String(rows[r][i])).trim();
+        const next = (col === 'price' || col === 'stock') ? (Number(raw) || 0) : raw;
+        if (String(p[col] == null ? '' : p[col]) === String(next)) return;
+        p[col] = next;
+        if (col === 'stock') p.unique = p.stock === 1 && p.category === 'discs';
+        touched = true;
+        fields++;
+      });
+      if (touched) changed++;
+    }
+
+    if (changed) { state.dirty = true; normalise(); render(); }
+    window.KK.toast(
+      changed + ' product(s) updated, ' + fields + ' field(s) changed' +
+      (unknown ? ', ' + unknown + ' unknown SKU(s) skipped' : ''),
+      changed ? '' : 'info'
+    );
   }
 
   /* ======================================================================
@@ -1745,6 +1920,22 @@
     $('[data-save]').addEventListener('click', save);
     $('[data-export-json]').addEventListener('click', () =>
       download(new Blob([serialise()], { type: 'application/json' }), 'products.json'));
+
+    $('[data-export-csv]').addEventListener('click', () => {
+      download(new Blob([toCsv()], { type: 'text/csv;charset=utf-8' }), 'kaalvoet-kaos-stock.csv');
+      window.KK.toast('Fill it in, then use Import spreadsheet');
+    });
+
+    $('[data-import-csv]').addEventListener('click', () => $('[data-csv-input]').click());
+    $('[data-csv-input]').addEventListener('change', function () {
+      const file = this.files && this.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => importCsv(String(reader.result));
+      reader.onerror = () => window.KK.toast('Could not read that file', 'bad');
+      reader.readAsText(file, 'utf-8');
+      this.value = '';
+    });
     $('[data-export-zip]').addEventListener('click', exportZip);
 
     // --- photo intake ---
@@ -1832,7 +2023,9 @@
         if (p) {
           p.flagged = !p.flagged;
           state.dirty = true;
-          render();
+          // One row, not the whole table: a full rebuild blocked for 325ms.
+          if (state.filter === 'flagged') render();
+          else updateRow(p.id);
         }
         return;
       }
@@ -1845,7 +2038,9 @@
         state.selected.delete(p.id);
         state.dirty = true;
         normalise();
-        render();
+        const row = document.querySelector('[data-row="' + cssEscape(p.id) + '"]');
+        if (row) { row.remove(); renderTiers(); updateCounts(); }
+        else render();
       }
     });
 

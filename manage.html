@@ -56,6 +56,9 @@
     <span style="flex:1"></span>
 
     <span class="admin-status" data-counts>—</span>
+    <input type="file" accept=".csv,text/csv" hidden data-csv-input>
+    <button class="btn btn--ghost btn--sm" data-export-csv type="button" title="Edit names and prices in Excel or Google Sheets">Download spreadsheet</button>
+    <button class="btn btn--ghost btn--sm" data-import-csv type="button" title="Bring the filled-in spreadsheet back">Import spreadsheet</button>
     <button class="btn btn--ghost btn--sm" data-export-json type="button">Download products.json</button>
     <button class="btn btn--ghost btn--sm" data-export-zip type="button" hidden>Download photos .zip</button>
     <button class="btn btn--primary btn--sm" data-save type="button">Save changes</button>
@@ -238,15 +241,19 @@
       <div class="cutter__file" data-cutter-file></div>
     </div>
     <span style="flex:1"></span>
-    <span class="cutter__hint">Drag the circle to move it &middot; drag a handle to resize &middot; scroll to grow or shrink</span>
+    <span class="cutter__hint">Drag to move &middot; drag any handle to resize that axis &middot; scroll to grow or shrink &middot;
+      <code style="color:var(--gold)">[ ]</code> width, <code style="color:var(--gold)">; '</code> height,
+      <code style="color:var(--gold)">- =</code> both</span>
   </div>
 
   <div class="cutter__stage" data-cutter-stage>
     <div class="cutter__wrap" data-cutter-wrap>
       <img data-cutter-img alt="">
       <div class="cutter__ring" data-cutter-ring>
-        <span class="cutter__handle cutter__handle--x" data-cutter-h="x"></span>
-        <span class="cutter__handle cutter__handle--y" data-cutter-h="y"></span>
+        <span class="cutter__handle cutter__handle--e" data-cutter-h="x" title="Width"></span>
+        <span class="cutter__handle cutter__handle--w" data-cutter-h="w" title="Width"></span>
+        <span class="cutter__handle cutter__handle--s" data-cutter-h="y" title="Height"></span>
+        <span class="cutter__handle cutter__handle--n" data-cutter-h="n" title="Height"></span>
       </div>
     </div>
   </div>

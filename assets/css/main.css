@@ -1106,8 +1106,10 @@ textarea.input { resize: vertical; min-height: 92px; line-height: 1.55; }
   border: 2px solid var(--on-gold);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
-.cutter__handle--x { top: 50%; left: 100%; cursor: ew-resize; }
-.cutter__handle--y { top: 100%; left: 50%; cursor: ns-resize; }
+.cutter__handle--e { top: 50%;  left: 100%; cursor: ew-resize; }
+.cutter__handle--w { top: 50%;  left: 0;    cursor: ew-resize; }
+.cutter__handle--s { top: 100%; left: 50%;  cursor: ns-resize; }
+.cutter__handle--n { top: 0;    left: 50%;  cursor: ns-resize; }
 .cutter__foot {
   padding: 14px 18px;
   border-top: 1px solid var(--line);

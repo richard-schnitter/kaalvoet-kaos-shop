@@ -98,6 +98,22 @@ in the table, and the toolbar can set price or stock across everything you tick.
 Nothing is written until you press **Save changes**, so experiment freely. The button grows
 a dot when you have unsaved work, and the browser warns you if you try to leave.
 
+### The fastest way to name and price everything
+
+Typing 64 names and prices into a web table is slow however fast the table is.
+Use a spreadsheet instead:
+
+1. **Download spreadsheet** in the toolbar.
+2. Open it in Excel or Google Sheets and fill in `name`, `price`, `stock`,
+   `tier`, `condition` and the rest. Fill-down and paste work as you would
+   expect, which is the whole point.
+3. **Import spreadsheet** and pick the file.
+
+Rows are matched on `sku`, so the order does not matter, you can delete rows you
+do not want to touch, and an unknown SKU is skipped rather than creating
+anything. Photos, groups and flags are never affected. Nothing is written to
+disk until **Save changes**.
+
 ### When the automatic cut-out gets it wrong
 
 Some photos cannot be separated automatically. If a crease or reflection in the
