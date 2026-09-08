@@ -714,6 +714,7 @@
       state.products = Array.isArray(data) ? data : data.products || [];
       normalise();
       render();
+      warmThumbnails();
       window.KK.toast('Loaded ' + state.products.length + ' products from the folder');
     } catch (e) {
       window.KK.toast('Could not read data/products.json from that folder', 'bad');
@@ -740,6 +741,7 @@
       state.products = (await res.json()).products || [];
       normalise();
       render();
+      warmThumbnails();
     } catch (e) {
       window.KK.toast(
         openedAsFile
@@ -884,6 +886,48 @@
     render();
     window.KK.toast(changed + ' backdrop(s) redone' + (skipped ? ', ' + skipped + ' skipped' : ''),
       changed ? '' : 'bad');
+  }
+
+  /**
+   * Build small previews for photos that are already on disk.
+   *
+   * Without this, every table row and editor tile points straight at the
+   * 1500px file, so each re-render decodes 64 full-size JPEGs to paint
+   * 52px squares. Decoding them once at 240px and caching costs a couple
+   * of seconds on load and makes everything afterwards cheap.
+   */
+  async function warmThumbnails() {
+    const jobs = [];
+    state.products.forEach((p) => (p.images || []).forEach((path) => {
+      if (!state.previews[path] && !state.pending[path]) jobs.push(path);
+    }));
+    if (!jobs.length) return;
+
+    let done = 0;
+    const worker = async () => {
+      while (jobs.length) {
+        const path = jobs.shift();
+        try {
+          const res = await fetch(path);
+          if (!res.ok) throw new Error(res.status);
+          const bmp = await createImageBitmap(await res.blob(), {
+            resizeWidth: THUMB_DIM, resizeQuality: 'medium',
+          });
+          const cv = document.createElement('canvas');
+          cv.width = bmp.width; cv.height = bmp.height;
+          cv.getContext('2d').drawImage(bmp, 0, 0);
+          bmp.close && bmp.close();
+          state.previews[path] = cv.toDataURL('image/jpeg', 0.72);
+        } catch (e) {
+          /* leave it pointing at the file; it still displays */
+        }
+        done++;
+        if (done % 12 === 0) render();
+      }
+    };
+
+    await Promise.all([worker(), worker(), worker()]);
+    render();
   }
 
   /* ======================================================================
@@ -1057,7 +1101,8 @@
       '<tr data-row="' + esc(p.id) + '">' +
         '<td><input type="checkbox" data-sel="' + esc(p.id) + '"' + (state.selected.has(p.id) ? ' checked' : '') + '></td>' +
         '<td>' +
-          '<div class="admin-thumb" data-images="' + esc(p.id) + '" data-drop-target="' + esc(p.id) + '">' +
+          '<div class="admin-thumb" data-images="' + esc(p.id) + '" data-drop-target="' + esc(p.id) + '" ' +
+            'title="Click to edit, or use the magnifier to view full size">' +
             '<img src="' + esc(thumbSrc(p)) + '" alt="" width="52" height="52" loading="lazy" decoding="async">' +
             (p.images.length > 1 ? '<span class="admin-count-pill">' + p.images.length + '</span>' : '') +
           '</div>' +
@@ -1186,7 +1231,8 @@
     const photos = p.images.length
       ? '<div class="photo-tray">' + p.images.map((src, i) =>
           '<div class="photo-tile" style="cursor:default">' +
-            '<img src="' + esc(state.previews[src] || src) + '" alt="" loading="lazy" decoding="async">' +
+            '<img class="zoomable" src="' + esc(state.previews[src] || src) + '" alt="" ' +
+              'data-img-zoom="' + i + '" title="Click to see it full size" loading="lazy" decoding="async">' +
             '<button class="photo-tile__x" data-img-del="' + i + '" type="button" aria-label="Remove">&times;</button>' +
             '<span class="photo-tools">' +
               tool(i, 'rot-l', 'Rotate left', ROT_L) +
@@ -1703,6 +1749,18 @@
         state.dirty = true;
         renderEditor();
         render();
+        return;
+      }
+
+      // Show the real file, not the 240px preview the tile uses.
+      const zoom = e.target.closest('[data-img-zoom]');
+      if (zoom) {
+        const path = editing.images[Number(zoom.dataset.imgZoom)];
+        if (path) {
+          const pending = state.pending[path];
+          window.KK.lightbox(pending || (path + '?t=' + Date.now()), path.split('/').pop() +
+            (pending ? ' (unsaved)' : ''));
+        }
         return;
       }
 

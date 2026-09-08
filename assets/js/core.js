@@ -357,6 +357,88 @@
     }, 2600);
   }
 
+  /* --- Full-size photo viewer -------------------------------------------
+     Opened from the shop's quick view and from the stock manager, so it
+     lives here rather than in either page's script.                      */
+
+  let lightboxEl = null;
+  let lightboxRevoke = null;
+
+  function buildLightbox() {
+    const el = document.createElement('div');
+    el.className = 'lightbox';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-label', 'Full size photo');
+    el.innerHTML =
+      '<div class="lightbox__bar">' +
+        '<span data-lb-caption></span>' +
+        '<button class="lightbox__close" data-lb-close type="button" aria-label="Close">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+          'stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="lightbox__stage" data-lb-stage><img alt="" data-lb-img></div>' +
+      '<div class="lightbox__hint">Click the photo to zoom · Esc to close</div>';
+    document.body.appendChild(el);
+
+    const stage = el.querySelector('[data-lb-stage]');
+    stage.addEventListener('click', (e) => {
+      if (e.target.matches('[data-lb-img]')) { stage.classList.toggle('is-zoomed'); return; }
+      closeLightbox();
+    });
+    el.querySelector('[data-lb-close]').addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && el.classList.contains('is-open')) {
+        e.stopPropagation();
+        closeLightbox();
+      }
+    }, true);
+    return el;
+  }
+
+  /**
+   * @param {string|Blob} source  URL, data URL, or a Blob to show at full size
+   * @param {string} caption      shown top-left
+   */
+  function lightbox(source, caption) {
+    if (!lightboxEl) lightboxEl = buildLightbox();
+
+    const img = lightboxEl.querySelector('[data-lb-img]');
+    const stage = lightboxEl.querySelector('[data-lb-stage]');
+    stage.classList.remove('is-zoomed');
+
+    if (lightboxRevoke) { URL.revokeObjectURL(lightboxRevoke); lightboxRevoke = null; }
+    if (source instanceof Blob) {
+      lightboxRevoke = URL.createObjectURL(source);
+      img.src = lightboxRevoke;
+    } else {
+      img.src = source;
+    }
+
+    const cap = lightboxEl.querySelector('[data-lb-caption]');
+    img.onload = () => {
+      cap.innerHTML = (caption ? '<strong>' + esc(caption) + '</strong>' : '') +
+        ' <span>' + img.naturalWidth + ' x ' + img.naturalHeight + '</span>';
+    };
+    cap.innerHTML = caption ? '<strong>' + esc(caption) + '</strong>' : '';
+
+    lightboxEl.classList.add('is-open');
+    document.body.classList.add('is-locked');
+    lightboxEl.querySelector('[data-lb-close]').focus();
+  }
+
+  function closeLightbox() {
+    if (!lightboxEl) return;
+    lightboxEl.classList.remove('is-open');
+    lightboxEl.querySelector('[data-lb-img]').src = '';
+    if (lightboxRevoke) { URL.revokeObjectURL(lightboxRevoke); lightboxRevoke = null; }
+    // The drawer or the editor may still be open underneath.
+    if (!document.querySelector('.drawer.is-open, .modal.is-open')) {
+      document.body.classList.remove('is-locked');
+    }
+  }
+
   /* --- Clipboard --------------------------------------------------------- */
 
   async function copy(text, okMessage) {
@@ -440,6 +522,7 @@
     loadProducts, findProduct, imageFor, hasPhoto, discArt,
     fetchClaims, applyClaims, refreshStock, stockEndpoint,
     orderRef, toast, copy, renderChrome, updateCartButton,
+    lightbox, closeLightbox,
     get catalogue() { return _catalogue || []; },
     set catalogue(v) { _catalogue = v; },
   };

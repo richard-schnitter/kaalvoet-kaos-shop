@@ -306,6 +306,12 @@
     }
   }
 
+  function p_currentImages() {
+    const p = modalProduct;
+    if (!p) return [];
+    return p.images && p.images.length ? p.images : [window.KK.discArt(p)];
+  }
+
   function renderModal() {
     const p = modalProduct;
     if (!p) return;
@@ -328,7 +334,8 @@
         '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
       '</button>' +
       '<div class="modal__media">' +
-        '<img src="' + esc(imgs[modalImageIndex] || imgs[0]) + '" alt="' + esc(p.name) + '">' +
+        '<img class="zoomable" data-zoom src="' + esc(imgs[modalImageIndex] || imgs[0]) +
+          '" alt="' + esc(p.name) + '" title="Click to see it full size">' +
         (imgs.length > 1
           ? '<div class="modal__thumbs">' + imgs.map((src, i) =>
               '<button class="modal__thumb' + (i === modalImageIndex ? ' is-active' : '') +
@@ -453,6 +460,12 @@
       if (e.target === e.currentTarget) { closeModal(); return; }
 
       if (e.target.closest('[data-modal-close]')) { closeModal(); return; }
+
+      if (e.target.closest('[data-zoom]')) {
+        const imgs = p_currentImages();
+        window.KK.lightbox(imgs[modalImageIndex] || imgs[0], modalProduct ? modalProduct.name : '');
+        return;
+      }
 
       const thumb = e.target.closest('[data-img]');
       if (thumb) { modalImageIndex = Number(thumb.dataset.img); renderModal(); return; }
