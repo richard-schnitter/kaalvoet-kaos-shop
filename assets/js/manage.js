@@ -205,6 +205,18 @@
     lumCeiling: 40,
     lumCeilingSpread: 1.6,
 
+    // The disc guard. Brightness alone cannot find the rim: the shadowed
+    // underside of the disc blends continuously into the shadow it casts on
+    // the sweep, so any threshold walks straight into it. Geometry can. The
+    // disc is one convex blob near the middle, so we trace its outline as a
+    // radius-per-angle hull and refuse to replace anything inside it.
+    discBright: 55,      // above the backdrop, definitely disc
+    hullBins: 720,       // angular resolution of the outline
+    hullPad: 1.03,       // grow it slightly to cover the shadowed rim
+    hullMaxBulge: 1.05,  // clamp spikes -- blobs stuck to the rim
+    hullMinDent: 0.93,   // and dents, where the disc edge is dark
+    hullMinArea: 0.03,   // ignore the guard if we cannot find a real disc
+
     // Leftover flares get swept up, but only if they are genuinely small.
     // Removing every island but the largest destroyed discs that a glare had
     // split in two.
@@ -216,7 +228,7 @@
     centreRadius: 0.17,
     centreTolerance: 0.02,
 
-    feather: 1.4,       // soft band, to kill the anti-aliased rim
+    featherPx: 2.5,     // soft band just inside the outline
     maxCover: 0.93,     // give up if the fill takes more than this
     minCover: 0.04,     // ...or if it found essentially nothing
     flatSpread: 5,      // already-processed photos have a perfectly flat edge
@@ -321,6 +333,7 @@
     const mask = new Uint8Array(w * h);
     const queue = new Int32Array(w * h);
     let head = 0, tail = 0;
+    let discHull = null;
 
     const distGlobal2 = (i) => {
       const dr = data[i] - bg.r, dg = data[i + 1] - bg.g, db = data[i + 2] - bg.b;
@@ -364,8 +377,106 @@
       if (y < h - 1) grow(p, p + w);
     }
 
-    const cover = tail / (w * h);
+    let cover = tail / (w * h);
     if (cover > BACKDROP.maxCover || cover < BACKDROP.minCover) return false;
+
+    // Pull the mask back out of the disc before anything is judged or drawn.
+    (function protectTheDisc() {
+      const bright = new Uint8Array(w * h);
+      const cutoff = lum(bg.r, bg.g, bg.b) + BACKDROP.discBright;
+      for (let p = 0, i = 0; p < w * h; p++, i += 4) {
+        if (lum(data[i], data[i + 1], data[i + 2]) > cutoff) bright[p] = 1;
+      }
+
+      // Largest bright island = the disc face.
+      const seen = new Uint8Array(w * h);
+      const st = new Int32Array(w * h);
+      let bestSize = 0, bestSeed = -1;
+      for (let start = 0; start < w * h; start++) {
+        if (!bright[start] || seen[start]) continue;
+        let sp = 0, size = 0;
+        st[sp++] = start; seen[start] = 1;
+        while (sp) {
+          const q = st[--sp]; size++;
+          const x = q % w, y = (q / w) | 0;
+          if (x > 0 && bright[q - 1] && !seen[q - 1]) { seen[q - 1] = 1; st[sp++] = q - 1; }
+          if (x < w - 1 && bright[q + 1] && !seen[q + 1]) { seen[q + 1] = 1; st[sp++] = q + 1; }
+          if (y > 0 && bright[q - w] && !seen[q - w]) { seen[q - w] = 1; st[sp++] = q - w; }
+          if (y < h - 1 && bright[q + w] && !seen[q + w]) { seen[q + w] = 1; st[sp++] = q + w; }
+        }
+        if (size > bestSize) { bestSize = size; bestSeed = start; }
+      }
+      if (bestSeed < 0 || bestSize < w * h * BACKDROP.hullMinArea) return;
+
+      // Walk it again to collect the island and its centroid.
+      const island = new Uint8Array(w * h);
+      seen.fill(0);
+      let sp = 0, sx = 0, sy = 0, count = 0;
+      st[sp++] = bestSeed; seen[bestSeed] = 1;
+      while (sp) {
+        const q = st[--sp];
+        island[q] = 1;
+        const x = q % w, y = (q / w) | 0;
+        sx += x; sy += y; count++;
+        if (x > 0 && bright[q - 1] && !seen[q - 1]) { seen[q - 1] = 1; st[sp++] = q - 1; }
+        if (x < w - 1 && bright[q + 1] && !seen[q + 1]) { seen[q + 1] = 1; st[sp++] = q + 1; }
+        if (y > 0 && bright[q - w] && !seen[q - w]) { seen[q - w] = 1; st[sp++] = q - w; }
+        if (y < h - 1 && bright[q + w] && !seen[q + w]) { seen[q + w] = 1; st[sp++] = q + w; }
+      }
+      const cx = sx / count, cy = sy / count;
+
+      // Outline: the furthest disc pixel at each angle.
+      const BINS = BACKDROP.hullBins;
+      const rad = new Float32Array(BINS);
+      const TAU = Math.PI * 2;
+      for (let p = 0; p < w * h; p++) {
+        if (!island[p]) continue;
+        const dx = (p % w) - cx, dy = ((p / w) | 0) - cy;
+        const r = Math.sqrt(dx * dx + dy * dy);
+        let a = Math.atan2(dy, dx); if (a < 0) a += TAU;
+        const bin = (a / TAU * BINS) | 0;
+        if (r > rad[bin]) rad[bin] = r;
+      }
+
+      // A stray highlight can spike one bin, and a dark stamp reaching the
+      // edge can leave one empty. Smooth with a small circular median.
+      const smooth = new Float32Array(BINS);
+      const win = [];
+      for (let i = 0; i < BINS; i++) {
+        win.length = 0;
+        for (let k = -4; k <= 4; k++) win.push(rad[(i + k + BINS) % BINS]);
+        win.sort((a, b) => a - b);
+        smooth[i] = win[4];
+      }
+
+      // A disc is round. Anything bright stuck to its edge -- a crease in the
+      // sweep, a reflection -- pushes those bins outward and would be
+      // protected along with the disc, which is why grey blobs survived.
+      // The median radius is the real disc, so spikes get clamped back to it.
+      const sorted = Array.prototype.slice.call(smooth).sort((a, b) => a - b);
+      const median = sorted[sorted.length >> 1] || 0;
+      if (median > 0) {
+        const hi = median * BACKDROP.hullMaxBulge;
+        const lo = median * BACKDROP.hullMinDent;
+        for (let i = 0; i < BINS; i++) {
+          smooth[i] = Math.max(lo, Math.min(hi, smooth[i]));
+        }
+      }
+
+      // Geometry decides, not colour. Colour matching cannot tell white
+      // plastic from a lit grey crease lying against it, and letting it
+      // override the outline put the disc-eating back (8.5% loss when
+      // tried). Outside the outline is backdrop; inside it is disc.
+      for (let p = 0; p < w * h; p++) {
+        const dx = (p % w) - cx, dy = ((p / w) | 0) - cy;
+        const r = Math.sqrt(dx * dx + dy * dy);
+        let a = Math.atan2(dy, dx); if (a < 0) a += TAU;
+        const edge = smooth[(a / TAU * BINS) | 0] * BACKDROP.hullPad;
+        mask[p] = r > edge ? 1 : 0;
+      }
+
+      discHull = { cx: cx, cy: cy, rad: smooth, bins: BINS };
+    })();
 
     // The disc owns the middle of the frame. If the fill reached it, it has
     // breached the rim and the result cannot be trusted.
@@ -422,6 +533,12 @@
       }
     })();
 
+    // Recount after the guard pulled the mask out of the disc.
+    let kept = 0;
+    for (let p = 0; p < w * h; p++) if (mask[p]) kept++;
+    cover = kept / (w * h);
+    if (cover < BACKDROP.minCover) return false;
+
     const key = keyColour(data, mask, w, h);
     const hsl = rgbToHsl(key[0], key[1], key[2]);
     // Keep the hue, force it dark and richly tinted so the disc pops.
@@ -432,17 +549,16 @@
         data[i] = back[0]; data[i + 1] = back[1]; data[i + 2] = back[2];
         continue;
       }
-      // Soften the halo: pixels just outside the threshold that touch the
-      // backdrop are part of the anti-aliased rim, not the disc.
-      const d2 = distGlobal2(i);
-      if (d2 >= soft2) continue;
+      // Feather the last couple of pixels inside the outline so the disc
+      // does not read as a hard cut-out.
+      if (!discHull) continue;
       const x = p % w, y = (p / w) | 0;
-      const touching =
-        (x > 0 && mask[p - 1]) || (x < w - 1 && mask[p + 1]) ||
-        (y > 0 && mask[p - w]) || (y < h - 1 && mask[p + w]);
-      if (!touching) continue;
-      const t = 1 - (Math.sqrt(d2) - globalTol) / (soft - globalTol);
-      const k = Math.max(0, Math.min(1, t)) * 0.75;
+      const dx = x - discHull.cx, dy = y - discHull.cy;
+      let a = Math.atan2(dy, dx); if (a < 0) a += Math.PI * 2;
+      const edge = discHull.rad[(a / (Math.PI * 2) * discHull.bins) | 0] * BACKDROP.hullPad;
+      const inset = edge - Math.sqrt(dx * dx + dy * dy);
+      if (inset < 0 || inset > BACKDROP.featherPx) continue;
+      const k = (1 - inset / BACKDROP.featherPx) * 0.7;
       data[i] += (back[0] - data[i]) * k;
       data[i + 1] += (back[1] - data[i + 1]) * k;
       data[i + 2] += (back[2] - data[i + 2]) * k;
