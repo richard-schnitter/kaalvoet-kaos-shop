@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https:; form-action 'none'; base-uri 'none'; object-src 'none'">
 <title>Place your order — Kaalvoet Kaos Merch</title>
 <meta name="description" content="Reserve your gear, EFT the amount and upload your proof of payment.">
 <meta name="robots" content="noindex">
@@ -235,6 +236,12 @@
         <!-- Step 5: confirm -->
         <section class="panel">
           <div class="stack" style="--gap:14px">
+            <!-- Bots fill everything in. People never see this. -->
+            <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">
+              <label for="website">Leave this empty</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
             <label class="check">
               <input type="checkbox" name="confirmDetails" required data-confirm-check>
               <span class="check__box"></span>
@@ -252,8 +259,9 @@
             Submit my order
           </button>
           <p style="font-size:12px;color:var(--muted-2);text-align:center;margin:12px 0 0">
-            Your details go straight to <span data-contact-name>Richard</span> — nothing is shared with anyone else,
-            and no payment is taken on this site.
+            Your details go straight to <span data-contact-name>Richard</span> — used only to get your order to
+            you, never sold or shared, and no payment is taken on this site. Ask any time if you want your
+            details deleted.
           </p>
         </section>
       </div>

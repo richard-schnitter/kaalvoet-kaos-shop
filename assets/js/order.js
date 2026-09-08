@@ -9,6 +9,8 @@
 
   const { $, $$, esc, money, cart, buyer, CFG } = window.KK;
 
+  const openedAt = Date.now();
+
   const state = {
     delivery: CFG.delivery[0],
     popFile: null,      // { name, size, type, dataUrl }
@@ -306,6 +308,10 @@
       },
       notes: get('notes'),
       marketingOptIn: !!fd.get('marketing'),
+      // Spam signals for the endpoint: a filled honeypot, or a form
+      // completed impossibly fast, is not a person.
+      hp: get('website'),
+      filledInMs: Date.now() - openedAt,
       items: items,
       totals: { subtotal: subtotal, delivery: deliveryFee, total: subtotal + deliveryFee },
       pop: state.popFile

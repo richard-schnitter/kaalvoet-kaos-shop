@@ -44,6 +44,10 @@ var DRIVE_FOLDER = 'Kaalvoet Kaos POPs';  // Drive folder for proof-of-payment f
 var SHEET_NAME   = 'Orders';
 var STOCK_SHEET  = 'Stock';
 
+// Hard limits, so a hostile or broken caller cannot fill your Drive.
+var MAX_ITEMS     = 60;
+var MAX_POP_CHARS = 14000000;   // ~10MB once base64 is decoded
+
 var HEADERS = [
   'Received', 'Order ref', 'First name', 'Surname', 'Cell', 'Email',
   'Team', 'City', 'Province', 'Delivery method', 'Delivery fee', 'Address',
@@ -97,6 +101,19 @@ function doPost(e) {
   try {
     var order = JSON.parse(e.postData.contents);
     var items = order.items || [];
+
+    // --- Cheap spam filters -------------------------------------------
+    // The form carries a hidden field no person can see. If it came back
+    // filled in, or the whole form was completed in under three seconds,
+    // it was a bot. Answer as if it worked so it learns nothing.
+    if (order.hp) return json({ ok: true, ref: order.ref });
+    if (order.filledInMs && order.filledInMs < 3000) return json({ ok: true, ref: order.ref });
+
+    // Refuse anything absurd before it reaches Drive or the sheet.
+    if (items.length > MAX_ITEMS) return json({ ok: false, error: 'too many items' });
+    if (order.popDataUrl && order.popDataUrl.length > MAX_POP_CHARS) {
+      return json({ ok: false, error: 'proof of payment too large' });
+    }
 
     // 1. Check every item is still available before anything is written.
     var claims = readClaims();
