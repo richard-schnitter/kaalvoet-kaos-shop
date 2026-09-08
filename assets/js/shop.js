@@ -309,7 +309,9 @@
   function p_currentImages() {
     const p = modalProduct;
     if (!p) return [];
-    return p.images && p.images.length ? p.images : [window.KK.discArt(p)];
+    return p.images && p.images.length
+      ? p.images.map(window.KK.versioned)
+      : [window.KK.discArt(p)];
   }
 
   function renderModal() {
@@ -326,7 +328,9 @@
     rows.push(['SKU', p.sku]);
     rows.push(['Availability', p.stock > 0 ? (p.unique ? 'One available' : p.stock + ' available') : 'Sold out']);
 
-    const imgs = p.images && p.images.length ? p.images : [window.KK.discArt(p)];
+    const imgs = p.images && p.images.length
+      ? p.images.map(window.KK.versioned)
+      : [window.KK.discArt(p)];
     const hasVariants = p.variants && p.variants.length;
 
     $('[data-modal-panel]').innerHTML =

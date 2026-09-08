@@ -859,7 +859,9 @@
 
   function serialise() {
     return JSON.stringify({
-      updated: new Date().toISOString().slice(0, 10),
+      // Full timestamp, not just the date: this doubles as the cache-busting
+      // token for photo URLs, so saving twice in a day must change it.
+      updated: new Date().toISOString(),
       currency: window.KK.CFG.shop.currency,
       products: state.products,
     }, null, 2) + '\n';

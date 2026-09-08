@@ -117,12 +117,24 @@
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 
+  /**
+   * Photo filenames never change -- KK-D01-1.jpg stays KK-D01-1.jpg when its
+   * contents are replaced -- so browsers and the CDN happily serve the old
+   * picture forever. Tagging the URL with the catalogue's save timestamp
+   * makes an updated photo a new URL, so everyone sees it straight away.
+   */
+  function versioned(src) {
+    if (!_version) return src;
+    if (/^(data:|blob:|https?:)/.test(src)) return src;
+    return src + (src.indexOf('?') > -1 ? '&' : '?') + 'v=' + encodeURIComponent(_version);
+  }
+
   /** Resolve the image to show for a product (real photo wins, art fallback). */
   function imageFor(product, index) {
     const imgs = product.images || [];
     const i = index || 0;
-    if (imgs.length && imgs[i]) return imgs[i];
-    if (imgs.length) return imgs[0];
+    if (imgs.length && imgs[i]) return versioned(imgs[i]);
+    if (imgs.length) return versioned(imgs[0]);
     return discArt(product);
   }
 
@@ -133,12 +145,14 @@
   /* --- Product loading --------------------------------------------------- */
 
   let _catalogue = null;
+  let _version = '';        // bumped every save; busts image caches
 
   async function loadProducts() {
     if (_catalogue) return _catalogue;
     const res = await fetch(CFG.shop.productsUrl, { cache: 'no-cache' });
     if (!res.ok) throw new Error('Could not load ' + CFG.shop.productsUrl + ' (' + res.status + ')');
     const data = await res.json();
+    _version = (data && data.updated) || '';
     _catalogue = Array.isArray(data) ? data : (data.products || []);
     // Normalise a few fields so the rest of the app can trust them.
     _catalogue.forEach((p) => {
@@ -519,7 +533,7 @@
   window.KK = {
     CFG, $, $$, esc, money, debounce, seeded,
     store, cart, buyer,
-    loadProducts, findProduct, imageFor, hasPhoto, discArt,
+    loadProducts, findProduct, imageFor, hasPhoto, discArt, versioned,
     fetchClaims, applyClaims, refreshStock, stockEndpoint,
     orderRef, toast, copy, renderChrome, updateCartButton,
     lightbox, closeLightbox,
