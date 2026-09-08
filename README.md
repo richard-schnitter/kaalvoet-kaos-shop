@@ -98,6 +98,29 @@ in the table, and the toolbar can set price or stock across everything you tick.
 Nothing is written until you press **Save changes**, so experiment freely. The button grows
 a dot when you have unsaved work, and the browser warns you if you try to leave.
 
+### When the automatic cut-out gets it wrong
+
+Some photos cannot be separated automatically. If a crease or reflection in the
+sweep lies against the rim, it looks exactly like disc plastic, and guessing
+harder risks eating the disc itself.
+
+Those get **flagged** for you: the backdrop pass raises a flag on anything it
+refused, and you can raise or clear one yourself with the flag button in the
+**Fix** column. Filter the table to *Flagged for fixing* to work through them.
+
+To fix one, open the product, hover its photo and press the **dashed-circle**
+button. That opens the cookie cutter:
+
+- A circle is placed on the disc for you
+- Drag inside it to move, drag the side or bottom handle to resize, scroll to
+  grow or shrink, arrow keys to nudge (hold shift for bigger steps)
+- **Make it a circle** evens up an oval; **Snap back to auto** starts over
+- **Apply the cut** replaces everything outside the ring, using the same colour
+  rule as the automatic pass, and clears the flag
+
+Nothing is written until **Save changes**, and the originals are always in git:
+`git checkout HEAD -- assets/img/products/` puts every photo back.
+
 ### Photo tips
 
 - Shoot straight down on a plain background, disc filling the frame. The shop crops to a square.
