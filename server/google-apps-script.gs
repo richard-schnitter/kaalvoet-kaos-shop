@@ -1,5 +1,5 @@
 /**
- * KAALVOET KAOS MERCH — order receiver and stock authority
+ * KAALVOET KAOS MERCH -- order receiver and stock authority
  * ---------------------------------------------------------------------------
  * Does three jobs, all free, no server:
  *
@@ -58,7 +58,7 @@ var HEADERS = [
 var STOCK_HEADERS = ['SKU', 'Name', 'Claimed', 'Stock at order', 'Last claimed'];
 
 /* ======================================================================
-   Reading — the shop asks for live stock on every page load
+   Reading -- the shop asks for live stock on every page load
    ====================================================================== */
 
 function doGet(e) {
@@ -86,7 +86,7 @@ function readClaims() {
 }
 
 /* ======================================================================
-   Writing — an order claims its items
+   Writing -- an order claims its items
    ====================================================================== */
 
 function doPost(e) {
@@ -169,7 +169,7 @@ function doPost(e) {
     if (NOTIFY_EMAIL) {
       MailApp.sendEmail({
         to: NOTIFY_EMAIL,
-        subject: 'New order ' + (order.ref || '') + ' — R' + (t.total || 0),
+        subject: 'New order ' + (order.ref || '') + ' -- R' + (t.total || 0),
         body: (order.summaryText || JSON.stringify(order, null, 2)).replace(/\*/g, '') +
               (popUrl ? '\n\nProof of payment: ' + popUrl : '\n\nNo proof of payment attached yet.'),
       });
@@ -177,7 +177,7 @@ function doPost(e) {
 
     return json({ ok: true, ref: order.ref, claimed: readClaims() });
   } catch (err) {
-    // Never lose an order silently — log the raw body so it can be recovered.
+    // Never lose an order silently -- log the raw body so it can be recovered.
     try {
       getSheet('Errors').appendRow([new Date(), String(err), e && e.postData ? e.postData.contents : '']);
     } catch (ignored) { /* nothing more we can do */ }
