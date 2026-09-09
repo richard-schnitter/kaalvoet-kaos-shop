@@ -17,7 +17,7 @@ window.KK_CONFIG = {
     domain: 'shop.kaalvoetkaos.co.za',
     instagram: 'https://instagram.com/kaalvoet_kaos_ultimate',
     facebook: '',
-    mainSite: 'https://kaalvoetkaos.co.za',
+    mainSite: '',            // no separate site; the link hides itself when blank
   },
 
   /* --- Who receives the orders ------------------------------------------
@@ -26,7 +26,7 @@ window.KK_CONFIG = {
   contact: {
     whatsapp: '27736269842',
     whatsappDisplay: '073 626 9842',
-    email: 'orders@kaalvoetkaos.co.za',
+    email: 'kaalvoetkaos@gmail.com',
     contactName: 'Richard',
   },
 
@@ -147,6 +147,11 @@ window.KK_CONFIG = {
     uniqueBadge: 'One of one',
     lowStockAt: 3,
     // Announcement bar. Set to '' to hide it.
-    announcement: 'Your favourite team has merch · get it while stocks last · EFT, no card needed',
+    announcement: 'Your favourite team has merch · South Africa only · EFT, no card needed',
+
+    /* Orders are taken from inside South Africa only: payment is by EFT into
+       a local account and delivery is courier or PAXI. The province list, the
+       cell number check and the copy below all follow from this.           */
+    countryOnly: 'South Africa',
   },
 };

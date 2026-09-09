@@ -28,13 +28,17 @@ No build step, no npm, no framework. Plain HTML, CSS and JavaScript — edit a f
 
 Open `assets/js/config.js` and fix these before you go live:
 
-1. ~~**`contact.whatsapp`**~~ — done, set to `27736269842` (073 626 9842).
+1. ~~**`contact.whatsapp`**~~ — done, `27736269842` (073 626 9842), and
+   ~~**`contact.email`**~~ — done, `kaalvoetkaos@gmail.com`.
 2. **`banking`** — currently `ready: false`, so **no account number is shown to anyone**. The order page
    tells buyers you will WhatsApp them the details, and the proof-of-payment step reads as optional.
    Fill in `bank`, `accountNumber`, `branchCode` and `accountType`, then set `ready: true` and the EFT
    panel appears on its own. Nothing else to change.
-3. **`contact.email`** — currently `orders@kaalvoetkaos.co.za`. Change it if that mailbox does not exist.
-4. **`delivery`** — courier and PAXI prices, or delete the options you don't offer.
+3. **`delivery`** — courier and PAXI prices, or delete the options you don't offer.
+
+The shop takes **South African orders only**: the province list has no overseas option, the cell
+number check only accepts SA numbers, payment is EFT into a local account, and delivery is courier or
+PAXI. `shop.countryOnly` records that decision.
 
 Everything else (announcement bar, tagline, blurb, low-stock threshold) is in the same file.
 
