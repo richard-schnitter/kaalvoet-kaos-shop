@@ -57,29 +57,22 @@ window.KK_CONFIG = {
       id: 'collect',
       label: 'Collect from me',
       price: 0,
-      note: 'Arrange a time and place — Bloemfontein area.',
+      note: 'Arrange a time and place -- Bloemfontein area.',
       needsAddress: false,
     },
     {
-      id: 'training',
-      label: 'Hand-over at training / tournament',
+      id: 'tournament',
+      label: 'Hand-over at a tournament or training',
       price: 0,
-      note: 'I bring it to the next session you are at. Tell me which one below.',
+      note: 'I bring it to the next one you are at. Tell me which below.',
       needsAddress: false,
     },
     {
-      id: 'courier',
-      label: 'Courier to your door',
-      price: 120,
-      note: 'Nationwide, 2–4 working days. Flat rate per order.',
-      needsAddress: true,
-    },
-    {
-      id: 'paxi',
-      label: 'PAXI to a PEP store',
-      price: 60,
-      note: 'Cheapest option. 7–9 working days. Give me your PEP store code.',
-      needsAddress: true,
+      id: 'courier-friend',
+      label: 'Send it down with someone',
+      price: 0,
+      note: 'If a teammate is heading your way I will send it with them. Tell me who or where below.',
+      needsAddress: false,
     },
   ],
 
@@ -119,7 +112,15 @@ window.KK_CONFIG = {
        stockTimeoutMs: how long to wait before giving up and showing the
                        products.json stock instead — the shop never hangs   */
     liveStock: true,
-    stockTimeoutMs: 4000,
+    // Apps Script answers through a redirect and can cold-start, so it
+    // regularly takes 3-6 seconds. At 4s the check was timing out and the
+    // shop was quietly falling back to products.json -- which showed sold
+    // discs as still available, the exact thing this is meant to prevent.
+    // The check no longer blocks the page, so a longer wait costs nothing.
+    stockTimeoutMs: 15000,
+    // Ceiling on submitting an order. If the endpoint is slower than this
+    // the buyer still gets their confirmation and the WhatsApp handoff.
+    orderTimeoutMs: 25000,
     // Shown to the buyer on the confirmation screen.
     confirmationNote: 'I check orders daily. You will get a WhatsApp from me to ' +
                       'confirm stock and arrange the hand-over.',

@@ -165,7 +165,17 @@
       p.claimed = 0;
     });
 
-    applyClaims(await fetchClaims());
+    // Deliberately not awaited. The shop draws from products.json straight
+    // away and the live claim counts fold in when they arrive, which is
+    // typically a few seconds later. Blocking the first paint on a slow
+    // endpoint would leave buyers looking at nothing.
+    fetchClaims().then((claims) => {
+      if (!claims) return;
+      if (applyClaims(claims)) {
+        document.dispatchEvent(new CustomEvent('stock:change', { detail: claims }));
+      }
+    });
+
     return _catalogue;
   }
 

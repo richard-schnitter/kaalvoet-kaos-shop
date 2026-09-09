@@ -505,6 +505,18 @@
     });
 
     document.addEventListener('cart:change', () => { renderCart(); });
+
+    // Live claim counts arrive after the first paint; redraw when they do,
+    // and drop anything from the bag that someone else has taken.
+    document.addEventListener('stock:change', () => {
+      const dropped = cart.reconcile();
+      renderChips();
+      render();
+      renderCart();
+      if (dropped > 0) {
+        window.KK.toast(dropped + ' item(s) in your bag just sold out', 'bad');
+      }
+    });
   }
 
   document.addEventListener('DOMContentLoaded', init);

@@ -385,11 +385,23 @@
     });
 
     // text/plain avoids a CORS preflight, which Google Apps Script cannot answer.
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload),
-    });
+    // The abort is a ceiling, not a cancel: if the endpoint is simply slow the
+    // order may still land, so the buyer is sent down the WhatsApp path rather
+    // than being told it failed.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CFG.orders.orderTimeoutMs || 25000);
+
+    let res;
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
     if (!res.ok) throw new Error('Endpoint returned ' + res.status);
 
     let body = null;
@@ -595,6 +607,18 @@
         input.value = '';
         renderPop();
       }
+    });
+
+    // Live claim counts land after the first paint.
+    document.addEventListener('stock:change', () => {
+      const gone = cart.detailed().filter((d) => d.product.stock <= 0).map((d) => d.product);
+      if (gone.length) {
+        gone.forEach((p) => cart.items
+          .filter((l) => l.id === p.id)
+          .forEach((l) => cart.remove(l.id, l.variant)));
+        soldOutNotice(gone.map((p) => p.name));
+      }
+      renderSummary();
     });
 
     // Keep the rail honest if another tab changes the bag.
