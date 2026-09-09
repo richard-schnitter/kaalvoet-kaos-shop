@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-09",
+  "updated": "2026-09-09T13:38:17Z",
   "currency": "ZAR",
   "products": [
     {
@@ -67,7 +67,7 @@
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
-      "price": 220,
+      "price": 240,
       "compareAt": null,
       "stock": 1,
       "unique": true,
@@ -82,7 +82,7 @@
       "tags": [
         "ultimate"
       ],
-      "description": "Glows in the dark",
+      "description": "Charges up in daylight and glows once the sun goes down. Only one of this one.",
       "images": [
         "assets/img/products/KK-D03-1.jpg"
       ],
@@ -382,7 +382,7 @@
     {
       "id": "kk-d14",
       "sku": "KK-D14",
-      "name": "Discraft Chameleon",
+      "name": "Discraft Chameleon- changes colour in the sun",
       "category": "discs",
       "subcategory": "Ultra-Star",
       "brand": "Discraft",
@@ -401,7 +401,7 @@
       "tags": [
         "ultimate"
       ],
-      "description": "",
+      "description": "Photochromic plastic: it shifts colour when the sun hits it and fades back in the shade. Three of these in the crate.",
       "images": [
         "assets/img/products/KK-D14-1.jpg"
       ],
