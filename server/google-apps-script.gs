@@ -14,7 +14,7 @@
  *     Name it something like "Kaalvoet Kaos orders".
  *  2. Extensions > Apps Script. Delete whatever is in the editor.
  *  3. Paste this whole file in. Save.
- *  4. Edit NOTIFY_EMAIL below to your own address (or leave it blank).
+ *  4. NOTIFY_EMAIL is already set to kaalvoetkaos@gmail.com. Nothing to edit.
  *  5. Deploy > New deployment > gear icon > Web app.
  *       Execute as:        Me
  *       Who has access:    Anyone
@@ -39,7 +39,7 @@
  * ---------------------------------------------------------------------------
  */
 
-var NOTIFY_EMAIL = '';                    // e.g. 'richard@example.com' — blank disables email
+var NOTIFY_EMAIL = 'kaalvoetkaos@gmail.com';   // every order is emailed here; blank disables it
 var DRIVE_FOLDER = 'Kaalvoet Kaos POPs';  // Drive folder for proof-of-payment files
 var SHEET_NAME   = 'Orders';
 var STOCK_SHEET  = 'Stock';
