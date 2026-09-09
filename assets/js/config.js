@@ -97,8 +97,8 @@ window.KK_CONFIG = {
        'both'      — POST to the endpoint AND offer the WhatsApp handoff.
                      Recommended once your endpoint is live.                */
   orders: {
-    mode: 'whatsapp',
-    endpointUrl: '',
+    mode: 'both',
+    endpointUrl: 'https://script.google.com/macros/s/AKfycbz33g3kPKk3PckmueNq2R52RQj-u2ZskXpk0nyHOmVMlbMrccRlDoP4qiz4mowBgPvV/exec',
     orderPrefix: 'KK',
     maxPopSizeMb: 8,
 
