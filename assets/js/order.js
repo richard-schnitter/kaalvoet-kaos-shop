@@ -280,10 +280,19 @@
       qty: d.qty,
       unitPrice: d.product.price,
       total: d.subtotal,
-      // How many exist in total. The endpoint uses this to refuse an order
-      // that would take more than there are.
-      stock: d.product.baseStock == null ? d.product.stock : d.product.baseStock,
     }));
+
+    // The endpoint refuses an order that would take more of a SKU than
+    // exists, but only when the shop tells it how many exist. In interest
+    // mode we deliberately leave that out, so two people can both put their
+    // name against the same disc and both orders are recorded.
+    if (CFG.orders.reserveStock !== false) {
+      const detailed = cart.detailed();
+      items.forEach((it, i) => {
+        const p = detailed[i].product;
+        it.stock = p.baseStock == null ? p.stock : p.baseStock;
+      });
+    }
 
     const subtotal = cart.subtotal();
     const deliveryFee = state.delivery ? state.delivery.price : 0;

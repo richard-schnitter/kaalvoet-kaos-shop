@@ -111,7 +111,20 @@ window.KK_CONFIG = {
        liveStock:      false turns the whole thing off even with an endpoint
        stockTimeoutMs: how long to wait before giving up and showing the
                        products.json stock instead — the shop never hangs   */
-    liveStock: true,
+    /* --- INTEREST MODE (currently ON) ------------------------------------
+       While reserveStock is false the shop takes expressions of interest
+       rather than claims:
+
+         - nothing is ever marked sold out, so everyone can pick freely and
+           several people can put their name against the same disc
+         - orders still land in the Orders tab exactly as before
+         - the Stock tab still tallies how many people asked for each SKU,
+           which is the useful part: it tells you what is in demand
+
+       TO GO BACK TO A REAL SHOP: set both of these to true. Nothing else
+       to change and no need to redeploy the Apps Script.                */
+    reserveStock: false,
+    liveStock: false,
     // Apps Script answers through a redirect and can cold-start, so it
     // regularly takes 3-6 seconds. At 4s the check was timing out and the
     // shop was quietly falling back to products.json -- which showed sold
